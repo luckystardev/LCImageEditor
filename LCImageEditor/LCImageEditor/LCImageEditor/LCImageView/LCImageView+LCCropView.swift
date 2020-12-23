@@ -1,0 +1,105 @@
+//
+//  LCImageView+LCCropView.swift
+//  LCImageEditor
+//
+//  Created by LuckyClub on 11/24/20.
+//  Copyright © 2020 LuckyClub. All rights reserved.
+//
+
+import UIKit
+import Foundation
+
+extension LCImageView {
+    
+    internal func setupCropView() {
+        
+        self.cropView.delegate = self
+    }
+}
+
+extension LCImageView : LCCropViewDelegate {
+    
+    public func cropViewDidStartCrop(_ cropView: LCCropView) {
+        self.highlightMask(true, animate: true)
+        self.manualMove = true
+    }
+    
+    public func cropViewDidMove(_ cropView: LCCropView) {
+        self.updateMasks()
+    }
+    
+    public func cropViewDidStopCrop(_ cropView: LCCropView) {
+        let scalX: CGFloat = self.originalSize.width / cropView.bounds.size.width
+        let scaleY: CGFloat = self.originalSize.height / cropView.bounds.size.height
+        let scale: CGFloat = min(scalX, scaleY)
+        
+        // calculate the new bounds of crop view
+        let newCropBounds = CGRect(x: CGFloat.zero,
+                                   y: CGFloat.zero,
+                                   width: (scale * cropView.frame.size.width),
+                                   height: (scale * cropView.frame.size.height))
+        
+        // calculate the new bounds of scroll view
+        let width: CGFloat = abs(cos(self.radians)) * newCropBounds.size.width + abs(sin(self.radians)) * newCropBounds.size.height
+        let height: CGFloat = abs(sin(self.radians)) * newCropBounds.size.width + abs(cos(self.radians)) * newCropBounds.size.height
+        
+        // calculate the zoom area of scroll view
+        var scaleFrame: CGRect = cropView.frame
+        if scaleFrame.size.width >= self.scrollView.contentSize.width {
+            scaleFrame.size.width = self.scrollView.contentSize.width - 1
+        }
+        if scaleFrame.size.height >= self.scrollView.contentSize.height {
+            scaleFrame.size.height = self.scrollView.contentSize.height - 1
+        }
+        
+        let contentOffset: CGPoint = self.scrollView.contentOffset
+        let contentOffsetCenter = CGPoint(x: (contentOffset.x + self.scrollView.bounds.size.width.half),
+                                          y: (contentOffset.y + self.scrollView.bounds.size.height.half))
+        var bounds: CGRect = self.scrollView.bounds
+        bounds.size.width = width
+        bounds.size.height = height
+        self.scrollView.bounds = CGRect(x: CGFloat.zero, y: CGFloat.zero, width: width, height: height)
+        let newContentOffset = CGPoint(x: (contentOffsetCenter.x - self.scrollView.bounds.size.width.half),
+                                       y: (contentOffsetCenter.y - self.scrollView.bounds.size.height.half))
+        self.scrollView.contentOffset = newContentOffset
+        
+        UIView.animate(withDuration: kAnimationDuration, animations: {() -> Void in
+            // animate crop view
+            cropView.bounds = CGRect(x: CGFloat.zero,
+                                     y: CGFloat.zero,
+                                     width: (newCropBounds.size.width),
+                                     height: (newCropBounds.size.height))
+            cropView.center = self.centerPoint
+            
+            // zoom the specified area of scroll view
+            let zoomRect: CGRect = self.convert(scaleFrame,
+                                                to: self.scrollView.photoContentView)
+            self.scrollView.zoom(to: zoomRect, animated: false)
+        })
+        
+        self.manualZoomed = true
+        
+        // update masks
+        self.cropView.dismissCropLines()
+        self.cropView.dismissGridLines()
+        
+        let scaleH: CGFloat = self.scrollView.bounds.size.height / self.scrollView.contentSize.height
+        let scaleW: CGFloat = self.scrollView.bounds.size.width / self.scrollView.contentSize.width
+        var scaleM: CGFloat = max(scaleH, scaleW)
+        scaleM = min(1.0, scaleM)
+        
+        UIView.animate(withDuration: kAnimationDuration, animations: {() -> Void in
+            self.scrollView.checkContentOffset()
+            self.cropView.layoutIfNeeded()
+        })
+        
+        self.highlightMask(false, animate: true)
+        self.manualMove = false
+    }
+    
+    public func cropViewInsideValidFrame(for point: CGPoint, from cropView: LCCropView) -> Bool {
+        let updatedPoint = self.convert(point, to: self.scrollView.photoContentView)
+        let frame =  self.scrollView.photoContentView.frame
+        return frame.contains(updatedPoint)
+    }
+}

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="LCImageEditor" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MWx-xQ-EtI">
+                                <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="3lx-0o-26O"/>
+                                </constraints>
+                                <items>
+                                    <navigationItem title="LCImageEditor" id="BnQ-2v-AoF">
+                                        <barButtonItem key="leftBarButtonItem" title="New" id="el5-N5-naX">
+                                            <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <connections>
+                                                <action selector="newButtonAction:" destination="BYZ-38-t0r" id="Zba-wD-YcO"/>
+                                            </connections>
+                                        </barButtonItem>
+                                        <barButtonItem key="rightBarButtonItem" title="Edit" id="QOD-ms-nzz">
+                                            <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <connections>
+                                                <action selector="editButtonAction:" destination="BYZ-38-t0r" id="vlx-Pp-WBc"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="WoE-ZL-qQ6">
+                                <rect key="frame" x="8" y="137" width="398" height="575"/>
+                            </imageView>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="yj3-ng-o7y">
+                                <rect key="frame" x="141.5" y="98" width="131" height="32"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="131" id="9n9-2o-bNw"/>
+                                    <constraint firstAttribute="height" constant="31" id="It5-t5-jHZ"/>
+                                </constraints>
+                                <segments>
+                                    <segment title="Multiple"/>
+                                    <segment title="Single"/>
+                                </segments>
+                                <color key="selectedSegmentTintColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <connections>
+                                    <action selector="editorTypeChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="y3g-Xf-kfX"/>
+                                </connections>
+                            </segmentedControl>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="WoE-ZL-qQ6" firstAttribute="top" secondItem="MWx-xQ-EtI" secondAttribute="bottom" constant="49" id="1zi-fO-2rd"/>
+                            <constraint firstItem="MWx-xQ-EtI" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="4zc-vf-D3N"/>
+                            <constraint firstItem="WoE-ZL-qQ6" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="8" id="5mB-CW-8IM"/>
+                            <constraint firstItem="MWx-xQ-EtI" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="B3z-h8-85s"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="WoE-ZL-qQ6" secondAttribute="bottom" constant="150" id="Pef-as-7uF"/>
+                            <constraint firstItem="yj3-ng-o7y" firstAttribute="top" secondItem="MWx-xQ-EtI" secondAttribute="bottom" constant="10" id="WaS-PA-RCM"/>
+                            <constraint firstItem="yj3-ng-o7y" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="fBa-tC-jav"/>
+                            <constraint firstItem="MWx-xQ-EtI" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="nij-fU-zzk"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="WoE-ZL-qQ6" secondAttribute="trailing" constant="8" id="yFf-i9-h0z"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                    </view>
+                    <connections>
+                        <outlet property="imageview" destination="WoE-ZL-qQ6" id="hhN-Ri-Vlq"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="131.8840579710145" y="106.47321428571428"/>
+        </scene>
+    </scenes>
+</document>
