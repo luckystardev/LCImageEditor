@@ -11,21 +11,25 @@ import UIKit
 open class MultipleEditorVC: UIViewController {
 
     var layoutType: MediaMontageType!
-    var images: [UIImage]! = [UIImage]()
-    var vWidth: CGFloat! = 0
-    var vHeight: CGFloat! = 0
+    var editMode: EditMode = .rotate
+    
+    var images: [UIImage]! = [UIImage]() //image collage
+    var vWidth: CGFloat! = 0 //self.view width
+    var vHeight: CGFloat! = 0 //self.view height
+    var sWidth: CGFloat! = 0 //workspace area's width
     
     public weak var delegate: MultiEditorDelegate?
     
     let editview = UIView()
-    let bottomview = UIView()
+    let bottomView = UIView()
     let bottomToolbar = UIView()
+    let topView = UIView()
     
-    var editMode: EditMode = .rotate
     var editableViews = [LCEditableView]()
     var appliedFilter: LCFilterable!
     
-    var orientations = UIInterfaceOrientationMask.portrait //or what orientation you want
+    var orientations = UIInterfaceOrientationMask.portrait
+    
     override open var supportedInterfaceOrientations : UIInterfaceOrientationMask {
         get { return self.orientations }
         set { self.orientations = newValue }
@@ -76,9 +80,16 @@ open class MultipleEditorVC: UIViewController {
         super.viewDidLoad()
 
         self.view.backgroundColor = .systemBackground
+        
+        initUI()
+    }
+    
+    func initUI() {
         vWidth = self.view.frame.size.width
         vHeight = self.view.frame.size.height
+        sWidth = vWidth - kPadding * 2
         
+        setupTopView()
         setupBottomButtons()
         setupBottomToolbar()
         setupFilterMenubar()
@@ -86,45 +97,69 @@ open class MultipleEditorVC: UIViewController {
         setupEditableImageViews()
     }
     
+    func setupTopView() {
+        topView.frame = CGRect(x: kPadding, y: kNavBarHeight, width: sWidth, height: kTopToolBarHeight)
+        view.addSubview(topView)
+        
+        let titleLabel = UILabel(frame: CGRect(x: topView.center.x, y: 0, width: 200, height: kTopToolBarHeight))
+        titleLabel.text = TITLE_COMPOSE
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 17.0)
+        titleLabel.textAlignment = .center
+        titleLabel.textColor = kTitleColor
+        titleLabel.center.x = topView.center.x
+        topView.addSubview(titleLabel)
+        
+        let cancelButton = UIButton(frame: CGRect(x: 8, y: 0, width: 60, height: kTopToolBarHeight))
+        cancelButton.setTitle(TITLE_CANCEL, for: .normal)
+        cancelButton.setTitleColor(kButtonTintColor, for: .normal)
+        cancelButton.addTarget(self, action: #selector(backAction), for: .touchUpInside)
+        topView.addSubview(cancelButton)
+        
+        let resetButton = UIButton(frame: CGRect(x: sWidth - 36, y: (kTopToolBarHeight - 22).half, width: 28, height: 22))
+        resetButton.setBackgroundImage(UIImage(systemName: "arrow.2.circlepath"), for: .normal)
+        resetButton.tintColor = kButtonTintColor
+        resetButton.addTarget(self, action: #selector(resetAction), for: .touchUpInside)
+        topView.addSubview(resetButton)
+    }
+    
     func setupBottomButtons() {
-        let bvframe = CGRect(x: kEditViewPadding, y: vHeight - kBottomPaddingHeight - kBottomButtonHeight, width: vWidth - kEditViewPadding * 2, height: kBottomButtonHeight)
-        bottomview.frame = bvframe
-        view.addSubview(bottomview)
+        let bvframe = CGRect(x: kPadding, y: vHeight - kBottomSafeAreaHeight - kBottomButtonHeight, width: sWidth, height: kBottomButtonHeight)
+        bottomView.frame = bvframe
+        view.addSubview(bottomView)
         
-        let buttonWidth = (bvframe.width - kEditViewPadding) / 2
+        let buttonWidth = (bvframe.width - kPadding).half
         
-        let backButton = CustomButton()
-        backButton.frame = CGRect(x: 0, y: 0, width: buttonWidth, height: kBottomButtonHeight)
-        backButton.backgroundColor = .clear
-        backButton.setTitleColor(kButtonTintColor, for: .normal)
-        backButton.setTitle(TITLE_BACK, for: .normal)
-        backButton.addTarget(self, action: #selector(backAction), for: .touchUpInside)
-        bottomview.addSubview(backButton)
+        let previewButton = CustomButton()
+        previewButton.frame = CGRect(x: 0, y: 0, width: buttonWidth, height: kBottomButtonHeight)
+        previewButton.backgroundColor = .clear
+        previewButton.setTitleColor(kButtonTintColor, for: .normal)
+        previewButton.setTitle(TITLE_PREVIEW, for: .normal)
+        previewButton.addTarget(self, action: #selector(previewAction), for: .touchUpInside)
+        bottomView.addSubview(previewButton)
         
         let exportButton = CustomButton()
-        exportButton.frame = CGRect(x: buttonWidth + kEditViewPadding, y: 0, width: buttonWidth, height: kBottomButtonHeight)
+        exportButton.frame = CGRect(x: buttonWidth + kPadding, y: 0, width: buttonWidth, height: kBottomButtonHeight)
         exportButton.backgroundColor = kButtonTintColor
         exportButton.setTitle(TITLE_EXPORT, for: .normal)
         exportButton.addTarget(self, action: #selector(exportAction), for: .touchUpInside)
-        bottomview.addSubview(exportButton)
-        
+        bottomView.addSubview(exportButton)
     }
     
     func setupBottomToolbar() {
-        let bvframe = CGRect(x: kEditViewPadding, y: bottomview.frame.origin.y - kEditViewPadding - kBottomButtonHeight, width: vWidth - kEditViewPadding * 2, height: kBottomButtonHeight)
+        let bvframe = CGRect(x: kPadding, y: bottomView.frame.origin.y - kPadding - kBottomButtonHeight, width: vWidth - kPadding * 2, height: kBottomButtonHeight)
         bottomToolbar.frame = bvframe
         view.addSubview(bottomToolbar)
         
         let segmentItems = [TITLE_FILTER, TITLE_ROTATE, TITLE_EFFECT]
         let control = LCSegmentedControl(items: segmentItems)
-        control.frame = CGRect(x: 0, y: 0, width: (vWidth - kEditViewPadding * 2), height: kBottomButtonHeight)
+        control.frame = CGRect(x: 0, y: 0, width: (vWidth - kPadding * 2), height: kBottomButtonHeight)
         control.addTarget(self, action: #selector(editControl(_:)), for: .valueChanged)
         control.selectedSegmentIndex = 1
         bottomToolbar.addSubview(control)
     }
     
     func setupFilterMenubar() {
-        let bvframe = CGRect(x: kEditViewPadding, y: bottomToolbar.frame.origin.y - kEditViewPadding - kFilterBarHeight, width: vWidth - kEditViewPadding * 2, height: kFilterBarHeight)
+        let bvframe = CGRect(x: kPadding, y: bottomToolbar.frame.origin.y - kPadding - kFilterBarHeight, width: vWidth - kPadding * 2, height: kFilterBarHeight)
         filterSubMenuView?.frame = bvframe
         view.addSubview(filterSubMenuView!)
         
@@ -138,30 +173,29 @@ open class MultipleEditorVC: UIViewController {
     func setupEditableImageViews() {
         editableViews.removeAll()
         
-        var yPosition = kNavBarHeight + kTopToolBarHeight + kEditViewPadding
-        let eWidth = vWidth - kEditViewPadding * 2
+        var yPosition = kNavBarHeight + kTopToolBarHeight + kPadding
         var eHeight = (filterSubMenuView?.frame.origin.y)! - yPosition
         
-        var itemWidth = eWidth / 2
-        var itemHeight = eHeight / 2
+        var itemWidth = sWidth.half
+        var itemHeight = eHeight.half
         var x: CGFloat = 0, y: CGFloat = 0
         
         if layoutType == .verticalTow || layoutType == .verticalThree {
-            itemWidth = eWidth
+            itemWidth = sWidth
         } else if layoutType == .horizontalThree || layoutType == .sixth {
-            itemWidth = eWidth / 3
+            itemWidth = sWidth.oneThird
         }
         
         if layoutType == .verticalThree {
-            itemHeight = eHeight / 3
+            itemHeight = eHeight.oneThird
         }
         
         if layoutType == .horizontalThree || layoutType == .horizontalTwo {
-            yPosition = yPosition + itemHeight / 2
-            eHeight = eHeight / 2
+            yPosition = yPosition + itemHeight.half
+            eHeight = eHeight.half
         }
     
-        editview.frame = CGRect(x: kEditViewPadding, y: yPosition, width: eWidth, height: eHeight)
+        editview.frame = CGRect(x: kPadding, y: yPosition, width: sWidth, height: eHeight)
         self.view.addSubview(editview)
         
         for (index, image) in images.enumerated() {
@@ -208,6 +242,14 @@ open class MultipleEditorVC: UIViewController {
         self.delegate?.multiEditorDidCancel(self)
     }
 
+    @objc func previewAction() {
+        print("previewAction")
+    }
+    
+    @objc func resetAction() {
+        print("resetAction")
+    }
+    
     @objc func editControl(_ segmentedControl: UISegmentedControl) {
 //        syncImages()
         if segmentedControl.selectedSegmentIndex == 0 { //filter

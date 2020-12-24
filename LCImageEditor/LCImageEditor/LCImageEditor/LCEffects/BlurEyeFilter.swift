@@ -84,7 +84,6 @@ public class BlueEyeFilter: CIFilter {
                     faces.append(FaceObservation(face: $0, eyesLandmarks: landmarks))
                 }
 
-
             })
 
             if faces.isEmpty{

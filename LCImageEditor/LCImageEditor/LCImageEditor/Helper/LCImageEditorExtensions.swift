@@ -208,6 +208,10 @@ extension CGFloat {
         return self / 2.0
     }
     
+    var oneThird: CGFloat {
+        return self / 3.0
+    }
+    
     static var zero: CGFloat {
         return 0.0
     }
