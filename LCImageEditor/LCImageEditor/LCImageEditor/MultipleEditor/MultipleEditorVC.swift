@@ -146,16 +146,21 @@ open class MultipleEditorVC: UIViewController {
     }
     
     func setupBottomToolbar() {
-        let bvframe = CGRect(x: kPadding, y: bottomView.frame.origin.y - kPadding - kBottomButtonHeight, width: vWidth - kPadding * 2, height: kBottomButtonHeight)
+        let bvframe = CGRect(x: kPadding, y: bottomView.frame.origin.y - kPadding - kBottomToolBarHeight, width: sWidth, height: kBottomToolBarHeight)
         bottomToolbar.frame = bvframe
         view.addSubview(bottomToolbar)
         
-        let segmentItems = [TITLE_FILTER, TITLE_ROTATE, TITLE_EFFECT]
-        let control = LCSegmentedControl(items: segmentItems)
-        control.frame = CGRect(x: 0, y: 0, width: (vWidth - kPadding * 2), height: kBottomButtonHeight)
-        control.addTarget(self, action: #selector(editControl(_:)), for: .valueChanged)
-        control.selectedSegmentIndex = 1
-        bottomToolbar.addSubview(control)
+        let segment = LCSegment.init(frame: CGRect.init(x: (sWidth - kBottomToolBarWidth).half, y: 0, width: kBottomToolBarWidth, height: kBottomToolBarHeight))
+        
+        let itemAttribute0 = LCSegmentItemAttribute.config(tintColor: UIColor.systemGray, imageName: "dial", selectedTintColor: UIColor.systemBlue)
+        let itemAttribute1 = LCSegmentItemAttribute.config(tintColor: UIColor.systemGray, imageName: "wand.and.stars", selectedTintColor: UIColor.systemBlue)
+        let itemAttribute2 = LCSegmentItemAttribute.config(tintColor: UIColor.systemGray, imageName: "crop", selectedTintColor: UIColor.systemBlue)
+        segment.config(dataSource: [itemAttribute0, itemAttribute1, itemAttribute2],
+                        selectedIndex: 1) { (index) in
+            self.editControl(index)
+        }
+        
+        bottomToolbar.addSubview(segment)
     }
     
     func setupFilterMenubar() {
@@ -167,7 +172,7 @@ open class MultipleEditorVC: UIViewController {
         view.addSubview(effectSubMenuView!)
         
         filterSubMenuView?.isHidden = true
-        effectSubMenuView?.isHidden = true
+        effectSubMenuView?.isHidden = false
     }
     
     func setupEditableImageViews() {
@@ -250,21 +255,22 @@ open class MultipleEditorVC: UIViewController {
         print("resetAction")
     }
     
-    @objc func editControl(_ segmentedControl: UISegmentedControl) {
+    @objc func editControl(_ index: Int) {
+        print("LCSegment current index:" + String(index))
 //        syncImages()
-        if segmentedControl.selectedSegmentIndex == 0 { //filter
+        if index == 0 { // Correction filter
 //            changeImages()
             self.editMode = .filter
             filterSubMenuView?.isHidden = false
             effectSubMenuView?.isHidden = true
-        } else if segmentedControl.selectedSegmentIndex == 1 { //preview & rotate
-            self.editMode = .rotate
-            filterSubMenuView?.isHidden = true
-            effectSubMenuView?.isHidden = true
-        } else { // effect
+        } else if index == 1 { // Filter
             self.editMode = .effect
             filterSubMenuView?.isHidden = true
             effectSubMenuView?.isHidden = false
+        } else { // rotate & crop
+            self.editMode = .rotate
+            filterSubMenuView?.isHidden = true
+            effectSubMenuView?.isHidden = true
         }
     }
     
