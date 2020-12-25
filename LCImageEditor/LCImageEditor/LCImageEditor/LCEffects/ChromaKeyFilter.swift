@@ -12,6 +12,7 @@ extension CIImage {
     func convertToUIImage() -> UIImage
     {
         let uiImage = UIImage(ciImage: self)
+//        print("imageSize = \(uiImage.size)")
         return uiImage
     }
 }
@@ -20,17 +21,16 @@ extension CIImage {
 extension UIImage {
     
     func ChromaKeyFilter() -> UIImage {
-        // Remove Green from the Source Image
         let chromaCIFilter = self.applyChromaKeyFilter(fromHue: 0.5, toHue: 0.67)
         let ciImage = CIImage(image: self)
         chromaCIFilter?.setValue(ciImage, forKey: kCIInputImageKey)
         let sourceCIImageWithoutBackground = chromaCIFilter?.outputImage
-        var image = CIImage()
+
         if let filteredImage = sourceCIImageWithoutBackground {
-            image = filteredImage
+            return filteredImage.convertToUIImage()
         }
-        let uimage = image.convertToUIImage()
-        return uimage
+        
+        return self
     }
     
     private func applyChromaKeyFilter(fromHue: CGFloat, toHue: CGFloat) -> CIFilter?

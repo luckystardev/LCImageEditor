@@ -84,6 +84,8 @@ open class MultipleEditorVC: UIViewController {
         initUI()
     }
     
+    // MARK: - Initialize UI
+    
     func initUI() {
         vWidth = self.view.frame.size.width
         vHeight = self.view.frame.size.height
@@ -156,7 +158,7 @@ open class MultipleEditorVC: UIViewController {
         let itemAttribute1 = LCSegmentItemAttribute.config(tintColor: UIColor.systemGray, imageName: "wand.and.stars", selectedTintColor: UIColor.systemBlue)
         let itemAttribute2 = LCSegmentItemAttribute.config(tintColor: UIColor.systemGray, imageName: "crop", selectedTintColor: UIColor.systemBlue)
         segment.config(dataSource: [itemAttribute0, itemAttribute1, itemAttribute2],
-                        selectedIndex: 1) { (index) in
+                        selectedIndex: 2) { (index) in
             self.editControl(index)
         }
         
@@ -172,7 +174,7 @@ open class MultipleEditorVC: UIViewController {
         view.addSubview(effectSubMenuView!)
         
         filterSubMenuView?.isHidden = true
-        effectSubMenuView?.isHidden = false
+        effectSubMenuView?.isHidden = true
     }
     
     func setupEditableImageViews() {
@@ -226,11 +228,7 @@ open class MultipleEditorVC: UIViewController {
         }
     }
     
-    private func changeImages() {
-        for editView in self.editableViews {
-            editView.image = editView.scrollView.photoContentView.image
-        }
-    }
+    // MARK: - Button Actions
     
     @objc func exportAction() {
 //        changeImages()
@@ -274,11 +272,19 @@ open class MultipleEditorVC: UIViewController {
         }
     }
     
+    private func changeImages() {
+        for editView in self.editableViews {
+            editView.image = editView.scrollView.photoContentView.image
+        }
+    }
+    
     func syncImages() {
         for editView in self.editableViews {
             editView.image = editView.scrollView.photoContentView.image
         }
     }
+    
+    // MARK: - Image Processing - Merge & Crop
     
     func getImage() -> UIImage {
         let renderer = UIGraphicsImageRenderer(bounds: editview.bounds)
@@ -319,19 +325,20 @@ open class MultipleEditorVC: UIViewController {
                 
                 let image = UIImage(cgImage: imageRef)
                 images.append(image)
-                
-                let fScale: CGFloat!
-//                if zoomScale > kMinimumZoomScale {
-//                    fScale = getOptimizedFrameScale(zoomScale, cropSize: editView.frame.size, imageSize: editView.photoContentView.image.size)
-//                } else {
-                    fScale = getImageScale(cropSize: editView.frame.size, imageSize: editView.photoContentView.image.size)
-//                }
-                
-                if fScale < frameScale {
-                    frameScale = fScale
-                }
             } else {
                 images.append(editView.photoContentView.image)
+            }
+            
+            let fScale: CGFloat!
+            fScale = getImageScale(cropSize: editView.frame.size, imageSize: editView.photoContentView.image.size)
+//            if zoomScale > kMinimumZoomScale {
+//                fScale = getOptimizedFrameScale(zoomScale, cropSize: editView.frame.size, imageSize: editView.photoContentView.image.size)
+//            } else {
+//                fScale = getImageScale(cropSize: editView.frame.size, imageSize: editView.photoContentView.image.size)
+//            }
+            
+            if fScale < frameScale {
+                frameScale = fScale
             }
         }
         

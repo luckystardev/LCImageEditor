@@ -19,7 +19,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         imageview.image = UIImage(named: "temp1")
-        self.images = [UIImage(named: "img3")!, UIImage(named: "img2")!, UIImage(named: "img1")!]
+        self.images = [UIImage(named: "img2")!, UIImage(named: "img3")!, UIImage(named: "img1")!]
 //        self.images = [UIImage(named: "IMG_2657")!, UIImage(named: "IMG_3792")!, UIImage(named: "IMG_3802")!]
     }
 

@@ -15,6 +15,10 @@ public protocol LCFilterable {
 
 public enum LCFilter: LCFilterable {
     case None
+    
+    case EffectBrightness
+    case EffectExposure
+    
     case CIPhotoEffectChrome
     case CIPhotoEffectFade
     case CIPhotoEffectInstant
@@ -41,7 +45,10 @@ public enum LCFilter: LCFilterable {
         
         switch self {
             case .None: return nil
-                
+            
+            case .EffectBrightness: ciFilterName = "EffectBrightness"
+            case .EffectExposure: ciFilterName = "EffectExposure"
+            
             case .CIPhotoEffectChrome: ciFilterName = "CIPhotoEffectChrome"
             case .CIPhotoEffectFade: ciFilterName = "CIPhotoEffectFade"
             case .CIPhotoEffectInstant: ciFilterName = "CIPhotoEffectInstant"
@@ -68,6 +75,14 @@ public enum LCFilter: LCFilterable {
     }
     
     public func filter(image: UIImage) -> UIImage {
+        if self == .EffectBrightness {
+            print("filtername = EffectBrightness")
+            return image.BrightnessFilter(0.5) ?? image
+        } else if self == .EffectExposure {
+            print("filtername = EffectExposure")
+            return image.ExposureFilter(0.5) ?? image
+        }
+        
         if let ciFilter = ciFilter() {
             let context = CIContext(options: nil)
             
@@ -89,7 +104,10 @@ public enum LCFilter: LCFilterable {
     public func filterName() -> String {
         switch self {
             case .None: return "Original"
-                
+            
+            case .EffectBrightness: return "Brightness"
+            case .EffectExposure: return "Exposure"
+            
             case .CIPhotoEffectChrome: return "Chrome"
             case .CIPhotoEffectFade: return "Fade"
             case .CIPhotoEffectInstant: return "Instant"
@@ -117,6 +135,8 @@ public enum LCFilter: LCFilterable {
 
 internal let kDefaultAvailableFilters = [
     LCFilter.None,
+    LCFilter.EffectBrightness,
+    LCFilter.EffectExposure,
     LCFilter.CIPhotoEffectChrome,
     LCFilter.CIPhotoEffectInstant,
     LCFilter.CIPhotoEffectMono,

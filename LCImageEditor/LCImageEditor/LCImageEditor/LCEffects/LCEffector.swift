@@ -55,8 +55,8 @@ public enum LCEffector: LCEffectable {
 
 internal let kDefaultEffectors = [
     LCEffector.None,
-    LCEffector.EffectBrightness,
-    LCEffector.EffectExposure,
+//    LCEffector.EffectBrightness,
+//    LCEffector.EffectExposure,
     LCEffector.EffectChromaKey,
     LCEffector.EffectBlurEye,
 ]
