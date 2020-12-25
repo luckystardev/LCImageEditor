@@ -29,7 +29,7 @@ public enum HorizontalDialAnimateOptions {
 
 @IBDesignable
 public final class HorizontalDial: UIControl {
-    @IBInspectable public var enableRange: Bool = false {
+    @IBInspectable public var enableRange: Bool = true {
         didSet {
             if enableRange == true && value < minimumValue {
                 animateWithValueUpdate(minimumValue)
@@ -53,22 +53,22 @@ public final class HorizontalDial: UIControl {
         }
     }
     
-    @IBInspectable public var centerMarkColor: UIColor = UIColor.yellow
+    @IBInspectable public var centerMarkColor: UIColor = UIColor.systemBlue
     @IBInspectable public var centerMarkWidth: CGFloat = 3.0
-    @IBInspectable public var centerMarkHeightRatio: CGFloat = 0.5
+    @IBInspectable public var centerMarkHeightRatio: CGFloat = 0.9
     @IBInspectable public var centerMarkRadius: CGFloat = 5.0
     
-    @IBInspectable public var markColor: UIColor = UIColor.white
+    @IBInspectable public var markColor: UIColor = UIColor.darkGray
     @IBInspectable public var markWidth: CGFloat = 1.0
     @IBInspectable public var markRadius: CGFloat = 1.0
-    @IBInspectable public var markCount: Int = 20
+    @IBInspectable public var markCount: Int = 25
     
     @IBInspectable public var padding: Double = 10 {
         didSet {
             setNeedsDisplay()
         }
     }
-    @IBInspectable public var verticalAlign: String = "middle" {
+    @IBInspectable public var verticalAlign: String = "bottom" {
         didSet {
             setNeedsDisplay()
         }
@@ -90,6 +90,7 @@ public final class HorizontalDial: UIControl {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        self.backgroundColor = .systemBackground
     }
     
     required public init?(coder: NSCoder) {
@@ -121,7 +122,7 @@ public final class HorizontalDial: UIControl {
             } else if verticalAlign.contains("bottom") {
                 y += CGFloat(padding*2)
                 height = frame.height - y
-            } else {
+            } else { //if verticalAlign.contains("middle") {
                 y = CGFloat(padding)
                 height = frame.height - CGFloat(padding*2)
             }
@@ -138,7 +139,7 @@ public final class HorizontalDial: UIControl {
             centerMarkPositionY = 0
         } else if verticalAlign.contains("bottom") {
             centerMarkPositionY = frame.height - centerMarkHeight
-        } else {
+        } else { //if verticalAlign.contains("middle") {
             centerMarkPositionY = frame.height/2-centerMarkHeight/2
         }
         let path = UIBezierPath(roundedRect:
@@ -169,7 +170,7 @@ public final class HorizontalDial: UIControl {
         
         let location = touch.location(in: self)
         let deltaLocation = Double(location.x - previousLocation.x)
-        let deltaValue = deltaLocation / (Double(frame.width) / Double(markCount)) * tick
+        let deltaValue = deltaLocation / (Double(frame.width) / Double(markCount)) * tick * 5
         
         previousLocation = location
         

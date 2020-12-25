@@ -20,10 +20,11 @@ open class MultipleEditorVC: UIViewController {
     
     public weak var delegate: MultiEditorDelegate?
     
+    let topView = UIView()
     let editview = UIView()
     let bottomView = UIView()
     let bottomToolbar = UIView()
-    let topView = UIView()
+    let mainToolbar = UIView()
     
     var editableViews = [LCEditableView]()
     var appliedFilter: LCFilterable!
@@ -94,7 +95,6 @@ open class MultipleEditorVC: UIViewController {
         setupTopView()
         setupBottomButtons()
         setupBottomToolbar()
-        setupFilterMenubar()
         
         setupEditableImageViews()
     }
@@ -163,15 +163,26 @@ open class MultipleEditorVC: UIViewController {
         }
         
         bottomToolbar.addSubview(segment)
+        
+        setupMainToolBar()
+    }
+    
+    func setupMainToolBar() {
+        let bvframe = CGRect(x: kPadding, y: bottomToolbar.frame.origin.y - kPadding - kMainToolBarHeight, width: sWidth, height: kMainToolBarHeight)
+        mainToolbar.frame = bvframe
+        view.addSubview(mainToolbar)
+        
+        setupFilterMenubar()
+        
     }
     
     func setupFilterMenubar() {
-        let bvframe = CGRect(x: kPadding, y: bottomToolbar.frame.origin.y - kPadding - kFilterBarHeight, width: vWidth - kPadding * 2, height: kFilterBarHeight)
+        let bvframe = CGRect(x: 0, y: 0, width: sWidth, height: kMainToolBarHeight)
         filterSubMenuView?.frame = bvframe
-        view.addSubview(filterSubMenuView!)
+        mainToolbar.addSubview(filterSubMenuView!)
         
         effectSubMenuView?.frame = bvframe
-        view.addSubview(effectSubMenuView!)
+        mainToolbar.addSubview(effectSubMenuView!)
         
         filterSubMenuView?.isHidden = true
         effectSubMenuView?.isHidden = true
@@ -181,7 +192,7 @@ open class MultipleEditorVC: UIViewController {
         editableViews.removeAll()
         
         var yPosition = kNavBarHeight + kTopToolBarHeight + kPadding
-        var eHeight = (filterSubMenuView?.frame.origin.y)! - yPosition
+        var eHeight = mainToolbar.frame.origin.y - yPosition
         
         var itemWidth = sWidth.half
         var itemHeight = eHeight.half

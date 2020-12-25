@@ -144,12 +144,14 @@ class ImageEditorVC: LCImageEditor {
 extension ImageEditorVC: HorizontalDialDelegate {
     func horizontalDialDidValueChanged(_ horizontalDial: HorizontalDial) {
         let degrees = horizontalDial.value
+        print("value = \(degrees)")
         let radians = LCRadian.toRadians(CGFloat(degrees))
         
         self.changeAngle(radians: radians)
     }
     
     func horizontalDialDidEndScroll(_ horizontalDial: HorizontalDial) {
+        print("stopChangeAngle")
         self.stopChangeAngle()
     }
 }
