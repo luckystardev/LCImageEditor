@@ -42,12 +42,12 @@ open class MultipleEditorVC: UIViewController {
         let filterSubMenuView = LCFilterMenu(withImage: originImage!.resize(toSizeInPixel: CGSize(width: 90, height: 90)),
                                              appliedFilter: self.appliedFilter,
                                                   availableFilters: availableFilters)
-        filterSubMenuView.didSelectFilter = { [unowned self] filter in
+        filterSubMenuView.didSelectFilter = { [unowned self] (filter, value) in
             self.appliedFilter = filter
             LCLoadingView.shared.show()
             DispatchQueue.global(qos: .utility).async {
                 for editView in self.editableViews {
-                    let output = filter.filter(image: editView.image!)
+                    let output = filter.filter(image: editView.scrollView.photoContentView.image!, value: value)
                     DispatchQueue.main.sync {
                         editView.scrollView.photoContentView.image = output
                     }

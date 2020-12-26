@@ -9,7 +9,7 @@
 import UIKit
 import Foundation
 
-class LCLoadingView {
+public class LCLoadingView {
 
     private let transparentView: UIView
     private let indicator: UIActivityIndicatorView

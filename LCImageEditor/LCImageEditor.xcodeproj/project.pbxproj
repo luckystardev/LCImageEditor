@@ -242,6 +242,7 @@
 		A33AC80B259531CC009E6A49 /* CustomViews */ = {
 			isa = PBXGroup;
 			children = (
+				A357C7D2258EED1D006D4A1A /* LCLoadingView.swift */,
 				A3893144257EA1A1005C6DE4 /* CustomButton.swift */,
 				A33AC80C259531E1009E6A49 /* LCSegmentControl */,
 				A30F456B256C914000A0B6D3 /* HorizontalDial */,
@@ -274,7 +275,6 @@
 		A3893139257DBE2A005C6DE4 /* MultipleEditor */ = {
 			isa = PBXGroup;
 			children = (
-				A357C7D2258EED1D006D4A1A /* LCLoadingView.swift */,
 				A3893137257DBAB1005C6DE4 /* MultiEditorDefine.swift */,
 				A389313A257DC0BE005C6DE4 /* MultipleEditorVC.swift */,
 				A3893142257E75CA005C6DE4 /* MultiEditorDelegate.swift */,

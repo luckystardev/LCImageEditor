@@ -16,11 +16,14 @@ class LCFilterMenu: UIView {
     private var selectedCellIndex: Int = 0
     private var isObservingCollectionView = true
    
-    public var didSelectFilter: (LCFilterable) -> Void = { _ in }
+    public var didSelectFilter: (LCFilterable, _ value: Double) -> Void = { _,_  in }
    
     var horizontalDial: HorizontalDial?
     var percentLabel = UILabel()
-    var value: Int = 0
+    
+    var availbleChange = false
+    var fvalue: Double = 0
+    var fvalues: [String:Double] = [:]
     
     public var image: UIImage {
         didSet {
@@ -68,7 +71,7 @@ class LCFilterMenu: UIView {
     
     // add percent label
         percentLabel.frame = .zero
-        percentLabel.text = String(value) + "%"
+        self.updatePercentLabel(fvalue)
         self.addSubview(percentLabel)
     
         percentLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -121,10 +124,18 @@ extension LCFilterMenu: UICollectionViewDelegate, UICollectionViewDataSource {
             else { return UICollectionViewCell() }
         
         let filter = availableFilters[indexPath.item]
+        
+        
+        if let value = fvalues[filter.filterName()] {
+           fvalue = value
+        } else {
+            fvalues[filter.filterName()] = 0.0
+        }
+        
         if let demo = demoImages[filter.filterName()] {
            cell.imageView.image = demo
         } else {
-            let demo = filter.filter(image: image)
+            let demo = filter.filter(image: image, value: fvalue)
             demoImages[filter.filterName()] = demo
             cell.imageView.image = demo
         }
@@ -137,6 +148,7 @@ extension LCFilterMenu: UICollectionViewDelegate, UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print(fvalues)
         let filter = availableFilters[indexPath.item]
         
         let prevSelectedCellIndex = selectedCellIndex
@@ -146,24 +158,61 @@ extension LCFilterMenu: UICollectionViewDelegate, UICollectionViewDataSource {
         
         collectionView.reloadItems(at: [IndexPath(row: prevSelectedCellIndex, section: 0)])
         
-        didSelectFilter(filter)
+        availbleChange = filter.valueChangeable()
+        updateHorizontalDial(filter)
+        if !availbleChange {
+            print("Not AvailableChange")
+            didSelectFilter(filter, 0)
+        } else {
+            print("AvailableChange")
+        }
+        
+    }
+    
+    func updateHorizontalDial(_ filter: LCFilterable) {
+        fvalue = fvalues[filter.filterName()] ?? 0.0
+        
+        updatePercentLabel(fvalue)
+        
+        let minValue = filter.minimumValue()
+        horizontalDial?.animateWithValueUpdate(fvalue)
+        horizontalDial?.minimumValue = minValue
     }
     
 }
 
 extension LCFilterMenu: HorizontalDialDelegate {
     public func horizontalDialDidValueChanged(_ horizontalDial: HorizontalDial) {
-        var value = Int(horizontalDial.value)
-        print("value = \(value)")
-        if value > Int(horizontalDial.maximumValue) {
-            value = Int(horizontalDial.maximumValue)
-        } else if value < Int(horizontalDial.minimumValue) {
-            value = Int(horizontalDial.minimumValue)
+        var value = floor(horizontalDial.value)
+        
+        if value > horizontalDial.maximumValue {
+            value = horizontalDial.maximumValue
+        } else if value < horizontalDial.minimumValue {
+            value = horizontalDial.minimumValue
         }
-        self.percentLabel.text = String(Int(value)) + "%"
+        self.updatePercentLabel(value)
     }
     
     public func horizontalDialDidEndScroll(_ horizontalDial: HorizontalDial) {
-        print("horizontalDialDidEndScroll")
+        var value = floor(horizontalDial.value)
+        
+        if value > horizontalDial.maximumValue {
+            value = horizontalDial.maximumValue
+        } else if value < horizontalDial.minimumValue {
+            value = horizontalDial.minimumValue
+        }
+        print("end_value = \(value)")
+        
+        let filter = availableFilters[selectedCellIndex]
+        if availbleChange {
+            fvalue = value
+            fvalues[filter.filterName()] = value
+            didSelectFilter(filter, value)
+        }
+        
+    }
+    
+    func updatePercentLabel(_ value: Double) {
+        self.percentLabel.text = String(Int(value)) + "%"
     }
 }

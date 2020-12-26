@@ -9,8 +9,10 @@
 import UIKit
 
 public protocol LCFilterable {
-    func filter(image: UIImage) -> UIImage
+    func filter(image: UIImage, value: Double) -> UIImage
     func filterName() -> String
+    func minimumValue() -> Double
+    func valueChangeable() -> Bool
 }
 
 public enum LCFilter: LCFilterable {
@@ -74,13 +76,14 @@ public enum LCFilter: LCFilterable {
         return CIFilter(name: ciFilterName)
     }
     
-    public func filter(image: UIImage) -> UIImage {
+    public func filter(image: UIImage, value: Double) -> UIImage {
+        
+        let avalue = value / 100
+        
         if self == .EffectBrightness {
-            print("filtername = EffectBrightness")
-            return image.BrightnessFilter(0.5) ?? image
+            return image.BrightnessFilter(avalue) ?? image
         } else if self == .EffectExposure {
-            print("filtername = EffectExposure")
-            return image.ExposureFilter(0.5) ?? image
+            return image.ExposureFilter(avalue) ?? image
         }
         
         if let ciFilter = ciFilter() {
@@ -131,28 +134,66 @@ public enum LCFilter: LCFilterable {
             case .CIVignette: return "Vignette"
         }
     }
+    
+    public func minimumValue() -> Double {
+        switch self {
+//            case .EffectBrightness: return "Brightness"
+//            case .EffectExposure: return "Exposure"
+            
+//            case .CIPhotoEffectChrome: return "Chrome"
+//            case .CIPhotoEffectFade: return "Fade"
+//            case .CIPhotoEffectInstant: return "Instant"
+//            case .CIPhotoEffectMono: return "Mono"
+//            case .CIPhotoEffectNoir: return "Noir"
+//            case .CIPhotoEffectProcess: return "Process"
+//            case .CIPhotoEffectTonal: return "Tonal"
+//            case .CIPhotoEffectTransfer: return "Transfer"
+//
+//            case .CIColorCrossPolynomial:return "Polynomial"
+//            case .CIColorCube: return "Color Cube"
+//            case .CIColorCubeWithColorSpace: return "Color Space"
+//            case .CIColorInvert: return "Invert"
+//
+//            case .CIColorMonochrome: return "Monochrome"
+//            case .CIColorPosterize: return "Posterize"
+//            case .CIFalseColor: return "Color"
+//            case .CIMinimumComponent: return "Component"
+//
+//            case .CISepiaTone: return "Sepia"
+//            case .CIVignette: return "Vignette"
+            default: return -100.0
+        }
+    }
+    
+    public func valueChangeable() -> Bool {
+        switch self {
+            case .None: return false
+            default: return true
+        }
+    }
 }
 
 internal let kDefaultAvailableFilters = [
     LCFilter.None,
     LCFilter.EffectBrightness,
     LCFilter.EffectExposure,
-    LCFilter.CIPhotoEffectChrome,
-    LCFilter.CIPhotoEffectInstant,
-    LCFilter.CIPhotoEffectMono,
-    LCFilter.CIPhotoEffectProcess,
-    LCFilter.CIPhotoEffectTransfer,
-    LCFilter.CISepiaTone,
-    LCFilter.CIPhotoEffectNoir,
-    LCFilter.CIMinimumComponent,
-    LCFilter.CIColorPosterize,
-    LCFilter.CIColorMonochrome,
-    LCFilter.CIColorCrossPolynomial,
-    LCFilter.CIColorCube,
-    LCFilter.CIColorCubeWithColorSpace,
-    LCFilter.CIColorInvert,
-    LCFilter.CIFalseColor,
-    LCFilter.CIPhotoEffectFade,
-    LCFilter.CIPhotoEffectTonal,
-    LCFilter.CIVignette
+    
+//    LCFilter.CIPhotoEffectChrome,
+//    LCFilter.CIPhotoEffectInstant,
+//    LCFilter.CIPhotoEffectMono,
+//    LCFilter.CIPhotoEffectProcess,
+//    LCFilter.CIPhotoEffectTransfer,
+//    LCFilter.CISepiaTone,
+//    LCFilter.CIPhotoEffectNoir,
+//    LCFilter.CIMinimumComponent,
+//    LCFilter.CIColorPosterize,
+//    LCFilter.CIColorMonochrome,
+//    LCFilter.CIColorCrossPolynomial,
+//    LCFilter.CIColorCube,
+//    LCFilter.CIColorCubeWithColorSpace,
+//    LCFilter.CIColorInvert,
+//    LCFilter.CIFalseColor,
+//    LCFilter.CIPhotoEffectFade,
+//    LCFilter.CIPhotoEffectTonal,
+//    LCFilter.CIVignette
 ]
