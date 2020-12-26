@@ -45,6 +45,7 @@
 		A30F456D256C918100A0B6D3 /* HorizontalDial.swift in Sources */ = {isa = PBXBuildFile; fileRef = A30F456C256C918100A0B6D3 /* HorizontalDial.swift */; };
 		A30F456F256C929200A0B6D3 /* ImageEditorVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A30F456E256C929200A0B6D3 /* ImageEditorVC.swift */; };
 		A33AC80E2595322F009E6A49 /* LCSegmentItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A33AC80D2595322F009E6A49 /* LCSegmentItem.swift */; };
+		A33AC8102597C44D009E6A49 /* VibranceFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A33AC80F2597C44D009E6A49 /* VibranceFilter.swift */; };
 		A357C7C2258E7633006D4A1A /* MultiEditorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A357C7C1258E7633006D4A1A /* MultiEditorExtensions.swift */; };
 		A357C7C6258E8DC8006D4A1A /* LCEffectMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = A357C7C5258E8DC8006D4A1A /* LCEffectMenu.swift */; };
 		A357C7C8258E8E77006D4A1A /* LCEffector.swift in Sources */ = {isa = PBXBuildFile; fileRef = A357C7C7258E8E77006D4A1A /* LCEffector.swift */; };
@@ -106,6 +107,7 @@
 		A30F456C256C918100A0B6D3 /* HorizontalDial.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HorizontalDial.swift; sourceTree = "<group>"; };
 		A30F456E256C929200A0B6D3 /* ImageEditorVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageEditorVC.swift; sourceTree = "<group>"; };
 		A33AC80D2595322F009E6A49 /* LCSegmentItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LCSegmentItem.swift; sourceTree = "<group>"; };
+		A33AC80F2597C44D009E6A49 /* VibranceFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VibranceFilter.swift; sourceTree = "<group>"; };
 		A357C7C1258E7633006D4A1A /* MultiEditorExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiEditorExtensions.swift; sourceTree = "<group>"; };
 		A357C7C5258E8DC8006D4A1A /* LCEffectMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LCEffectMenu.swift; sourceTree = "<group>"; };
 		A357C7C7258E8E77006D4A1A /* LCEffector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LCEffector.swift; sourceTree = "<group>"; };
@@ -259,15 +261,23 @@
 			path = LCSegmentControl;
 			sourceTree = "<group>";
 		};
+		A33AC8112597C472009E6A49 /* Filters */ = {
+			isa = PBXGroup;
+			children = (
+				A357C7CF258EB58A006D4A1A /* BrightnessFilter.swift */,
+				A357C7C9258E9CF0006D4A1A /* ExposureFilter.swift */,
+				A33AC80F2597C44D009E6A49 /* VibranceFilter.swift */,
+			);
+			path = Filters;
+			sourceTree = "<group>";
+		};
 		A357C7C4258E8BE3006D4A1A /* LCEffects */ = {
 			isa = PBXGroup;
 			children = (
 				A357C7C5258E8DC8006D4A1A /* LCEffectMenu.swift */,
 				A357C7C7258E8E77006D4A1A /* LCEffector.swift */,
-				A357C7C9258E9CF0006D4A1A /* ExposureFilter.swift */,
 				A357C7CB258EA2B1006D4A1A /* ChromaKeyFilter.swift */,
 				A357C7CD258EB565006D4A1A /* BlurEyeFilter.swift */,
-				A357C7CF258EB58A006D4A1A /* BrightnessFilter.swift */,
 			);
 			path = LCEffects;
 			sourceTree = "<group>";
@@ -298,6 +308,7 @@
 		A3B657CE2586E7D500C6022B /* LCFilter */ = {
 			isa = PBXGroup;
 			children = (
+				A33AC8112597C472009E6A49 /* Filters */,
 				A3B657CF2586E7F100C6022B /* LCFilter.swift */,
 				A3B657D52587384E00C6022B /* LCFilterCell.swift */,
 				A3B657D72587390100C6022B /* LCFilterMenu.swift */,
@@ -407,6 +418,7 @@
 				A30F4518256C62B900A0B6D3 /* SceneDelegate.swift in Sources */,
 				A389313D257E5C2B005C6DE4 /* LCEditableView+UIScrollView.swift in Sources */,
 				A3B657D02586E7F100C6022B /* LCFilter.swift in Sources */,
+				A33AC8102597C44D009E6A49 /* VibranceFilter.swift in Sources */,
 				A30F452D256C699B00A0B6D3 /* LCImageEditorExtensions.swift in Sources */,
 				A33AC80E2595322F009E6A49 /* LCSegmentItem.swift in Sources */,
 				A30F455E256C7D3400A0B6D3 /* LCImageView+NSLayoutConstraints.swift in Sources */,

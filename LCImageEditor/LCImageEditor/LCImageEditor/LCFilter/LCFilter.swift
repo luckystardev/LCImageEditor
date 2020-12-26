@@ -21,7 +21,8 @@ public enum LCFilter: LCFilterable {
     case CIEffectBrightness
     case CIEffectContrast
     case CIEffectSaturation
-    case CIEffectExposure
+    case CIExposureAdjust
+    case CIVibrance
     
 //    case CIPhotoEffectChrome
 //    case CIPhotoEffectFade
@@ -53,8 +54,8 @@ public enum LCFilter: LCFilterable {
             case .CIEffectBrightness: ciFilterName = "CIEffectBrightness"
             case .CIEffectContrast: ciFilterName = "CIEffectContrast"
             case .CIEffectSaturation: ciFilterName = "CIEffectSaturation"
-            case .CIEffectExposure: ciFilterName = "CIEffectExposure"
-            
+            case .CIExposureAdjust: ciFilterName = "CIExposureAdjust"
+            case .CIVibrance: ciFilterName = "CIVibrance"
 //            case .CIPhotoEffectChrome: ciFilterName = "CIPhotoEffectChrome"
 //            case .CIPhotoEffectFade: ciFilterName = "CIPhotoEffectFade"
 //            case .CIPhotoEffectInstant: ciFilterName = "CIPhotoEffectInstant"
@@ -91,8 +92,10 @@ public enum LCFilter: LCFilterable {
                 return image.BrightnessFilter(avalue, .contrast) ?? image
             case .CIEffectSaturation:
                 return image.BrightnessFilter(avalue, .saturation) ?? image
-            case .CIEffectExposure:
+            case .CIExposureAdjust:
                 return image.ExposureFilter(avalue) ?? image
+            case .CIVibrance:
+                return image.VibranceFilter(avalue) ?? image
             default:
                 if let ciFilter = ciFilter() {
                     let context = CIContext(options: nil)
@@ -120,7 +123,8 @@ public enum LCFilter: LCFilterable {
             case .CIEffectBrightness: return "Brightness"
             case .CIEffectContrast: return "Contrast"
             case .CIEffectSaturation: return "Saturation"
-            case .CIEffectExposure: return "Exposure"
+            case .CIExposureAdjust: return "Exposure"
+            case .CIVibrance: return "Vibrance"
             
 //            case .CIPhotoEffectChrome: return "Chrome"
 //            case .CIPhotoEffectFade: return "Fade"
@@ -151,27 +155,6 @@ public enum LCFilter: LCFilterable {
             case .CIEffectContrast: return 0
             case .CIEffectSaturation: return 0
             
-//            case .CIPhotoEffectChrome: return "Chrome"
-//            case .CIPhotoEffectFade: return "Fade"
-//            case .CIPhotoEffectInstant: return "Instant"
-//            case .CIPhotoEffectMono: return "Mono"
-//            case .CIPhotoEffectNoir: return "Noir"
-//            case .CIPhotoEffectProcess: return "Process"
-//            case .CIPhotoEffectTonal: return "Tonal"
-//            case .CIPhotoEffectTransfer: return "Transfer"
-//
-//            case .CIColorCrossPolynomial:return "Polynomial"
-//            case .CIColorCube: return "Color Cube"
-//            case .CIColorCubeWithColorSpace: return "Color Space"
-//            case .CIColorInvert: return "Invert"
-//
-//            case .CIColorMonochrome: return "Monochrome"
-//            case .CIColorPosterize: return "Posterize"
-//            case .CIFalseColor: return "Color"
-//            case .CIMinimumComponent: return "Component"
-//
-//            case .CISepiaTone: return "Sepia"
-//            case .CIVignette: return "Vignette"
             default: return -100.0
         }
     }
@@ -189,7 +172,8 @@ internal let kDefaultAvailableFilters = [
     LCFilter.CIEffectBrightness,
     LCFilter.CIEffectContrast,
     LCFilter.CIEffectSaturation,
-    LCFilter.CIEffectExposure,
+    LCFilter.CIExposureAdjust,
+    LCFilter.CIVibrance,
     
 //    LCFilter.CIPhotoEffectChrome,
 //    LCFilter.CIPhotoEffectInstant,
