@@ -29,15 +29,15 @@ public enum LCFilter: LCFilterable {
     case CIHighlight
     case CIShadow
     
+    case CIPhotoEffectMono
+    case CIPhotoEffectNoir
+    
 //    case CIPhotoEffectChrome
 //    case CIPhotoEffectFade
 //    case CIPhotoEffectInstant
-//    case CIPhotoEffectMono
-//    case CIPhotoEffectNoir
 //    case CIPhotoEffectProcess
 //    case CIPhotoEffectTonal
 //    case CIPhotoEffectTransfer
-//
 //    case CIColorCrossPolynomial
 //    case CIColorCube
 //    case CIColorCubeWithColorSpace
@@ -46,7 +46,6 @@ public enum LCFilter: LCFilterable {
 //    case CIColorPosterize
 //    case CIFalseColor
 //    case CIMinimumComponent
-//
 //    case CISepiaTone
     
     
@@ -66,6 +65,9 @@ public enum LCFilter: LCFilterable {
             case .CISharpness: ciFilterName = "CISharpness"
             case .CIHighlight: ciFilterName = "CIHighlight"
             case .CIShadow: ciFilterName = "CIShadow"
+            
+            case .CIPhotoEffectMono: ciFilterName = "CIPhotoEffectMono"
+            case .CIPhotoEffectNoir: ciFilterName = "CIPhotoEffectNoir"
         }
         
         return CIFilter(name: ciFilterName)
@@ -131,25 +133,23 @@ public enum LCFilter: LCFilterable {
             case .CIHighlight: return "Highlight"
             case .CIShadow: return "Shadow"
             
+            case .CIPhotoEffectMono: return "Mono"
+            case .CIPhotoEffectNoir: return "Noir"
+            
 //            case .CIPhotoEffectChrome: return "Chrome"
 //            case .CIPhotoEffectFade: return "Fade"
 //            case .CIPhotoEffectInstant: return "Instant"
-//            case .CIPhotoEffectMono: return "Mono"
-//            case .CIPhotoEffectNoir: return "Noir"
 //            case .CIPhotoEffectProcess: return "Process"
 //            case .CIPhotoEffectTonal: return "Tonal"
 //            case .CIPhotoEffectTransfer: return "Transfer"
-//
 //            case .CIColorCrossPolynomial:return "Polynomial"
 //            case .CIColorCube: return "Color Cube"
 //            case .CIColorCubeWithColorSpace: return "Color Space"
 //            case .CIColorInvert: return "Invert"
-//
 //            case .CIColorMonochrome: return "Monochrome"
 //            case .CIColorPosterize: return "Posterize"
 //            case .CIFalseColor: return "Color"
 //            case .CIMinimumComponent: return "Component"
-//
 //            case .CISepiaTone: return "Sepia"
             
         }
@@ -168,6 +168,8 @@ public enum LCFilter: LCFilterable {
     public func valueChangeable() -> Bool {
         switch self {
             case .None: return false
+            case .CIPhotoEffectMono: return false
+            case .CIPhotoEffectNoir: return false
             default: return true
         }
     }
@@ -186,21 +188,7 @@ internal let kDefaultAvailableFilters = [
     LCFilter.CISharpness,
     LCFilter.CIVignette,
     
-//    LCFilter.CIPhotoEffectChrome,
-//    LCFilter.CIPhotoEffectInstant,
-//    LCFilter.CIPhotoEffectMono,
-//    LCFilter.CIPhotoEffectProcess,
-//    LCFilter.CIPhotoEffectTransfer,
-//    LCFilter.CISepiaTone,
-//    LCFilter.CIPhotoEffectNoir,
-//    LCFilter.CIMinimumComponent,
-//    LCFilter.CIColorPosterize,
-//    LCFilter.CIColorMonochrome,
-//    LCFilter.CIColorCrossPolynomial,
-//    LCFilter.CIColorCube,
-//    LCFilter.CIColorCubeWithColorSpace,
-//    LCFilter.CIColorInvert,
-//    LCFilter.CIFalseColor,
-//    LCFilter.CIPhotoEffectFade,
-//    LCFilter.CIPhotoEffectTonal,
+
+    LCFilter.CIPhotoEffectMono,
+    LCFilter.CIPhotoEffectNoir,
 ]
