@@ -8,9 +8,15 @@
 
 import UIKit
 
+enum CIColorMode {
+    case brightness
+    case contrast
+    case saturation
+}
+
 extension UIImage {
     
-    func BrightnessFilter(_ value: Double) -> UIImage? {
+    func BrightnessFilter(_ value: Double, _ mode: CIColorMode) -> UIImage? {
         let filterName = "CIColorControls"
         guard let filter = CIFilter(name: filterName) else {
             print("No filter with name: \(filterName).")
@@ -21,8 +27,14 @@ extension UIImage {
         
         let inputImage = CIImage(image: self)
         filter.setValue(inputImage, forKey: kCIInputImageKey)
-        filter.setValue(value, forKey: kCIInputBrightnessKey)
-//        filter.setValue(value, forKey: kCIInputContrastKey)
+        
+        if mode == .brightness {
+            filter.setValue(value, forKey: kCIInputBrightnessKey)
+        } else if mode == .contrast {
+            filter.setValue(value, forKey: kCIInputContrastKey)
+        } else if mode == .saturation {
+            filter.setValue(value, forKey: kCIInputSaturationKey)
+        }
 
         if let output = filter.outputImage,
             let cgimg = context.createCGImage(output, from: output.extent) {

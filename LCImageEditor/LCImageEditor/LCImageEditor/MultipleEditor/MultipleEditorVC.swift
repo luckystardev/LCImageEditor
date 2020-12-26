@@ -47,7 +47,7 @@ open class MultipleEditorVC: UIViewController {
             LCLoadingView.shared.show()
             DispatchQueue.global(qos: .utility).async {
                 for editView in self.editableViews {
-                    let output = filter.filter(image: editView.scrollView.photoContentView.image!, value: value)
+                    let output = filter.filter(image: editView.image!, value: value)
                     DispatchQueue.main.sync {
                         editView.scrollView.photoContentView.image = output
                     }

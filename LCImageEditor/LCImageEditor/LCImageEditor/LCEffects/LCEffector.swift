@@ -15,8 +15,6 @@ public protocol LCEffectable {
 
 public enum LCEffector: LCEffectable {
     case None
-    case EffectBrightness
-    case EffectExposure
     case EffectChromaKey
     case EffectBlurEye
         
@@ -24,10 +22,6 @@ public enum LCEffector: LCEffectable {
         switch self {
             case .None:
                 return image
-            case .EffectBrightness:
-                return image.BrightnessFilter(0.5) ?? image
-            case .EffectExposure:
-                return image.ExposureFilter(0.5) ?? image
             case .EffectChromaKey:
                 return image.ChromaKeyFilter()
             case .EffectBlurEye:
@@ -45,8 +39,6 @@ public enum LCEffector: LCEffectable {
     public func effectorName() -> String {
         switch self {
             case .None: return "Original"
-            case .EffectBrightness: return "Brightness"
-            case .EffectExposure: return "Exposure"
             case .EffectChromaKey: return "Chroma"
             case .EffectBlurEye: return "Blur eye"
         }
@@ -55,8 +47,6 @@ public enum LCEffector: LCEffectable {
 
 internal let kDefaultEffectors = [
     LCEffector.None,
-//    LCEffector.EffectBrightness,
-//    LCEffector.EffectExposure,
     LCEffector.EffectChromaKey,
     LCEffector.EffectBlurEye,
 ]
