@@ -49,6 +49,10 @@
 		A33AC8132597C831009E6A49 /* NoiseFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A33AC8122597C831009E6A49 /* NoiseFilter.swift */; };
 		A33AC8152597C848009E6A49 /* VigentteFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A33AC8142597C848009E6A49 /* VigentteFilter.swift */; };
 		A33AC8172597DC20009E6A49 /* HighlightFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A33AC8162597DC20009E6A49 /* HighlightFilter.swift */; };
+		A33AC81C2597E426009E6A49 /* TintFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A33AC8182597E425009E6A49 /* TintFilter.swift */; };
+		A33AC81D2597E426009E6A49 /* BlackpointFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A33AC8192597E425009E6A49 /* BlackpointFilter.swift */; };
+		A33AC81E2597E426009E6A49 /* WarmthFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A33AC81A2597E425009E6A49 /* WarmthFilter.swift */; };
+		A33AC81F2597E426009E6A49 /* BrillianceFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A33AC81B2597E425009E6A49 /* BrillianceFilter.swift */; };
 		A357C7C2258E7633006D4A1A /* MultiEditorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A357C7C1258E7633006D4A1A /* MultiEditorExtensions.swift */; };
 		A357C7C6258E8DC8006D4A1A /* LCEffectMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = A357C7C5258E8DC8006D4A1A /* LCEffectMenu.swift */; };
 		A357C7C8258E8E77006D4A1A /* LCEffector.swift in Sources */ = {isa = PBXBuildFile; fileRef = A357C7C7258E8E77006D4A1A /* LCEffector.swift */; };
@@ -114,6 +118,10 @@
 		A33AC8122597C831009E6A49 /* NoiseFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoiseFilter.swift; sourceTree = "<group>"; };
 		A33AC8142597C848009E6A49 /* VigentteFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VigentteFilter.swift; sourceTree = "<group>"; };
 		A33AC8162597DC20009E6A49 /* HighlightFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighlightFilter.swift; sourceTree = "<group>"; };
+		A33AC8182597E425009E6A49 /* TintFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TintFilter.swift; sourceTree = "<group>"; };
+		A33AC8192597E425009E6A49 /* BlackpointFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlackpointFilter.swift; sourceTree = "<group>"; };
+		A33AC81A2597E425009E6A49 /* WarmthFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WarmthFilter.swift; sourceTree = "<group>"; };
+		A33AC81B2597E425009E6A49 /* BrillianceFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrillianceFilter.swift; sourceTree = "<group>"; };
 		A357C7C1258E7633006D4A1A /* MultiEditorExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiEditorExtensions.swift; sourceTree = "<group>"; };
 		A357C7C5258E8DC8006D4A1A /* LCEffectMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LCEffectMenu.swift; sourceTree = "<group>"; };
 		A357C7C7258E8E77006D4A1A /* LCEffector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LCEffector.swift; sourceTree = "<group>"; };
@@ -276,6 +284,10 @@
 				A33AC8122597C831009E6A49 /* NoiseFilter.swift */,
 				A33AC8142597C848009E6A49 /* VigentteFilter.swift */,
 				A33AC8162597DC20009E6A49 /* HighlightFilter.swift */,
+				A33AC8192597E425009E6A49 /* BlackpointFilter.swift */,
+				A33AC81B2597E425009E6A49 /* BrillianceFilter.swift */,
+				A33AC8182597E425009E6A49 /* TintFilter.swift */,
+				A33AC81A2597E425009E6A49 /* WarmthFilter.swift */,
 			);
 			path = Filters;
 			sourceTree = "<group>";
@@ -401,13 +413,16 @@
 				A357C7D0258EB58A006D4A1A /* BrightnessFilter.swift in Sources */,
 				A33AC8152597C848009E6A49 /* VigentteFilter.swift in Sources */,
 				A30F452F256C69B300A0B6D3 /* LCImageEditorDelegate.swift in Sources */,
+				A33AC81D2597E426009E6A49 /* BlackpointFilter.swift in Sources */,
 				A3893141257E5FE1005C6DE4 /* LCEditableView.swift in Sources */,
 				A357C7C2258E7633006D4A1A /* MultiEditorExtensions.swift in Sources */,
 				A3B657D62587384E00C6022B /* LCFilterCell.swift in Sources */,
+				A33AC81C2597E426009E6A49 /* TintFilter.swift in Sources */,
 				A30F4552256C794D00A0B6D3 /* LCCropViewDelegate.swift in Sources */,
 				A30F4546256C771A00A0B6D3 /* LCCropCornerView.swift in Sources */,
 				A357C7CE258EB565006D4A1A /* BlurEyeFilter.swift in Sources */,
 				A357C7C8258E8E77006D4A1A /* LCEffector.swift in Sources */,
+				A33AC81F2597E426009E6A49 /* BrillianceFilter.swift in Sources */,
 				A30F4531256C69CA00A0B6D3 /* LCImageEditorConstants.swift in Sources */,
 				A30F455C256C7D2000A0B6D3 /* LCImageView+Mask.swift in Sources */,
 				A3893143257E75CA005C6DE4 /* MultiEditorDelegate.swift in Sources */,
@@ -448,6 +463,7 @@
 				A30F455A256C7D0E00A0B6D3 /* LCImageView+LCCropView.swift in Sources */,
 				A30F4562256C7D5400A0B6D3 /* LCImageView+UIScrollView.swift in Sources */,
 				A357C7CC258EA2B1006D4A1A /* ChromaKeyFilter.swift in Sources */,
+				A33AC81E2597E426009E6A49 /* WarmthFilter.swift in Sources */,
 				A30F4566256C8AC000A0B6D3 /* LCImageEditor+AspectRatio.swift in Sources */,
 				A30F456F256C929200A0B6D3 /* ImageEditorVC.swift in Sources */,
 				A3B657D2258723C800C6022B /* LCSegment.swift in Sources */,

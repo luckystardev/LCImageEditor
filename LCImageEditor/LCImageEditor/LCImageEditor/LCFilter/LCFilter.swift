@@ -29,6 +29,11 @@ public enum LCFilter: LCFilterable {
     case CIHighlight
     case CIShadow
     
+    case CIBrilliance
+    case CIBlackPoint
+    case CITint
+    case CIWarmth
+    
     case CIPhotoEffectMono
     case CIPhotoEffectNoir
     
@@ -66,6 +71,11 @@ public enum LCFilter: LCFilterable {
             case .CIHighlight: ciFilterName = "CIHighlight"
             case .CIShadow: ciFilterName = "CIShadow"
             
+            case .CIBrilliance: ciFilterName = "CIBrilliance"
+            case .CIBlackPoint: ciFilterName = "CIBlackPoint"
+            case .CITint: ciFilterName = "CITint"
+            case .CIWarmth: ciFilterName = "CIWarmth"
+            
             case .CIPhotoEffectMono: ciFilterName = "CIPhotoEffectMono"
             case .CIPhotoEffectNoir: ciFilterName = "CIPhotoEffectNoir"
         }
@@ -98,6 +108,16 @@ public enum LCFilter: LCFilterable {
                 return image.HighlightFilter(avalue, .highlight) ?? image
             case .CIShadow:
                 return image.HighlightFilter(avalue, .shadow) ?? image
+            
+            case .CIBrilliance: // TODO
+                return image
+            case .CIBlackPoint: // TODO
+                return image
+            case .CITint: // TODO
+                return image
+            case .CIWarmth: // TODO
+                return image
+            
             default:
                 if let ciFilter = ciFilter() {
                     let context = CIContext(options: nil)
@@ -132,6 +152,11 @@ public enum LCFilter: LCFilterable {
             case .CIVignette: return "Vignette"
             case .CIHighlight: return "Highlight"
             case .CIShadow: return "Shadow"
+            
+            case .CIBrilliance: return "Brilliance"
+            case .CIBlackPoint: return "Black Point"
+            case .CITint: return "Tint"
+            case .CIWarmth: return "Warmth"
             
             case .CIPhotoEffectMono: return "Mono"
             case .CIPhotoEffectNoir: return "Noir"
@@ -188,6 +213,10 @@ internal let kDefaultAvailableFilters = [
     LCFilter.CISharpness,
     LCFilter.CIVignette,
     
+//    LCFilter.CIBrilliance,
+//    LCFilter.CIBlackPoint,
+//    LCFilter.CITint,
+//    LCFilter.CIWarmth,
 
     LCFilter.CIPhotoEffectMono,
     LCFilter.CIPhotoEffectNoir,
