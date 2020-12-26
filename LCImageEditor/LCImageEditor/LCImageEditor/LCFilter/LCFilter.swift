@@ -26,6 +26,8 @@ public enum LCFilter: LCFilterable {
     case CINoiseReduction
     case CISharpness
     case CIVignette
+    case CIHighlight
+    case CIShadow
     
 //    case CIPhotoEffectChrome
 //    case CIPhotoEffectFade
@@ -62,6 +64,8 @@ public enum LCFilter: LCFilterable {
             case .CIVignette: ciFilterName = "CIVignette"
             case .CINoiseReduction: ciFilterName = "CINoiseReduction"
             case .CISharpness: ciFilterName = "CISharpness"
+            case .CIHighlight: ciFilterName = "CIHighlight"
+            case .CIShadow: ciFilterName = "CIShadow"
         }
         
         return CIFilter(name: ciFilterName)
@@ -88,6 +92,10 @@ public enum LCFilter: LCFilterable {
                 return image.NoiseFilter(avalue, .sharpness) ?? image
             case .CIVignette:
                 return image.VigentteFilter(avalue) ?? image
+            case .CIHighlight:
+                return image.HighlightFilter(avalue, .highlight) ?? image
+            case .CIShadow:
+                return image.HighlightFilter(avalue, .shadow) ?? image
             default:
                 if let ciFilter = ciFilter() {
                     let context = CIContext(options: nil)
@@ -120,6 +128,8 @@ public enum LCFilter: LCFilterable {
             case .CINoiseReduction: return "Noise"
             case .CISharpness: return "Sharpness"
             case .CIVignette: return "Vignette"
+            case .CIHighlight: return "Highlight"
+            case .CIShadow: return "Shadow"
             
 //            case .CIPhotoEffectChrome: return "Chrome"
 //            case .CIPhotoEffectFade: return "Fade"
@@ -169,6 +179,8 @@ internal let kDefaultAvailableFilters = [
     LCFilter.CIEffectContrast,
     LCFilter.CIEffectSaturation,
     LCFilter.CIExposureAdjust,
+    LCFilter.CIHighlight,
+    LCFilter.CIShadow,
     LCFilter.CIVibrance,
     LCFilter.CINoiseReduction,
     LCFilter.CISharpness,

@@ -48,6 +48,7 @@
 		A33AC8102597C44D009E6A49 /* VibranceFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A33AC80F2597C44D009E6A49 /* VibranceFilter.swift */; };
 		A33AC8132597C831009E6A49 /* NoiseFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A33AC8122597C831009E6A49 /* NoiseFilter.swift */; };
 		A33AC8152597C848009E6A49 /* VigentteFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A33AC8142597C848009E6A49 /* VigentteFilter.swift */; };
+		A33AC8172597DC20009E6A49 /* HighlightFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A33AC8162597DC20009E6A49 /* HighlightFilter.swift */; };
 		A357C7C2258E7633006D4A1A /* MultiEditorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A357C7C1258E7633006D4A1A /* MultiEditorExtensions.swift */; };
 		A357C7C6258E8DC8006D4A1A /* LCEffectMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = A357C7C5258E8DC8006D4A1A /* LCEffectMenu.swift */; };
 		A357C7C8258E8E77006D4A1A /* LCEffector.swift in Sources */ = {isa = PBXBuildFile; fileRef = A357C7C7258E8E77006D4A1A /* LCEffector.swift */; };
@@ -112,6 +113,7 @@
 		A33AC80F2597C44D009E6A49 /* VibranceFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VibranceFilter.swift; sourceTree = "<group>"; };
 		A33AC8122597C831009E6A49 /* NoiseFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoiseFilter.swift; sourceTree = "<group>"; };
 		A33AC8142597C848009E6A49 /* VigentteFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VigentteFilter.swift; sourceTree = "<group>"; };
+		A33AC8162597DC20009E6A49 /* HighlightFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighlightFilter.swift; sourceTree = "<group>"; };
 		A357C7C1258E7633006D4A1A /* MultiEditorExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiEditorExtensions.swift; sourceTree = "<group>"; };
 		A357C7C5258E8DC8006D4A1A /* LCEffectMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LCEffectMenu.swift; sourceTree = "<group>"; };
 		A357C7C7258E8E77006D4A1A /* LCEffector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LCEffector.swift; sourceTree = "<group>"; };
@@ -273,6 +275,7 @@
 				A33AC80F2597C44D009E6A49 /* VibranceFilter.swift */,
 				A33AC8122597C831009E6A49 /* NoiseFilter.swift */,
 				A33AC8142597C848009E6A49 /* VigentteFilter.swift */,
+				A33AC8162597DC20009E6A49 /* HighlightFilter.swift */,
 			);
 			path = Filters;
 			sourceTree = "<group>";
@@ -410,6 +413,7 @@
 				A3893143257E75CA005C6DE4 /* MultiEditorDelegate.swift in Sources */,
 				A30F453A256C709D00A0B6D3 /* LCImageView.swift in Sources */,
 				A3B657D82587390100C6022B /* LCFilterMenu.swift in Sources */,
+				A33AC8172597DC20009E6A49 /* HighlightFilter.swift in Sources */,
 				A30F456D256C918100A0B6D3 /* HorizontalDial.swift in Sources */,
 				A30F4540256C73A900A0B6D3 /* LCImageContentView.swift in Sources */,
 				A30F451A256C62B900A0B6D3 /* ViewController.swift in Sources */,

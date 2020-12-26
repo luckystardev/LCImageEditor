@@ -1,5 +1,5 @@
 //
-//  NoiseFilter.swift
+//  HighlightFilter.swift
 //  LCImageEditor
 //
 //  Created by LuckyClub on 12/26/20.
@@ -8,15 +8,15 @@
 
 import UIKit
 
-enum CINoiseMode {
-    case noise
-    case sharpness
+enum CIHighlightMode {
+    case highlight
+    case shadow
 }
 
 extension UIImage {
     
-    func NoiseFilter(_ value: Double, _ mode: CINoiseMode) -> UIImage? {
-        let filterName = "CINoiseReduction"
+    func HighlightFilter(_ value: Double, _ mode: CIHighlightMode) -> UIImage? {
+        let filterName = "CIHighlightShadowAdjust"
         guard let filter = CIFilter(name: filterName) else {
             print("No filter with name: \(filterName).")
             return self
@@ -27,10 +27,10 @@ extension UIImage {
         let inputImage = CIImage(image: self)
         filter.setValue(inputImage, forKey: kCIInputImageKey)
         
-        if mode == .noise {
-            filter.setValue(value, forKey: "inputNoiseLevel") //kCIInputNoiseLevelKey
-        } else if mode == .sharpness {
-            filter.setValue(value, forKey: kCIInputSharpnessKey)
+        if mode == .highlight {
+            filter.setValue(value, forKey: "inputHighlightAmount") //kCIInputNoiseLevelKey
+        } else if mode == .shadow {
+            filter.setValue(value, forKey: "inputShadowAmount")
         }
 
         if let output = filter.outputImage,

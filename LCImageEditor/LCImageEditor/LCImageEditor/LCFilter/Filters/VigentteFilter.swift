@@ -2,7 +2,7 @@
 //  VigentteFilter.swift
 //  LCImageEditor
 //
-//  Created by Alex on 12/26/20.
+//  Created by LuckyClub on 12/26/20.
 //  Copyright © 2020 LuckyClub. All rights reserved.
 //
 
