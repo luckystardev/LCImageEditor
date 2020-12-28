@@ -28,12 +28,11 @@ public enum LCEffector: LCEffectable {
                 let filter = BlueEyeFilter()
                 filter.inputImage = CIImage(image: image)
                 if let cimg = filter.outputImage {
-                    let img = UIImage(ciImage: cimg)
-                    return img
+                    let context = CIContext(options: nil)
+                    return UIImage(cgImage: context.createCGImage(cimg, from: cimg.extent)!)
                 }
                 return image
         }
-//        return image
     }
     
     public func effectorName() -> String {
