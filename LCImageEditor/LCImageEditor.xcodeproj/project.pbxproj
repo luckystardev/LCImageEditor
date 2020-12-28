@@ -308,8 +308,8 @@
 			children = (
 				A3893137257DBAB1005C6DE4 /* MultiEditorDefine.swift */,
 				A389313A257DC0BE005C6DE4 /* MultipleEditorVC.swift */,
-				A3893142257E75CA005C6DE4 /* MultiEditorDelegate.swift */,
 				A3893140257E5FE1005C6DE4 /* LCEditableView.swift */,
+				A3893142257E75CA005C6DE4 /* MultiEditorDelegate.swift */,
 				A389313C257E5C2B005C6DE4 /* LCEditableView+UIScrollView.swift */,
 				A357C7C1258E7633006D4A1A /* MultiEditorExtensions.swift */,
 			);

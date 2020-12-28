@@ -11,6 +11,7 @@ import UIKit
 extension UIImage {
     
     func VigentteFilter(_ value: Double) -> UIImage? {
+        
         let filterName = "CIVignette"
         guard let filter = CIFilter(name: filterName) else {
             print("No filter with name: \(filterName).")

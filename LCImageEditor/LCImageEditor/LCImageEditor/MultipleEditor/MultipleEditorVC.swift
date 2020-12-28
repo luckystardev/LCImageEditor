@@ -251,7 +251,7 @@ open class MultipleEditorVC: UIViewController {
     // MARK: - Button Actions
     
     @objc func exportAction() {
-//        changeImages()
+//        syncImages()
         LCLoadingView.shared.show()
         let exportImage = cropImages()
         DispatchQueue.global(qos: .utility).async {
@@ -274,10 +274,8 @@ open class MultipleEditorVC: UIViewController {
     }
     
     @objc func editControl(_ index: Int) {
-        print("LCSegment current index:" + String(index))
 //        syncImages()
         if index == 0 { // Correction filter
-//            changeImages()
             self.editMode = .filter
             filterSubMenuView?.isHidden = false
             effectSubMenuView?.isHidden = true
@@ -289,12 +287,6 @@ open class MultipleEditorVC: UIViewController {
             self.editMode = .rotate
             filterSubMenuView?.isHidden = true
             effectSubMenuView?.isHidden = true
-        }
-    }
-    
-    private func changeImages() {
-        for editView in self.editableViews {
-            editView.image = editView.scrollView.photoContentView.image
         }
     }
     

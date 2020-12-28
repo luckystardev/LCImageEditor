@@ -37,7 +37,12 @@ public class LCLoadingView {
     }
     
     func show() {
-        guard let keyWindow = UIApplication.shared.keyWindow else { return }
+        guard let keyWindow = UIApplication.shared.connectedScenes
+                                .filter({$0.activationState == .foregroundActive})
+                                .map({$0 as? UIWindowScene})
+                                .compactMap({$0})
+                                .first?.windows
+                                .filter({$0.isKeyWindow}).first else { return }
         
         keyWindow.addSubview(transparentView)
         

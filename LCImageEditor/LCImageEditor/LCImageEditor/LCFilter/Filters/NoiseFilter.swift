@@ -16,6 +16,7 @@ enum CINoiseMode {
 extension UIImage {
     
     func NoiseFilter(_ value: Double, _ mode: CINoiseMode) -> UIImage? {
+        
         let filterName = "CINoiseReduction"
         guard let filter = CIFilter(name: filterName) else {
             print("No filter with name: \(filterName).")

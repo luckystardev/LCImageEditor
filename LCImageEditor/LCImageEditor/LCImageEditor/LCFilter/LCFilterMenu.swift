@@ -22,8 +22,8 @@ class LCFilterMenu: UIView {
     var percentLabel = UILabel()
     
     var availbleChange = false
-    var fvalue: Double = 0
-    var fvalues: [String:Double] = [:]
+    var selectedFilterValue: Double = 0
+    var filterValues: [String:Double] = [:]
     
     public var image: UIImage {
         didSet {
@@ -69,16 +69,16 @@ class LCFilterMenu: UIView {
         self.backgroundColor = .clear
         collectionView.backgroundColor = .clear
     
-    // add percent label
+        // add percent label
         percentLabel.frame = .zero
-        self.updatePercentLabel(fvalue)
+        self.updatePercentLabel(selectedFilterValue)
         self.addSubview(percentLabel)
     
         percentLabel.translatesAutoresizingMaskIntoConstraints = false
         percentLabel.topAnchor.constraint(equalTo: topAnchor, constant: 66).isActive = true
         percentLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         
-    // add horizontalDial
+        // add horizontalDial
         horizontalDial = HorizontalDial()
         horizontalDial?.frame = .zero
         horizontalDial?.delegate = self
@@ -126,16 +126,16 @@ extension LCFilterMenu: UICollectionViewDelegate, UICollectionViewDataSource {
         let filter = availableFilters[indexPath.item]
         
         
-        if let value = fvalues[filter.filterName()] {
-           fvalue = value
+        if let value = filterValues[filter.filterName()] {
+           selectedFilterValue = value
         } else {
-            fvalues[filter.filterName()] = 0.0
+            filterValues[filter.filterName()] = 0.0
         }
         
         if let demo = demoImages[filter.filterName()] {
            cell.imageView.image = demo
         } else {
-            let demo = filter.filter(image: image, value: fvalue)
+            let demo = filter.filter(image: image, value: selectedFilterValue)
             demoImages[filter.filterName()] = demo
             cell.imageView.image = demo
         }
@@ -148,7 +148,6 @@ extension LCFilterMenu: UICollectionViewDelegate, UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print(fvalues)
         let filter = availableFilters[indexPath.item]
         
         let prevSelectedCellIndex = selectedCellIndex
@@ -170,12 +169,12 @@ extension LCFilterMenu: UICollectionViewDelegate, UICollectionViewDataSource {
     }
     
     func updateHorizontalDial(_ filter: LCFilterable) {
-        fvalue = fvalues[filter.filterName()] ?? 0.0
+        selectedFilterValue = filterValues[filter.filterName()] ?? 0.0
         
-        updatePercentLabel(fvalue)
+        updatePercentLabel(selectedFilterValue)
         
         let minValue = filter.minimumValue()
-        horizontalDial?.animateWithValueUpdate(fvalue)
+        horizontalDial?.animateWithValueUpdate(selectedFilterValue)
         horizontalDial?.minimumValue = minValue
     }
     
@@ -201,15 +200,13 @@ extension LCFilterMenu: HorizontalDialDelegate {
         } else if value < horizontalDial.minimumValue {
             value = horizontalDial.minimumValue
         }
-        print("end_value = \(value)")
         
         let filter = availableFilters[selectedCellIndex]
         if availbleChange {
-            fvalue = value
-            fvalues[filter.filterName()] = value
+            selectedFilterValue = value
+            filterValues[filter.filterName()] = value
             didSelectFilter(filter, value)
         }
-        
     }
     
     func updatePercentLabel(_ value: Double) {

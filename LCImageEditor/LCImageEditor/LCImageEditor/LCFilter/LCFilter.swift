@@ -182,8 +182,6 @@ public enum LCFilter: LCFilterable {
     
     public func minimumValue() -> Double {
         switch self {
-            case .CIEffectContrast: return 0
-            case .CIEffectSaturation: return 0
             case .CINoiseReduction: return 0
             case .CISharpness: return 0
             default: return -100.0

@@ -16,6 +16,7 @@ enum CIHighlightMode {
 extension UIImage {
     
     func HighlightFilter(_ value: Double, _ mode: CIHighlightMode) -> UIImage? {
+        
         let filterName = "CIHighlightShadowAdjust"
         guard let filter = CIFilter(name: filterName) else {
             print("No filter with name: \(filterName).")

@@ -31,22 +31,22 @@ extension LCEditableView : UIScrollViewDelegate {
         return self.photoContentView
     }
     
-    public func scrollViewWillBeginZooming(_ scrollView: UIScrollView, with view: UIView?) {
-        print("scrollViewWillBeginZooming")
-    }
-    
-    public func scrollViewDidEndZooming(_ scrollView: UIScrollView, with view: UIView?, atScale scale: CGFloat) {
-        print("scrollViewDidEndZooming")
-    }
+//    public func scrollViewWillBeginZooming(_ scrollView: UIScrollView, with view: UIView?) {
+//        print("scrollViewWillBeginZooming")
+//    }
+//
+//    public func scrollViewDidEndZooming(_ scrollView: UIScrollView, with view: UIView?, atScale scale: CGFloat) {
+//        print("scrollViewDidEndZooming")
+//    }
 }
 
 extension LCEditableView : LCImageScrollViewDelegate {
     public func scrollViewDidStartUpdateScrollContentOffset(_ scrollView: LCImageScrollView) {
-        print("scrollViewDidStartUpdateScrollContentOffset")
+        // TODO later
     }
-    
+
     public func scrollViewDidStopScrollUpdateContentOffset(_ scrollView: LCImageScrollView) {
-        print("scrollViewDidStopScrollUpdateContentOffset")
+        // TODO later
     }
     
     public func rotateScrollView(_ scrollView: LCImageScrollView, _ radian: CGFloat) {

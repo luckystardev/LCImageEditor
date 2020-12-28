@@ -11,6 +11,7 @@ import UIKit
 extension UIImage {
     
     func ExposureFilter(_ value: Double) -> UIImage? {
+        
         let filterName = "CIExposureAdjust"
         guard let filter = CIFilter(name: filterName) else {
             print("No filter with name: \(filterName).")

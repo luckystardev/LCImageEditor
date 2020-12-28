@@ -50,7 +50,6 @@ extension UIImage {
 
         let data = Data(buffer: UnsafeBufferPointer(start: &cubeRGB, count: cubeRGB.count))
 
-        // 5
         let colorCubeFilter = CIFilter(name: "CIColorCube", parameters: ["inputCubeDimension": size, "inputCubeData": data])
         return colorCubeFilter
     }
