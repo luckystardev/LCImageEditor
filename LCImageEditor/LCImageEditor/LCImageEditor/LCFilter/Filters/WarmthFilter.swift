@@ -11,6 +11,7 @@ import UIKit
 extension UIImage {
     
     func WarmthFilter(_ value: Double) -> UIImage? {
+        
         // TODO
         
         return self

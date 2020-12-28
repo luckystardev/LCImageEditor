@@ -8,29 +8,21 @@
 
 import UIKit
 
-extension CIImage {
-    func convertToUIImage() -> UIImage
-    {
-        let uiImage = UIImage(ciImage: self)
-//        print("imageSize = \(uiImage.size)")
-        return uiImage
-    }
-}
-
-// ChromaKeyFilter
 extension UIImage {
     
     func ChromaKeyFilter() -> UIImage {
-        let chromaCIFilter = self.applyChromaKeyFilter(fromHue: 0.5, toHue: 0.67)
+        let chromaCIFilter = self.applyChromaKeyFilter(fromHue: 0.6, toHue: 0.7)
         let ciImage = CIImage(image: self)
         chromaCIFilter?.setValue(ciImage, forKey: kCIInputImageKey)
-        let sourceCIImageWithoutBackground = chromaCIFilter?.outputImage
 
-        if let filteredImage = sourceCIImageWithoutBackground {
-            return filteredImage.convertToUIImage()
+        guard let filteredImage = chromaCIFilter?.outputImage else {
+            print("No output image.")
+            return self
         }
+
+        let context = CIContext(options: nil)
+        return UIImage(cgImage: context.createCGImage(filteredImage, from: filteredImage.extent)!)
         
-        return self
     }
     
     private func applyChromaKeyFilter(fromHue: CGFloat, toHue: CGFloat) -> CIFilter?
