@@ -44,6 +44,7 @@
 		A30F456A256C8AF300A0B6D3 /* LCImageEditor+Custom.swift in Sources */ = {isa = PBXBuildFile; fileRef = A30F4569256C8AF300A0B6D3 /* LCImageEditor+Custom.swift */; };
 		A30F456D256C918100A0B6D3 /* HorizontalDial.swift in Sources */ = {isa = PBXBuildFile; fileRef = A30F456C256C918100A0B6D3 /* HorizontalDial.swift */; };
 		A30F456F256C929200A0B6D3 /* ImageEditorVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A30F456E256C929200A0B6D3 /* ImageEditorVC.swift */; };
+		A3220741259B789B00E6709F /* MultiEditor+Layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3220740259B789B00E6709F /* MultiEditor+Layout.swift */; };
 		A33AC80E2595322F009E6A49 /* LCSegmentItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A33AC80D2595322F009E6A49 /* LCSegmentItem.swift */; };
 		A33AC8102597C44D009E6A49 /* VibranceFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A33AC80F2597C44D009E6A49 /* VibranceFilter.swift */; };
 		A33AC8132597C831009E6A49 /* NoiseFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A33AC8122597C831009E6A49 /* NoiseFilter.swift */; };
@@ -113,6 +114,7 @@
 		A30F4569256C8AF300A0B6D3 /* LCImageEditor+Custom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LCImageEditor+Custom.swift"; sourceTree = "<group>"; };
 		A30F456C256C918100A0B6D3 /* HorizontalDial.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HorizontalDial.swift; sourceTree = "<group>"; };
 		A30F456E256C929200A0B6D3 /* ImageEditorVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageEditorVC.swift; sourceTree = "<group>"; };
+		A3220740259B789B00E6709F /* MultiEditor+Layout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MultiEditor+Layout.swift"; sourceTree = "<group>"; };
 		A33AC80D2595322F009E6A49 /* LCSegmentItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LCSegmentItem.swift; sourceTree = "<group>"; };
 		A33AC80F2597C44D009E6A49 /* VibranceFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VibranceFilter.swift; sourceTree = "<group>"; };
 		A33AC8122597C831009E6A49 /* NoiseFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoiseFilter.swift; sourceTree = "<group>"; };
@@ -307,6 +309,7 @@
 			isa = PBXGroup;
 			children = (
 				A3893137257DBAB1005C6DE4 /* MultiEditorDefine.swift */,
+				A3220740259B789B00E6709F /* MultiEditor+Layout.swift */,
 				A389313A257DC0BE005C6DE4 /* MultipleEditorVC.swift */,
 				A3893140257E5FE1005C6DE4 /* LCEditableView.swift */,
 				A3893142257E75CA005C6DE4 /* MultiEditorDelegate.swift */,
@@ -454,6 +457,7 @@
 				A30F456A256C8AF300A0B6D3 /* LCImageEditor+Custom.swift in Sources */,
 				A30F4548256C77DA00A0B6D3 /* LCCropView+UITouch.swift in Sources */,
 				A30F4560256C7D4300A0B6D3 /* LCImageView+UITouch.swift in Sources */,
+				A3220741259B789B00E6709F /* MultiEditor+Layout.swift in Sources */,
 				A30F453C256C70EE00A0B6D3 /* LCImageViewDelegate.swift in Sources */,
 				A30F4568256C8AD800A0B6D3 /* LCImageEditor+PhotoLibrary.swift in Sources */,
 				A33AC8132597C831009E6A49 /* NoiseFilter.swift in Sources */,

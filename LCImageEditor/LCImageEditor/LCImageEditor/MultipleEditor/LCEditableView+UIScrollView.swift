@@ -1,5 +1,5 @@
 //
-//  RotatableImageView.swift
+//  LCEditableView+UIScrollView.swift
 //  LCImageEditor
 //
 //  Created by LuckyClub on 12/4/20.

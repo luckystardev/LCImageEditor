@@ -12,6 +12,7 @@ open class MultipleEditorVC: UIViewController {
 
     var layoutType: MediaMontageType!
     var editMode: EditMode = .rotate
+    var montageRatioType: MontageRatioType = .nineSixteenth
     
     var images: [UIImage]! = [UIImage]() //image collage
     var vWidth: CGFloat! = 0 //self.view width
@@ -200,48 +201,52 @@ open class MultipleEditorVC: UIViewController {
     func setupEditableImageViews() {
         editableViews.removeAll()
         
-        var yPosition = kNavBarHeight + kTopToolBarHeight + kPadding
-        var eHeight = mainToolbar.frame.origin.y - yPosition
+        let yPosition = kNavBarHeight + kTopToolBarHeight + kPadding
+        let eHeight = mainToolbar.frame.origin.y - yPosition
         
-        var itemWidth = sWidth.half
-        var itemHeight = eHeight.half
-        var x: CGFloat = 0, y: CGFloat = 0
+        let editViewSize = CGSize(width: sWidth, height: eHeight)
+        let slotSize = self.getSlotSize(editViewSize, layoutType: layoutType, ratioType: montageRatioType)
         
-        if layoutType == .verticalTow || layoutType == .verticalThree {
-            itemWidth = sWidth
+        var slotsWidth = slotSize.width
+        var slotsHeight = slotSize.height
+        
+        if layoutType == .horizontalTwo || layoutType == .four {
+            slotsWidth = slotsWidth * 2
         } else if layoutType == .horizontalThree || layoutType == .sixth {
-            itemWidth = sWidth.oneThird
+            slotsWidth = slotsWidth * 3
         }
         
-        if layoutType == .verticalThree {
-            itemHeight = eHeight.oneThird
-        }
-        
-        if layoutType == .horizontalThree || layoutType == .horizontalTwo {
-            yPosition = yPosition + itemHeight.half
-            eHeight = eHeight.half
+        if layoutType == .verticalTow || layoutType == .four || layoutType == .sixth {
+            slotsHeight = slotsHeight * 2
+        } else if layoutType == .verticalThree {
+            slotsHeight = slotsHeight * 3
         }
     
-        editview.frame = CGRect(x: kPadding, y: yPosition, width: sWidth, height: eHeight)
+        let eX: CGFloat = (sWidth - slotsWidth).half
+        let eY: CGFloat = (eHeight - slotsHeight).half
+        
+        editview.frame = CGRect(x: kPadding + eX, y: yPosition + eY, width: slotsWidth, height: slotsHeight)
         self.view.addSubview(editview)
+        
+        var x: CGFloat = 0, y: CGFloat = 0
         
         for (index, image) in images.enumerated() {
             switch layoutType {
-            case .verticalTow, .verticalThree:
-                y = itemHeight * CGFloat(index)
-            case .horizontalTwo, .horizontalThree:
-                x = itemWidth * CGFloat(index)
-            case .four:
-                x = itemWidth * CGFloat(index % 2)
-                y = itemHeight * CGFloat(Int(index / 2))
-            case .sixth:
-                x = itemWidth * CGFloat(index % 3)
-                y = itemHeight * CGFloat(Int(index / 3))
-            default:
-                print("default case")
+                case .verticalTow, .verticalThree:
+                    y = slotSize.height * CGFloat(index)
+                case .horizontalTwo, .horizontalThree:
+                    x = slotSize.width * CGFloat(index)
+                case .four:
+                    x = slotSize.width * CGFloat(index % 2)
+                    y = slotSize.height * CGFloat(Int(index / 2))
+                case .sixth:
+                    x = slotSize.width * CGFloat(index % 3)
+                    y = slotSize.height * CGFloat(Int(index / 3))
+                default:
+                    print("default case")
             }
             
-            let frame = CGRect(x: x, y: y, width: itemWidth, height: itemHeight)
+            let frame = CGRect(x: x, y: y, width: slotSize.width, height: slotSize.height)
             let editableView = LCEditableView(frame: frame, image: image)
             editview.addSubview(editableView)
             editableViews.append(editableView)
@@ -364,7 +369,7 @@ open class MultipleEditorVC: UIViewController {
         UIGraphicsBeginImageContextWithOptions(newSize, false, UIScreen.main.scale)//
         
         for (index, editView) in editableViews.enumerated() {
-            print("mergeIndex=\(index)")
+//            print("mergeIndex=\(index)")
             let image = images[index]
             let frame = CGRect(x: editView.frame.origin.x * scale, y: editView.frame.origin.y * scale, width: editView.frame.size.width * scale, height: editView.frame.size.height * scale)
             image.draw(in: frame)
