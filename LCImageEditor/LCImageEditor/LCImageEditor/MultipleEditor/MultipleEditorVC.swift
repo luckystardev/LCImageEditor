@@ -303,13 +303,6 @@ open class MultipleEditorVC: UIViewController {
     
     // MARK: - Image Processing - Merge & Crop
     
-    func getImage() -> UIImage {
-        let renderer = UIGraphicsImageRenderer(bounds: editview.bounds)
-        return renderer.image { rendererContext in
-            editview.layer.render(in: rendererContext.cgContext)
-        }
-    }
-    
     func cropImages() -> UIImage {
         var frameScale: CGFloat = 20
         var images = [UIImage]()
@@ -348,11 +341,6 @@ open class MultipleEditorVC: UIViewController {
             
             let fScale: CGFloat!
             fScale = getImageScale(cropSize: editView.frame.size, imageSize: editView.photoContentView.image.size)
-//            if zoomScale > kMinimumZoomScale {
-//                fScale = getOptimizedFrameScale(zoomScale, cropSize: editView.frame.size, imageSize: editView.photoContentView.image.size)
-//            } else {
-//                fScale = getImageScale(cropSize: editView.frame.size, imageSize: editView.photoContentView.image.size)
-//            }
             
             if fScale < frameScale {
                 frameScale = fScale
@@ -364,12 +352,13 @@ open class MultipleEditorVC: UIViewController {
         
     }
     
+    /*
     func mergeImages(_ images: [UIImage], _ scale: CGFloat) -> UIImage {
         let newSize = CGSize(width: editview.frame.size.width * scale, height: editview.frame.size.height * scale)
-        UIGraphicsBeginImageContextWithOptions(newSize, false, UIScreen.main.scale)//
+        UIGraphicsBeginImageContextWithOptions(newSize, false, UIScreen.main.scale)
         
         for (index, editView) in editableViews.enumerated() {
-//            print("mergeIndex=\(index)")
+            print("mergeIndex=\(index)")
             let image = images[index]
             let frame = CGRect(x: editView.frame.origin.x * scale, y: editView.frame.origin.y * scale, width: editView.frame.size.width * scale, height: editView.frame.size.height * scale)
             image.draw(in: frame)
@@ -378,7 +367,33 @@ open class MultipleEditorVC: UIViewController {
         let newImage:UIImage = UIGraphicsGetImageFromCurrentImageContext()!
         UIGraphicsEndImageContext()
         print("New mergedImage's Size = \(newImage.size)")
+        
         return newImage
-    }    
+    } */
+    
+    func mergeImages(_ images: [UIImage], _ scale: CGFloat) -> UIImage {
+        var composite: CIImage?
+        
+        for (index, editView) in editableViews.enumerated() {
+            let image = images[index]
+            var ci = CIImage(image: image)!
+            
+            let zscale = editView.frame.size.width * scale / image.size.width
+            ci = ci.transformed(by: CGAffineTransform(scaleX: zscale, y: zscale))
+            ci = ci.transformed(by: CGAffineTransform(translationX: editView.frame.origin.x * scale, y: (editview.frame.size.height * scale - editView.frame.origin.y * scale)))
+
+            if composite == nil {
+                composite = ci
+            } else {
+                composite = ci.composited(over: composite!)
+            }
+            print("mergeIndex=\(index)")
+        }
+        
+        let cgIntermediate = CIContext(options: nil).createCGImage(composite!, from: composite!.extent)
+        let finalRenderedComposite = UIImage(cgImage: cgIntermediate!)
+        print("New mergedImage's Size = \(finalRenderedComposite.size)")
+        return finalRenderedComposite
+    }
     
 }

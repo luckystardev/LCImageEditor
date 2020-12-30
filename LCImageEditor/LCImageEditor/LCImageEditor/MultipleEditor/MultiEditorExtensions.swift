@@ -32,3 +32,15 @@ extension MultipleEditorVC {
         return scale
     }
 }
+
+extension CGSize {
+    func rounded() -> CGSize {
+        return CGSize(width: self.width.rounded(), height: self.height.rounded())
+    }
+}
+
+extension CGRect {
+    func rounded() -> CGRect {
+        return CGRect(x: self.origin.x.rounded(), y: self.origin.y.rounded(), width: self.width.rounded(), height: self.height.rounded())
+    }
+}
