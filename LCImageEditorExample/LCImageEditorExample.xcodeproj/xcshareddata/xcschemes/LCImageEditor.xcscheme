@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "A30F4511256C62B900A0B6D3"
-               BuildableName = "LCImageEditor.app"
-               BlueprintName = "LCImageEditor"
-               ReferencedContainer = "container:LCImageEditor.xcodeproj">
+               BuildableName = "LCImageEditorExample.app"
+               BlueprintName = "LCImageEditorExample"
+               ReferencedContainer = "container:LCImageEditorExample.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -45,9 +45,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "A30F4511256C62B900A0B6D3"
-            BuildableName = "LCImageEditor.app"
-            BlueprintName = "LCImageEditor"
-            ReferencedContainer = "container:LCImageEditor.xcodeproj">
+            BuildableName = "LCImageEditorExample.app"
+            BlueprintName = "LCImageEditorExample"
+            ReferencedContainer = "container:LCImageEditorExample.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -62,9 +62,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "A30F4511256C62B900A0B6D3"
-            BuildableName = "LCImageEditor.app"
-            BlueprintName = "LCImageEditor"
-            ReferencedContainer = "container:LCImageEditor.xcodeproj">
+            BuildableName = "LCImageEditorExample.app"
+            BlueprintName = "LCImageEditorExample"
+            ReferencedContainer = "container:LCImageEditorExample.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
