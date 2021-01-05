@@ -14,7 +14,7 @@ enum MontageRatioType {
     case square
 }
 
-extension MultipleEditorVC {
+extension LCMultiImageEditor {
     func getSlotSize(_ frame: CGSize, layoutType: MediaMontageType, ratioType: MontageRatioType) -> CGSize {
         
         let slotAspectRatio = getSlotAspectRatio(layoutType, ratioType: ratioType)

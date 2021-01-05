@@ -8,7 +8,7 @@
 
 import UIKit
 
-extension MultipleEditorVC {
+extension LCMultiImageEditor {
     func getImageScale(cropSize: CGSize, imageSize: CGSize) -> CGFloat {
         let scaleX: CGFloat = imageSize.width / cropSize.width
         let scaleY: CGFloat = imageSize.height / cropSize.height
@@ -30,17 +30,5 @@ extension MultipleEditorVC {
         let scale: CGFloat = min(newFrameScaleX, newFrameScaleY)
         
         return scale
-    }
-}
-
-extension CGSize {
-    func rounded() -> CGSize {
-        return CGSize(width: self.width.rounded(), height: self.height.rounded())
-    }
-}
-
-extension CGRect {
-    func rounded() -> CGRect {
-        return CGRect(x: self.origin.x.rounded(), y: self.origin.y.rounded(), width: self.width.rounded(), height: self.height.rounded())
     }
 }

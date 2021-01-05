@@ -10,7 +10,7 @@ import UIKit
 
 public protocol MultiEditorDelegate : class {
     
-    func multiEditor(_ controller: MultipleEditorVC, didFinishWithCroppedImage exportedImage: UIImage)
+    func multiEditor(_ controller: LCMultiImageEditor, didFinishWithCroppedImage exportedImage: UIImage)
 
-    func multiEditorDidCancel(_ controller: MultipleEditorVC)
+    func multiEditorDidCancel(_ controller: LCMultiImageEditor)
 }

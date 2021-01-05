@@ -96,9 +96,7 @@ class ViewController: UIViewController {
     @IBAction func editButtonAction(_ sender: Any) {
         if editType == .multiple {
             print("Multiple edit mode")
-            let vc = MultipleEditorVC()
-            vc.images = self.images
-            vc.layoutType = self.layoutType
+            let vc = LCMultiImageEditor(layoutType: self.layoutType, images: self.images)
             vc.delegate = self
             vc.modalPresentationStyle = .fullScreen
             self.present(vc, animated: true, completion: nil)
@@ -137,21 +135,21 @@ extension ViewController: UIImagePickerControllerDelegate, UINavigationControlle
 extension ViewController: LCImageEditorDelegate {
     func lcImageEditor(_ controller: LCImageEditor, didFinishWithCroppedImage croppedImage: UIImage) {
         self.imageview?.image = croppedImage
-        _ = controller.dismiss(animated: true, completion: nil)
+        controller.dismiss(animated: true, completion: nil)
     }
     
     func lcImageEditorDidCancel(_ controller: LCImageEditor) {
-        _ = controller.dismiss(animated: true, completion: nil)
+        controller.dismiss(animated: true, completion: nil)
     }
 }
 
 extension ViewController: MultiEditorDelegate {
-    func multiEditor(_ controller: MultipleEditorVC, didFinishWithCroppedImage exportedImage: UIImage) {
+    func multiEditor(_ controller: LCMultiImageEditor, didFinishWithCroppedImage exportedImage: UIImage) {
         self.imageview?.image = exportedImage
-        _ = controller.dismiss(animated: true, completion: nil)
+        controller.dismiss(animated: true, completion: nil)
     }
     
-    func multiEditorDidCancel(_ controller: MultipleEditorVC) {
-        _ = controller.dismiss(animated: true, completion: nil)
+    func multiEditorDidCancel(_ controller: LCMultiImageEditor) {
+        controller.dismiss(animated: true, completion: nil)
     }
 }

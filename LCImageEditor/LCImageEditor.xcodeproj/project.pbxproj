@@ -63,7 +63,7 @@
 		A357C7D0258EB58A006D4A1A /* BrightnessFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A357C7CF258EB58A006D4A1A /* BrightnessFilter.swift */; };
 		A357C7D3258EED1D006D4A1A /* LCLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A357C7D2258EED1D006D4A1A /* LCLoadingView.swift */; };
 		A3893138257DBAB1005C6DE4 /* MultiEditorDefine.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3893137257DBAB1005C6DE4 /* MultiEditorDefine.swift */; };
-		A389313B257DC0BE005C6DE4 /* MultipleEditorVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A389313A257DC0BE005C6DE4 /* MultipleEditorVC.swift */; };
+		A389313B257DC0BE005C6DE4 /* LCMultiImageEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A389313A257DC0BE005C6DE4 /* LCMultiImageEditor.swift */; };
 		A389313D257E5C2B005C6DE4 /* LCEditableView+UIScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A389313C257E5C2B005C6DE4 /* LCEditableView+UIScrollView.swift */; };
 		A3893141257E5FE1005C6DE4 /* LCEditableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3893140257E5FE1005C6DE4 /* LCEditableView.swift */; };
 		A3893143257E75CA005C6DE4 /* MultiEditorDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3893142257E75CA005C6DE4 /* MultiEditorDelegate.swift */; };
@@ -133,7 +133,7 @@
 		A357C7CF258EB58A006D4A1A /* BrightnessFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrightnessFilter.swift; sourceTree = "<group>"; };
 		A357C7D2258EED1D006D4A1A /* LCLoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LCLoadingView.swift; sourceTree = "<group>"; };
 		A3893137257DBAB1005C6DE4 /* MultiEditorDefine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiEditorDefine.swift; sourceTree = "<group>"; };
-		A389313A257DC0BE005C6DE4 /* MultipleEditorVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleEditorVC.swift; sourceTree = "<group>"; };
+		A389313A257DC0BE005C6DE4 /* LCMultiImageEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LCMultiImageEditor.swift; sourceTree = "<group>"; };
 		A389313C257E5C2B005C6DE4 /* LCEditableView+UIScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LCEditableView+UIScrollView.swift"; sourceTree = "<group>"; };
 		A3893140257E5FE1005C6DE4 /* LCEditableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LCEditableView.swift; sourceTree = "<group>"; };
 		A3893142257E75CA005C6DE4 /* MultiEditorDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiEditorDelegate.swift; sourceTree = "<group>"; };
@@ -189,19 +189,19 @@
 		A30F4529256C66D400A0B6D3 /* LCImageEditor */ = {
 			isa = PBXGroup;
 			children = (
+				A3B657CD2586E74800C6022B /* SingleEditor */,
+				A3893139257DBE2A005C6DE4 /* MultipleEditor */,
 				A33AC80B259531CC009E6A49 /* CustomViews */,
 				A357C7C4258E8BE3006D4A1A /* LCEffects */,
 				A3B657CE2586E7D500C6022B /* LCFilter */,
-				A3B657CD2586E74800C6022B /* SingleEditor */,
-				A3893139257DBE2A005C6DE4 /* MultipleEditor */,
 				A30F4538256C703D00A0B6D3 /* LCImageView */,
-				A30F4534256C69FE00A0B6D3 /* Rotate & Crop */,
+				A30F4534256C69FE00A0B6D3 /* LCCropView */,
 				A30F4535256C6E1F00A0B6D3 /* Helper */,
 			);
 			path = LCImageEditor;
 			sourceTree = "<group>";
 		};
-		A30F4534256C69FE00A0B6D3 /* Rotate & Crop */ = {
+		A30F4534256C69FE00A0B6D3 /* LCCropView */ = {
 			isa = PBXGroup;
 			children = (
 				A30F454F256C786D00A0B6D3 /* LCCropView.swift */,
@@ -214,7 +214,7 @@
 				A30F454B256C784200A0B6D3 /* LCCropView+AspectRatio.swift */,
 				A30F454D256C785600A0B6D3 /* LCCropView+Lines.swift */,
 			);
-			path = "Rotate & Crop";
+			path = LCCropView;
 			sourceTree = "<group>";
 		};
 		A30F4535256C6E1F00A0B6D3 /* Helper */ = {
@@ -308,13 +308,13 @@
 		A3893139257DBE2A005C6DE4 /* MultipleEditor */ = {
 			isa = PBXGroup;
 			children = (
+				A389313A257DC0BE005C6DE4 /* LCMultiImageEditor.swift */,
 				A3893137257DBAB1005C6DE4 /* MultiEditorDefine.swift */,
-				A3220740259B789B00E6709F /* MultiEditor+Layout.swift */,
-				A389313A257DC0BE005C6DE4 /* MultipleEditorVC.swift */,
-				A3893140257E5FE1005C6DE4 /* LCEditableView.swift */,
 				A3893142257E75CA005C6DE4 /* MultiEditorDelegate.swift */,
-				A389313C257E5C2B005C6DE4 /* LCEditableView+UIScrollView.swift */,
+				A3220740259B789B00E6709F /* MultiEditor+Layout.swift */,
 				A357C7C1258E7633006D4A1A /* MultiEditorExtensions.swift */,
+				A3893140257E5FE1005C6DE4 /* LCEditableView.swift */,
+				A389313C257E5C2B005C6DE4 /* LCEditableView+UIScrollView.swift */,
 			);
 			path = MultipleEditor;
 			sourceTree = "<group>";
@@ -412,7 +412,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A3893138257DBAB1005C6DE4 /* MultiEditorDefine.swift in Sources */,
-				A389313B257DC0BE005C6DE4 /* MultipleEditorVC.swift in Sources */,
+				A389313B257DC0BE005C6DE4 /* LCMultiImageEditor.swift in Sources */,
 				A357C7D0258EB58A006D4A1A /* BrightnessFilter.swift in Sources */,
 				A33AC8152597C848009E6A49 /* VigentteFilter.swift in Sources */,
 				A30F452F256C69B300A0B6D3 /* LCImageEditorDelegate.swift in Sources */,

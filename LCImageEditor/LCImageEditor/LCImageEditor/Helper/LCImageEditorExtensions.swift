@@ -216,3 +216,19 @@ extension CGFloat {
         return 0.0
     }
 }
+
+// MARK: - CGSize extension
+
+extension CGSize {
+    func rounded() -> CGSize {
+        return CGSize(width: self.width.rounded(), height: self.height.rounded())
+    }
+}
+
+// MARK: - CGRect extension
+
+extension CGRect {
+    func rounded() -> CGRect {
+        return CGRect(x: self.origin.x.rounded(), y: self.origin.y.rounded(), width: self.width.rounded(), height: self.height.rounded())
+    }
+}

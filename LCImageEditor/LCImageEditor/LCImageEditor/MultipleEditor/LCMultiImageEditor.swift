@@ -1,5 +1,5 @@
 //
-//  MultipleEditorVC.swift
+//  LCMultiImageEditor.swift
 //  LCImageEditor
 //
 //  Created by LuckyClub on 12/2/20.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class MultipleEditorVC: UIViewController {
+open class LCMultiImageEditor: UIViewController {
 
     var layoutType: MediaMontageType!
     var editMode: EditMode = .rotate
@@ -77,6 +77,16 @@ open class MultipleEditorVC: UIViewController {
         }
         return effectSubMenuView
     }()
+    
+    init(layoutType: MediaMontageType, images: [UIImage]) {
+        self.layoutType = layoutType
+        self.images = images
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required public init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
     
     override open func viewDidLoad() {
         super.viewDidLoad()
