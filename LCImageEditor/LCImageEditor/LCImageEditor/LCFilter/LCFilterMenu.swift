@@ -15,7 +15,8 @@ class LCFilterMenu: UIView {
     private var demoImages: [String:UIImage] = [:]
     private var selectedCellIndex: Int = 0
     private var isObservingCollectionView = true
-   
+    private var isFirst = true
+    
     public var didSelectFilter: (LCFilterable, _ value: Double) -> Void = { _,_  in }
    
     var horizontalDial: HorizontalDial?
@@ -141,7 +142,7 @@ extension LCFilterMenu: UICollectionViewDelegate, UICollectionViewDataSource {
         }
         
         cell.name.text = availableFilters[indexPath.item].filterName()
-        if indexPath.item == selectedCellIndex {
+        if indexPath.item == selectedCellIndex && !isFirst {
             cell.setSelected()
         }
         return cell
@@ -155,7 +156,11 @@ extension LCFilterMenu: UICollectionViewDelegate, UICollectionViewDataSource {
         selectedCellIndex = indexPath.item
         (collectionView.cellForItem(at: IndexPath(row: selectedCellIndex, section: 0)) as? LCFilterCell)?.setSelected()
         
-        collectionView.reloadItems(at: [IndexPath(row: prevSelectedCellIndex, section: 0)])
+        if !isFirst {
+            collectionView.reloadItems(at: [IndexPath(row: prevSelectedCellIndex, section: 0)])
+        }
+        
+        isFirst = false
         
         availbleChange = filter.valueChangeable()
         updateHorizontalDial(filter)

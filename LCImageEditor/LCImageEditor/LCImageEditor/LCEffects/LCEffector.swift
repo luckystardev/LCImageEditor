@@ -45,7 +45,7 @@ public enum LCEffector: LCEffectable {
 }
 
 internal let kDefaultEffectors = [
-    LCEffector.None,
+//    LCEffector.None,
     LCEffector.EffectChromaKey,
     LCEffector.EffectBlurEye,
 ]

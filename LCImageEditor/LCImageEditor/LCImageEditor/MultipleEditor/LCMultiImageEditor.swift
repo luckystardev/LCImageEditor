@@ -40,17 +40,17 @@ open class LCMultiImageEditor: UIViewController {
     lazy private var filterSubMenuView: LCFilterMenu? = {
         let availableFilters = kDefaultAvailableFilters
         let originImage = images.first
-        let filterSubMenuView = LCFilterMenu(withImage: originImage!.resize(toSizeInPixel: CGSize(width: 90, height: 90)),
+        let filterSubMenuView = LCFilterMenu(withImage: originImage!.resize(toSizeInPixel: CGSize(width: 64, height: 64)),
                                              appliedFilter: self.appliedFilter,
                                                   availableFilters: availableFilters)
-        filterSubMenuView.didSelectFilter = { [unowned self] (filter, value) in
+        filterSubMenuView.didSelectFilter = { (filter, value) in
             self.appliedFilter = filter
             LCLoadingView.shared.show()
             DispatchQueue.global(qos: .utility).async {
                 for editView in self.editableViews {
-                    let output = filter.filter(image: editView.image!, value: value)
+                    let output = filter.filter(image: editView.photoContentView.image!, value: value)
                     DispatchQueue.main.sync {
-                        editView.scrollView.photoContentView.image = output
+                        editView.photoContentView.image = output
                     }
                 }
                 LCLoadingView.shared.hide()
@@ -62,14 +62,14 @@ open class LCMultiImageEditor: UIViewController {
     lazy private var effectSubMenuView: LCEffectMenu? = {
         let availableEffectors = kDefaultEffectors
         let originImage = images.first
-        let effectSubMenuView = LCEffectMenu(withImage: originImage!.resize(toSizeInPixel: CGSize(width: 90, height: 90)), availableFilters: availableEffectors)
-        effectSubMenuView.didSelectEffector = { [unowned self] effector in
+        let effectSubMenuView = LCEffectMenu(withImage: originImage!.resize(toSizeInPixel: CGSize(width: 64, height: 64)), availableFilters: availableEffectors)
+        effectSubMenuView.didSelectEffector = { effector in
             LCLoadingView.shared.show()
             DispatchQueue.global(qos: .utility).async {
                 for editView in self.editableViews {
-                    let output = effector.effector(image: editView.image)
+                    let output = effector.effector(image: editView.photoContentView.image)
                     DispatchQueue.main.sync {
-                        editView.scrollView.photoContentView.image = output
+                        editView.photoContentView.image = output
                     }
                 }
                 LCLoadingView.shared.hide()

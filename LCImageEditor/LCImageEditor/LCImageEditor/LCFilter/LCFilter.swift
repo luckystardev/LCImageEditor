@@ -199,7 +199,7 @@ public enum LCFilter: LCFilterable {
 }
 
 internal let kDefaultAvailableFilters = [
-    LCFilter.None,
+//    LCFilter.None,
     LCFilter.CIEffectBrightness,
     LCFilter.CIEffectContrast,
     LCFilter.CIEffectSaturation,

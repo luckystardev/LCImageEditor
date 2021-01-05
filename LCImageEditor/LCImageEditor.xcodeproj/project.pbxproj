@@ -297,8 +297,8 @@
 		A357C7C4258E8BE3006D4A1A /* LCEffects */ = {
 			isa = PBXGroup;
 			children = (
-				A357C7C5258E8DC8006D4A1A /* LCEffectMenu.swift */,
 				A357C7C7258E8E77006D4A1A /* LCEffector.swift */,
+				A357C7C5258E8DC8006D4A1A /* LCEffectMenu.swift */,
 				A357C7CB258EA2B1006D4A1A /* ChromaKeyFilter.swift */,
 				A357C7CD258EB565006D4A1A /* BlurEyeFilter.swift */,
 			);
@@ -334,8 +334,8 @@
 			children = (
 				A33AC8112597C472009E6A49 /* Filters */,
 				A3B657CF2586E7F100C6022B /* LCFilter.swift */,
-				A3B657D52587384E00C6022B /* LCFilterCell.swift */,
 				A3B657D72587390100C6022B /* LCFilterMenu.swift */,
+				A3B657D52587384E00C6022B /* LCFilterCell.swift */,
 			);
 			path = LCFilter;
 			sourceTree = "<group>";
