@@ -78,7 +78,7 @@ open class LCMultiImageEditor: UIViewController {
         return effectSubMenuView
     }()
     
-    init(layoutType: MediaMontageType, images: [UIImage]) {
+    public init(layoutType: MediaMontageType, images: [UIImage]) {
         self.layoutType = layoutType
         self.images = images
         super.init(nibName: nil, bundle: nil)

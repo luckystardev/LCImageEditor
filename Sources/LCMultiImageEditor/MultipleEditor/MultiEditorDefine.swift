@@ -8,7 +8,7 @@
 
 import UIKit
 
-enum MediaMontageType {
+public enum MediaMontageType {
     case verticalTow
     case horizontalTwo
     case verticalThree

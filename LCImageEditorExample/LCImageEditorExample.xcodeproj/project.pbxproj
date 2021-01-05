@@ -244,13 +244,13 @@
 		A320632B25A4BFC00036AC1E /* MultipleEditor */ = {
 			isa = PBXGroup;
 			children = (
+				A320633225A4BFC00036AC1E /* LCMultiImageEditor.swift */,
 				A320632C25A4BFC00036AC1E /* MultiEditorDelegate.swift */,
-				A320632D25A4BFC00036AC1E /* LCEditableView.swift */,
 				A320632E25A4BFC00036AC1E /* MultiEditorDefine.swift */,
 				A320632F25A4BFC00036AC1E /* MultiEditorExtensions.swift */,
 				A320633025A4BFC00036AC1E /* MultiEditor+Layout.swift */,
+				A320632D25A4BFC00036AC1E /* LCEditableView.swift */,
 				A320633125A4BFC00036AC1E /* LCEditableView+UIScrollView.swift */,
-				A320633225A4BFC00036AC1E /* LCMultiImageEditor.swift */,
 			);
 			path = MultipleEditor;
 			sourceTree = "<group>";

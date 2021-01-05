@@ -10,7 +10,7 @@ self.present(vc, animated: true, completion: nil)
 ```
 
 ### Delegation methods
-- Implement MultiEditorDelegate protocol to handle selected photos.  
+Implement MultiEditorDelegate protocol to handle selected image.  
 ```swift
 func multiEditor(_ controller: LCMultiImageEditor, didFinishWithCroppedImage exportedImage: UIImage)
 func multiEditorDidCancel(_ controller: LCMultiImageEditor)
