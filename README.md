@@ -1,6 +1,12 @@
 # LCMultiImageEditor
 Image editor for multiple images
 
+## Installation
+LCMultiImageEditor is compatible with Swift Package Manager.
+```
+https://github.com/tmaas510/LCImageEditor
+```
+
 ### Editor
 ```swift
 let vc = LCMultiImageEditor(layoutType: self.layoutType, images: self.images)
