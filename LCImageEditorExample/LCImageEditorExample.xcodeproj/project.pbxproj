@@ -205,10 +205,10 @@
 		A320631725A4BFC00036AC1E /* LCEffects */ = {
 			isa = PBXGroup;
 			children = (
-				A320631825A4BFC00036AC1E /* ChromaKeyFilter.swift */,
 				A320631925A4BFC00036AC1E /* LCEffector.swift */,
-				A320631A25A4BFC00036AC1E /* BlurEyeFilter.swift */,
 				A320631B25A4BFC00036AC1E /* LCEffectMenu.swift */,
+				A320631825A4BFC00036AC1E /* ChromaKeyFilter.swift */,
+				A320631A25A4BFC00036AC1E /* BlurEyeFilter.swift */,
 			);
 			path = LCEffects;
 			sourceTree = "<group>";

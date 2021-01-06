@@ -54,14 +54,14 @@ public final class HorizontalDial: UIControl {
     }
     
     @IBInspectable public var centerMarkColor: UIColor = UIColor.systemBlue
-    @IBInspectable public var centerMarkWidth: CGFloat = 3.0
+    @IBInspectable public var centerMarkWidth: CGFloat = 2.0
     @IBInspectable public var centerMarkHeightRatio: CGFloat = 0.9
     @IBInspectable public var centerMarkRadius: CGFloat = 5.0
     
     @IBInspectable public var markColor: UIColor = UIColor.darkGray
     @IBInspectable public var markWidth: CGFloat = 1.0
     @IBInspectable public var markRadius: CGFloat = 1.0
-    @IBInspectable public var markCount: Int = 25
+    @IBInspectable public var markCount: Int = 40
     
     @IBInspectable public var padding: Double = 10 {
         didSet {
@@ -77,8 +77,8 @@ public final class HorizontalDial: UIControl {
     public var lock: Bool = false
     @IBOutlet public weak var delegate: AnyObject?
     
-    public var migneticOption: HorizontalDialMagneticOptions = .round
-    public var animateOption: HorizontalDialAnimateOptions = .easeOutBack
+    public var migneticOption: HorizontalDialMagneticOptions = .none
+    public var animateOption: HorizontalDialAnimateOptions = .easeOutBounce
     fileprivate(set) var animated: Bool = false
     
     fileprivate var previousValue: Double = 0.0
