@@ -72,6 +72,7 @@
 		A320639525A4BFC10036AC1E /* ImageEditorVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A320635A25A4BFC00036AC1E /* ImageEditorVC.swift */; };
 		A320639625A4BFC10036AC1E /* LCImageEditorDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A320635B25A4BFC00036AC1E /* LCImageEditorDelegate.swift */; };
 		A320639725A4BFC10036AC1E /* LCImageEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A320635C25A4BFC00036AC1E /* LCImageEditor.swift */; };
+		A32063A525A601270036AC1E /* LCMultiImageEditor+NSLayoutConstraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = A32063A425A601270036AC1E /* LCMultiImageEditor+NSLayoutConstraints.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -142,6 +143,7 @@
 		A320635A25A4BFC00036AC1E /* ImageEditorVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageEditorVC.swift; sourceTree = "<group>"; };
 		A320635B25A4BFC00036AC1E /* LCImageEditorDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LCImageEditorDelegate.swift; sourceTree = "<group>"; };
 		A320635C25A4BFC00036AC1E /* LCImageEditor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LCImageEditor.swift; sourceTree = "<group>"; };
+		A32063A425A601270036AC1E /* LCMultiImageEditor+NSLayoutConstraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LCMultiImageEditor+NSLayoutConstraints.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -249,6 +251,7 @@
 				A320632E25A4BFC00036AC1E /* MultiEditorDefine.swift */,
 				A320632F25A4BFC00036AC1E /* MultiEditorExtensions.swift */,
 				A320633025A4BFC00036AC1E /* MultiEditor+Layout.swift */,
+				A32063A425A601270036AC1E /* LCMultiImageEditor+NSLayoutConstraints.swift */,
 				A320632D25A4BFC00036AC1E /* LCEditableView.swift */,
 				A320633125A4BFC00036AC1E /* LCEditableView+UIScrollView.swift */,
 			);
@@ -445,6 +448,7 @@
 				A320636025A4BFC10036AC1E /* LCEffectMenu.swift in Sources */,
 				A320638625A4BFC10036AC1E /* LCImageScrollView.swift in Sources */,
 				A320635E25A4BFC10036AC1E /* LCEffector.swift in Sources */,
+				A32063A525A601270036AC1E /* LCMultiImageEditor+NSLayoutConstraints.swift in Sources */,
 				A320638925A4BFC10036AC1E /* LCImageView+Radian.swift in Sources */,
 				A320636525A4BFC10036AC1E /* NoiseFilter.swift in Sources */,
 				A30F4516256C62B900A0B6D3 /* AppDelegate.swift in Sources */,

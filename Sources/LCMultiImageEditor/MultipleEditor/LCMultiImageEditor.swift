@@ -26,6 +26,8 @@ open class LCMultiImageEditor: UIViewController {
     let bottomView = UIView()
     let bottomToolbar = UIView()
     let mainToolbar = UIView()
+    let previewButton = CustomButton()
+    let exportButton = CustomButton()
     
     var editableViews = [LCEditableView]()
     var appliedFilter: LCFilterable!
@@ -33,11 +35,16 @@ open class LCMultiImageEditor: UIViewController {
     var orientations = UIInterfaceOrientationMask.portrait
     
     override open var supportedInterfaceOrientations : UIInterfaceOrientationMask {
-        get { return self.orientations }
+        get {
+            if UIDevice.current.userInterfaceIdiom == .phone {
+                return self.orientations
+            };
+            return .all
+        }
         set { self.orientations = newValue }
     }
     
-    lazy private var filterSubMenuView: LCFilterMenu? = {
+    lazy var filterSubMenuView: LCFilterMenu? = {
         let availableFilters = kDefaultAvailableFilters
         let originImage = images.first
         let filterSubMenuView = LCFilterMenu(withImage: originImage!.resize(toSizeInPixel: CGSize(width: 64, height: 64)),
@@ -59,7 +66,7 @@ open class LCMultiImageEditor: UIViewController {
         return filterSubMenuView
     }()
     
-    lazy private var effectSubMenuView: LCEffectMenu? = {
+    lazy var effectSubMenuView: LCEffectMenu? = {
         let availableEffectors = kDefaultEffectors
         let originImage = images.first
         let effectSubMenuView = LCEffectMenu(withImage: originImage!.resize(toSizeInPixel: CGSize(width: 64, height: 64)), availableFilters: availableEffectors)
@@ -97,12 +104,16 @@ open class LCMultiImageEditor: UIViewController {
     }
     
     override open func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        coordinator.animate(alongsideTransition: { (UIViewControllerTransitionCoordinatorContext) -> Void in
+            if UIDevice.current.orientation.isLandscape { // .landscapeLeft,.landscapeRight
+                print("Landscape")
+            } else {
+                print("Portrait")
+            }
+        }, completion: { (UIViewControllerTransitionCoordinatorContext) -> Void in
+            self.setupEditableImageViews(true)
+        })
         super.viewWillTransition(to: size, with: coordinator)
-        if UIDevice.current.orientation.isLandscape {
-            print("Landscape")
-        } else {
-            print("Portrait")
-        }
     }
     
     // MARK: - Initialize UI
@@ -114,62 +125,58 @@ open class LCMultiImageEditor: UIViewController {
         
         setupTopView()
         setupBottomButtons()
-        setupBottomToolbar()
-        
-        setupEditableImageViews()
+               
+        setupEditableImageViews(false)
     }
     
     func setupTopView() {
-        topView.frame = CGRect(x: kPadding, y: kNavBarHeight, width: sWidth, height: kTopToolBarHeight)
         view.addSubview(topView)
         
-        let titleLabel = UILabel(frame: CGRect(x: topView.center.x, y: 0, width: 200, height: kTopToolBarHeight))
+        let titleLabel = UILabel()
         titleLabel.text = TITLE_COMPOSE
         titleLabel.font = UIFont.boldSystemFont(ofSize: 17.0)
         titleLabel.textAlignment = .center
         titleLabel.textColor = kTitleColor
-        titleLabel.center.x = topView.center.x
         topView.addSubview(titleLabel)
         
-        let cancelButton = UIButton(frame: CGRect(x: 8, y: 0, width: 60, height: kTopToolBarHeight))
+        let cancelButton = UIButton()
         cancelButton.setTitle(TITLE_CANCEL, for: .normal)
         cancelButton.setTitleColor(kButtonTintColor, for: .normal)
         cancelButton.addTarget(self, action: #selector(backAction), for: .touchUpInside)
         topView.addSubview(cancelButton)
         
-        let resetButton = UIButton(frame: CGRect(x: sWidth - 36, y: (kTopToolBarHeight - 22).half, width: 28, height: 22))
+        let resetButton = UIButton()
         resetButton.setBackgroundImage(UIImage(systemName: "arrow.2.circlepath"), for: .normal)
         resetButton.tintColor = kButtonTintColor
         resetButton.addTarget(self, action: #selector(resetAction), for: .touchUpInside)
         topView.addSubview(resetButton)
+        
+        self.setupTopViewConstraints()
+        self.setupTitleLabelConstraints(titleLabel)
+        self.setupCancelButtonConstraints(cancelButton)
+        self.setupResetButtonConstraints(resetButton)
     }
     
     func setupBottomButtons() {
-        let bvframe = CGRect(x: kPadding, y: vHeight - kBottomSafeAreaHeight - kBottomButtonHeight, width: sWidth, height: kBottomButtonHeight)
-        bottomView.frame = bvframe
         view.addSubview(bottomView)
         
-        let buttonWidth = (bvframe.width - kPadding).half
-        
-        let previewButton = CustomButton()
-        previewButton.frame = CGRect(x: 0, y: 0, width: buttonWidth, height: kBottomButtonHeight)
         previewButton.backgroundColor = .clear
         previewButton.setTitleColor(kButtonTintColor, for: .normal)
         previewButton.setTitle(TITLE_PREVIEW, for: .normal)
         previewButton.addTarget(self, action: #selector(previewAction), for: .touchUpInside)
         bottomView.addSubview(previewButton)
         
-        let exportButton = CustomButton()
-        exportButton.frame = CGRect(x: buttonWidth + kPadding, y: 0, width: buttonWidth, height: kBottomButtonHeight)
         exportButton.backgroundColor = kButtonTintColor
         exportButton.setTitle(TITLE_EXPORT, for: .normal)
         exportButton.addTarget(self, action: #selector(exportAction), for: .touchUpInside)
         bottomView.addSubview(exportButton)
+        
+        setupBottomViewConstraints()
+        
+        setupBottomToolbar()
     }
     
     func setupBottomToolbar() {
-        let bvframe = CGRect(x: kPadding, y: bottomView.frame.origin.y - kPadding - kBottomToolBarHeight, width: sWidth, height: kBottomToolBarHeight)
-        bottomToolbar.frame = bvframe
         view.addSubview(bottomToolbar)
         
         let segment = LCSegment.init(frame: CGRect.init(x: (sWidth - kBottomToolBarWidth).half, y: 0, width: kBottomToolBarWidth, height: kBottomToolBarHeight))
@@ -184,16 +191,17 @@ open class LCMultiImageEditor: UIViewController {
         
         bottomToolbar.addSubview(segment)
         
+        setupBottomToolbarConstraints()
+        setupSegmentConstraints(view: segment)
+        
         setupMainToolBar()
     }
     
     func setupMainToolBar() {
-        let bvframe = CGRect(x: kPadding, y: bottomToolbar.frame.origin.y - kPadding - kMainToolBarHeight, width: sWidth, height: kMainToolBarHeight)
-        mainToolbar.frame = bvframe
         view.addSubview(mainToolbar)
+        setupMainToolbarConstraints()
         
         setupFilterMenubar()
-        
     }
     
     func setupFilterMenubar() {
@@ -204,15 +212,19 @@ open class LCMultiImageEditor: UIViewController {
         effectSubMenuView?.frame = bvframe
         mainToolbar.addSubview(effectSubMenuView!)
         
+        setupFilterMenubarConstraints()
+        
         filterSubMenuView?.isHidden = true
         effectSubMenuView?.isHidden = true
     }
     
-    func setupEditableImageViews() {
-        editableViews.removeAll()
+    func setupEditableImageViews(_ isUpdate: Bool) {
+        vWidth = self.view.frame.size.width
+        vHeight = self.view.frame.size.height
+        sWidth = vWidth - kPadding * 2
         
         let yPosition = kNavBarHeight + kTopToolBarHeight + kPadding
-        let eHeight = mainToolbar.frame.origin.y - yPosition
+        let eHeight = vHeight - kBottomSafeAreaHeight - kBottomButtonHeight - kBottomToolBarHeight - kMainToolBarHeight - kPadding * 2 - yPosition
         
         let editViewSize = CGSize(width: sWidth, height: eHeight)
         let slotSize = self.getSlotSize(editViewSize, layoutType: layoutType, ratioType: montageRatioType)
@@ -236,7 +248,11 @@ open class LCMultiImageEditor: UIViewController {
         let eY: CGFloat = (eHeight - slotsHeight).half
         
         editview.frame = CGRect(x: kPadding + eX, y: yPosition + eY, width: slotsWidth, height: slotsHeight)
-        self.view.addSubview(editview)
+        
+        if !isUpdate {
+            self.view.addSubview(editview)
+            editableViews.removeAll()
+        }
         
         var x: CGFloat = 0, y: CGFloat = 0
         
@@ -257,9 +273,16 @@ open class LCMultiImageEditor: UIViewController {
             }
             
             let frame = CGRect(x: x, y: y, width: slotSize.width, height: slotSize.height)
-            let editableView = LCEditableView(frame: frame, image: image)
-            editview.addSubview(editableView)
-            editableViews.append(editableView)
+            
+            if !isUpdate {
+                let editableView = LCEditableView(frame: frame, image: image)
+                editview.addSubview(editableView)
+                editableViews.append(editableView)
+            } else {
+                let view = editableViews[index]
+                view.frame = frame
+                editableViews[index] = view
+            }
         }
     }
     
