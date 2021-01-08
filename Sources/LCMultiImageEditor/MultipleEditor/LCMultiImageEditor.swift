@@ -219,12 +219,22 @@ open class LCMultiImageEditor: UIViewController {
     }
     
     func setupEditableImageViews(_ isUpdate: Bool) {
+        
+        var topPadding: CGFloat = 0
+        var bottomPadding: CGFloat = 0
+        
+        if #available(iOS 11.0, *) {
+            let window = UIApplication.shared.windows[0]
+            topPadding = window.safeAreaInsets.top
+            bottomPadding = window.safeAreaInsets.bottom
+        }
+        
         vWidth = self.view.frame.size.width
         vHeight = self.view.frame.size.height
         sWidth = vWidth - kPadding * 2
         
-        let yPosition = kNavBarHeight + kTopToolBarHeight + kPadding
-        let eHeight = vHeight - kBottomSafeAreaHeight - kBottomButtonHeight - kBottomToolBarHeight - kMainToolBarHeight - kPadding * 2 - yPosition
+        let yPosition = topPadding + kTopToolBarHeight + kPadding
+        let eHeight = vHeight - kBottomButtonHeight - kBottomToolBarHeight - kMainToolBarHeight - kPadding * 3 - yPosition - bottomPadding
         
         let editViewSize = CGSize(width: sWidth, height: eHeight)
         let slotSize = self.getSlotSize(editViewSize, layoutType: layoutType, ratioType: montageRatioType)

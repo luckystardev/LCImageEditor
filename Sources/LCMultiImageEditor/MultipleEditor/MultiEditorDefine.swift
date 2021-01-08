@@ -29,15 +29,10 @@ enum EditMode {
 }
 
 let kPadding: CGFloat = 12.0
-let kNavBarHeight: CGFloat = 44.0
 let kTopToolBarHeight: CGFloat = 30.0
-
-let kBottomSafeAreaHeight: CGFloat = 34.0
 let kBottomButtonHeight: CGFloat = 48.0
-
 let kBottomToolBarHeight: CGFloat = 28.0
 let kBottomToolBarWidth: CGFloat = 150.0
-
 let kMainToolBarHeight: CGFloat = 120.0
 
 let kButtonTintColor: UIColor = UIColor.systemBlue
