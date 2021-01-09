@@ -299,7 +299,6 @@ open class LCMultiImageEditor: UIViewController {
     // MARK: - Button Actions
     
     @objc func exportAction() {
-//        syncImages()
         LCLoadingView.shared.show()
         let exportImage = cropImages()
         DispatchQueue.global(qos: .utility).async {
@@ -319,10 +318,11 @@ open class LCMultiImageEditor: UIViewController {
     
     @objc func resetAction() {
         print("resetAction")
+        syncImages()
+        filterSubMenuView?.resetFilterMenu()
     }
     
     @objc func editControl(_ index: Int) {
-//        syncImages()
         if index == 0 { // Correction filter
             self.editMode = .filter
             filterSubMenuView?.isHidden = false
@@ -340,7 +340,7 @@ open class LCMultiImageEditor: UIViewController {
     
     func syncImages() {
         for editView in self.editableViews {
-            editView.image = editView.scrollView.photoContentView.image
+            editView.photoContentView.image = editView.image
         }
     }
     

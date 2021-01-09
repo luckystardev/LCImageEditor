@@ -93,6 +93,14 @@ class LCFilterMenu: UIView {
     
    }
     
+   public func resetFilterMenu() {
+        for filter in availableFilters {
+            filterValues[filter.filterName()] = 0.0
+        }
+        let currentFilter = availableFilters[selectedCellIndex]
+        updateHorizontalDial(currentFilter)
+   }
+    
    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
        if let observedObject = object as? UICollectionView, observedObject == collectionView {
            collectionView.removeObserver(self, forKeyPath: "contentSize")
