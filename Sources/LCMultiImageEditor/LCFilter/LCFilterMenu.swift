@@ -165,9 +165,11 @@ extension LCFilterMenu: UICollectionViewDelegate, UICollectionViewDataSource {
         updateHorizontalDial(filter)
         if !availbleChange {
             print("Not AvailableChange")
+            horizontalDial?.isHidden = true
             didSelectFilter(filter, 0)
         } else {
             print("AvailableChange")
+            horizontalDial?.isHidden = false
         }
         
     }
