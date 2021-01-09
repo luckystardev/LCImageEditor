@@ -15,12 +15,12 @@ class ViewController: UIViewController {
     var editType: EditType = .multiple
     var images: [UIImage] = []
     
-    var orientations = UIInterfaceOrientationMask.portrait
-
-    override open var supportedInterfaceOrientations : UIInterfaceOrientationMask {
-        get { return self.orientations }
-        set { self.orientations = newValue }
-    }
+//    var orientations = UIInterfaceOrientationMask.portrait
+//
+//    override open var supportedInterfaceOrientations : UIInterfaceOrientationMask {
+//        get { return self.orientations }
+//        set { self.orientations = newValue }
+//    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

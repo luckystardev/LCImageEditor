@@ -24,7 +24,34 @@ class LCEditableView: UIView {
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
+     
+    public func resetFrame(_ frame: CGRect) {
+        //init frame
+        self.frame = frame
         
+        //scrollView
+        let maxBounds = self.maxBounds()
+        self.originalSize = maxBounds.size
+        self.centerPoint = CGPoint(x: maxBounds.width.half, y: maxBounds.height.half)
+        
+        self.scrollView.frame = maxBounds
+        self.scrollView.center = self.centerPoint
+        self.scrollView.contentSize = CGSize(width: self.scrollView.bounds.size.width, height: self.scrollView.bounds.size.height)
+        
+        //photoContentView
+        photoContentView.frame = self.scrollView.bounds
+        
+        //applyDeviceRotation
+        self.resetView()
+        let scaleX: CGFloat = self.image.size.width / self.frame.width
+        let scaleY: CGFloat = self.image.size.height / self.frame.height
+        let scale: CGFloat = min(scaleX, scaleY)
+
+        self.scrollView.photoContentView.frame = .init(x: .zero, y: .zero, width: (self.image.size.width / scale), height: (self.image.size.height / scale))
+
+        updatePosition()
+    }
+    
     public override func layoutSubviews() {
         super.layoutSubviews()
         
@@ -36,7 +63,6 @@ class LCEditableView: UIView {
     }
     
     public private(set) lazy var photoContentView: LCImageContentView! = {
-    
         let photoContentView = LCImageContentView(frame: self.scrollView.bounds)
         photoContentView.isUserInteractionEnabled = true
         self.scrollView.addSubview(photoContentView)
@@ -57,7 +83,6 @@ class LCEditableView: UIView {
     }
     
     internal lazy var scrollView: LCImageScrollView! = {
-        
         let maxBounds = self.maxBounds()
         self.originalSize = maxBounds.size
         self.centerPoint = CGPoint(x: maxBounds.width.half, y: maxBounds.height.half)

@@ -290,8 +290,7 @@ open class LCMultiImageEditor: UIViewController {
                 editableViews.append(editableView)
             } else {
                 let view = editableViews[index]
-                view.frame = frame
-                editableViews[index] = view
+                view.resetFrame(frame)
             }
         }
     }
