@@ -17,8 +17,10 @@ class LCEffectMenu: UIView {
    private var isObservingCollectionView = true
    private var isFirst = true
     
-   public var didSelectEffector: (LCEffectable) -> Void = { _ in }
+   public var didSelectEffector: (LCEffectable, _ value: CGFloat) -> Void = { _,_ in }
    
+    private var colorSlider: ColorSlider?
+    
    public var image: UIImage {
        didSet {
            demoImages.removeAll()
@@ -43,7 +45,7 @@ class LCEffectMenu: UIView {
        collectionView.topAnchor.constraint(equalTo: topAnchor).isActive = true
        collectionView.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
        collectionView.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
-       collectionView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+       collectionView.heightAnchor.constraint(equalToConstant: 64).isActive = true
        
        collectionView.register(LCFilterCell.classForCoder(), forCellWithReuseIdentifier: LCFilterCell.reussId)
        
@@ -58,6 +60,20 @@ class LCEffectMenu: UIView {
        
        self.backgroundColor = .clear
        collectionView.backgroundColor = .clear
+    
+        colorSlider = ColorSlider(orientation: .horizontal, previewSide: .top)
+        colorSlider?.delegate = self
+        self.addSubview(colorSlider!)
+    
+        colorSlider?.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            colorSlider!.leftAnchor.constraint(equalTo: leftAnchor, constant: kPadding.half),
+            colorSlider!.rightAnchor.constraint(equalTo: rightAnchor, constant: -kPadding.half),
+            colorSlider!.topAnchor.constraint(equalTo: topAnchor, constant: 94),
+            colorSlider!.heightAnchor.constraint(equalToConstant: 20),
+        ])
+    
+        colorSlider?.isHidden = true
    }
    
    func insert(toView parenetView: UIView) {
@@ -104,7 +120,7 @@ extension LCEffectMenu: UICollectionViewDelegate, UICollectionViewDataSource {
         if let demo = demoImages[effector.effectorName()] {
            cell.imageView.image = demo
         } else {
-            let demo = effector.effector(image: image)
+            let demo = effector.effector(image: image, value: 1)
             demoImages[effector.effectorName()] = demo
             cell.imageView.image = demo
         }
@@ -128,9 +144,22 @@ extension LCEffectMenu: UICollectionViewDelegate, UICollectionViewDataSource {
             collectionView.reloadItems(at: [IndexPath(row: prevSelectedCellIndex, section: 0)])
         }
         
-        isFirst = false
+        if indexPath.item == 0 {
+            colorSlider?.isHidden = false
+        } else {
+            colorSlider?.isHidden = true
+            didSelectEffector(effector, 0)
+        }
         
-        didSelectEffector(effector)
+        isFirst = false
     }
     
+}
+
+extension LCEffectMenu: ColorSliderDelegate {
+    func colorPicked(_ value: CGFloat) {
+        print("picked color = \(value)")
+        let effector = availableEffectors[0]
+        didSelectEffector(effector, value)
+    }
 }

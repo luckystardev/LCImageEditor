@@ -9,7 +9,7 @@
 import UIKit
 
 public protocol LCEffectable {
-    func effector(image: UIImage) -> UIImage
+    func effector(image: UIImage, value: CGFloat) -> UIImage
     func effectorName() -> String
 }
 
@@ -18,12 +18,12 @@ public enum LCEffector: LCEffectable {
     case EffectChromaKey
     case EffectBlurEye
         
-    public func effector(image: UIImage) -> UIImage {
+    public func effector(image: UIImage, value: CGFloat) -> UIImage {
         switch self {
             case .None:
                 return image
             case .EffectChromaKey:
-                return image.ChromaKeyFilter()
+                return image.ChromaKeyFilter(value)
             case .EffectBlurEye:
                 let filter = BlueEyeFilter()
                 filter.inputImage = CIImage(image: image)

@@ -70,11 +70,11 @@ open class LCMultiImageEditor: UIViewController {
         let availableEffectors = kDefaultEffectors
         let originImage = images.first
         let effectSubMenuView = LCEffectMenu(withImage: originImage!.resize(toSizeInPixel: CGSize(width: 64, height: 64)), availableFilters: availableEffectors)
-        effectSubMenuView.didSelectEffector = { effector in
+        effectSubMenuView.didSelectEffector = { (effector, value) in
             LCLoadingView.shared.show()
             DispatchQueue.global(qos: .utility).async {
                 for editView in self.editableViews {
-                    let output = effector.effector(image: editView.photoContentView.image)
+                    let output = effector.effector(image: editView.photoContentView.image, value: value)
                     DispatchQueue.main.sync {
                         editView.photoContentView.image = output
                     }

@@ -10,8 +10,12 @@ import UIKit
 
 extension UIImage {
     
-    func ChromaKeyFilter() -> UIImage {
-        let chromaCIFilter = self.applyChromaKeyFilter(fromHue: 0.6, toHue: 0.7)
+    func ChromaKeyFilter(_ value: CGFloat) -> UIImage {
+        let delta: CGFloat = 0.01
+        let fromValue = max(value - delta, 0)
+        let toValue = min(value + delta, 1.0)
+        
+        let chromaCIFilter = self.applyChromaKeyFilter(fromHue: fromValue, toHue: toValue)
         let ciImage = CIImage(image: self)
         chromaCIFilter?.setValue(ciImage, forKey: kCIInputImageKey)
 

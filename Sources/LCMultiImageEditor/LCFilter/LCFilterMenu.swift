@@ -86,7 +86,6 @@ class LCFilterMenu: UIView {
         self.addSubview(horizontalDial!)
     
         horizontalDial!.translatesAutoresizingMaskIntoConstraints = false
-//        horizontalDial!.topAnchor.constraint(equalTo: topAnchor, constant: 84).isActive = true
         horizontalDial!.topAnchor.constraint(equalTo: percentLabel.bottomAnchor).isActive = true
         horizontalDial!.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         horizontalDial!.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
