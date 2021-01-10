@@ -48,10 +48,10 @@ class LCSegmentItem: UICollectionViewCell {
     public func update(with attribute:LCSegmentItemAttribute ,selected: Bool) {
         if selected {
             self.imageView?.image = UIImage(systemName: attribute.imageName)
-            self.tintColor = UIColor.systemBlue
+            self.tintColor = attribute.selectedTintColor
         } else {
             self.imageView?.image = UIImage(systemName: attribute.imageName)
-            self.tintColor = UIColor.systemGray
+            self.tintColor = attribute.tintColor
         }
     }
 }

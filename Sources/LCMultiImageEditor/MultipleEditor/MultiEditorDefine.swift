@@ -23,7 +23,7 @@ enum EditType {
 }
 
 enum EditMode {
-    case rotate
+    case crop
     case filter
     case effect
 }
@@ -33,7 +33,10 @@ let kTopToolBarHeight: CGFloat = 30.0
 let kBottomButtonHeight: CGFloat = 48.0
 let kBottomToolBarHeight: CGFloat = 28.0
 let kBottomToolBarWidth: CGFloat = 150.0
+
 let kMainToolBarHeight: CGFloat = 120.0
+let kCropToolBarWidth: CGFloat = 150.0
+let kCropToolBarHeight: CGFloat = 30.0
 
 let kButtonTintColor: UIColor = UIColor.systemBlue
 let kTitleColor: UIColor = UIColor.darkText

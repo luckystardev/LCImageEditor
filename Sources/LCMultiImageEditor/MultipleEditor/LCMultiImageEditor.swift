@@ -11,7 +11,7 @@ import UIKit
 open class LCMultiImageEditor: UIViewController {
 
     var layoutType: MediaMontageType!
-    var editMode: EditMode = .rotate
+    var editMode: EditMode = .crop
     var montageRatioType: MontageRatioType = .nineSixteenth
     
     var images: [UIImage]! = [UIImage]() //image collage
@@ -43,6 +43,13 @@ open class LCMultiImageEditor: UIViewController {
         }
         set { self.orientations = newValue }
     }
+    lazy var croptoolbar: LCCropToolBar? = {
+        let croptoolbar = LCCropToolBar.init(frame: CGRect(x: 0, y: (kMainToolBarHeight - kCropToolBarHeight).half, width: kCropToolBarWidth, height: kCropToolBarHeight))
+        croptoolbar.config(selectedIndex: 0) { (index) in
+            self.updateCropRatio(index)
+        }
+        return croptoolbar
+    }()
     
     lazy var filterSubMenuView: LCFilterMenu? = {
         let availableFilters = kDefaultAvailableFilters
@@ -192,7 +199,7 @@ open class LCMultiImageEditor: UIViewController {
         bottomToolbar.addSubview(segment)
         
         setupBottomToolbarConstraints()
-        setupSegmentConstraints(view: segment)
+        setupSegmentConstraints(segment)
         
         setupMainToolBar()
     }
@@ -212,10 +219,14 @@ open class LCMultiImageEditor: UIViewController {
         effectSubMenuView?.frame = bvframe
         mainToolbar.addSubview(effectSubMenuView!)
         
+        mainToolbar.addSubview(croptoolbar!)
+        
         setupFilterMenubarConstraints()
+        setupCropToolbarConstraints(croptoolbar!)
         
         filterSubMenuView?.isHidden = true
         effectSubMenuView?.isHidden = true
+        croptoolbar?.isHidden = false
     }
     
     func setupEditableImageViews(_ isUpdate: Bool) {
@@ -297,6 +308,17 @@ open class LCMultiImageEditor: UIViewController {
     
     // MARK: - Button Actions
     
+    @objc func updateCropRatio(_ index: Int) {
+        if index == 0 { // 16:9
+            self.montageRatioType = .nineSixteenth
+        } else if index == 1 { // 4:3
+            self.montageRatioType = .threeFourth
+        } else { // 1:1
+            self.montageRatioType = .square
+        }
+        self.setupEditableImageViews(true)
+    }
+    
     @objc func exportAction() {
         LCLoadingView.shared.show()
         let exportImage = cropImages()
@@ -326,14 +348,17 @@ open class LCMultiImageEditor: UIViewController {
             self.editMode = .filter
             filterSubMenuView?.isHidden = false
             effectSubMenuView?.isHidden = true
-        } else if index == 1 { // Filter
+            croptoolbar?.isHidden = true
+        } else if index == 1 { // Filter(effect)
             self.editMode = .effect
             filterSubMenuView?.isHidden = true
             effectSubMenuView?.isHidden = false
-        } else { // rotate & crop
-            self.editMode = .rotate
+            croptoolbar?.isHidden = true
+        } else { // crop
+            self.editMode = .crop
             filterSubMenuView?.isHidden = true
             effectSubMenuView?.isHidden = true
+            croptoolbar?.isHidden = false
         }
     }
     
@@ -394,25 +419,6 @@ open class LCMultiImageEditor: UIViewController {
         
     }
     
-    /*
-    func mergeImages(_ images: [UIImage], _ scale: CGFloat) -> UIImage {
-        let newSize = CGSize(width: editview.frame.size.width * scale, height: editview.frame.size.height * scale)
-        UIGraphicsBeginImageContextWithOptions(newSize, false, UIScreen.main.scale)
-        
-        for (index, editView) in editableViews.enumerated() {
-            print("mergeIndex=\(index)")
-            let image = images[index]
-            let frame = CGRect(x: editView.frame.origin.x * scale, y: editView.frame.origin.y * scale, width: editView.frame.size.width * scale, height: editView.frame.size.height * scale)
-            image.draw(in: frame)
-        }
-        
-        let newImage:UIImage = UIGraphicsGetImageFromCurrentImageContext()!
-        UIGraphicsEndImageContext()
-        print("New mergedImage's Size = \(newImage.size)")
-        
-        return newImage
-    } */
-    
     func mergeImages(_ images: [UIImage], _ scale: CGFloat) -> UIImage {
         var composite: CIImage?
         
@@ -437,5 +443,24 @@ open class LCMultiImageEditor: UIViewController {
         print("New mergedImage's Size = \(finalRenderedComposite.size)")
         return finalRenderedComposite
     }
+    
+    /*
+    func mergeImages(_ images: [UIImage], _ scale: CGFloat) -> UIImage {
+        let newSize = CGSize(width: editview.frame.size.width * scale, height: editview.frame.size.height * scale)
+        UIGraphicsBeginImageContextWithOptions(newSize, false, UIScreen.main.scale)
+        
+        for (index, editView) in editableViews.enumerated() {
+            print("mergeIndex=\(index)")
+            let image = images[index]
+            let frame = CGRect(x: editView.frame.origin.x * scale, y: editView.frame.origin.y * scale, width: editView.frame.size.width * scale, height: editView.frame.size.height * scale)
+            image.draw(in: frame)
+        }
+        
+        let newImage:UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        print("New mergedImage's Size = \(newImage.size)")
+        
+        return newImage
+    } */
     
 }

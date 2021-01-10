@@ -72,7 +72,7 @@ extension LCMultiImageEditor {
         bottomToolbar.heightAnchor.constraint(equalToConstant: kBottomToolBarHeight).isActive = true
     }
     
-    func setupSegmentConstraints(view: UIView) {
+    func setupSegmentConstraints(_ view: UIView) {
         view.translatesAutoresizingMaskIntoConstraints = false
         view.centerXAnchor.constraint(equalTo: bottomToolbar.centerXAnchor).isActive = true
         view.widthAnchor.constraint(equalToConstant: kBottomToolBarWidth).isActive = true
@@ -100,5 +100,13 @@ extension LCMultiImageEditor {
         effectSubMenuView?.leftAnchor.constraint(equalTo: view.leftAnchor, constant: kPadding).isActive = true
         effectSubMenuView?.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -kPadding).isActive = true
         effectSubMenuView?.heightAnchor.constraint(equalToConstant: kMainToolBarHeight).isActive = true
+    }
+    
+    func setupCropToolbarConstraints(_ view: UIView) {
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.centerXAnchor.constraint(equalTo: mainToolbar.centerXAnchor).isActive = true
+        view.centerYAnchor.constraint(equalTo: mainToolbar.centerYAnchor).isActive = true
+        view.widthAnchor.constraint(equalToConstant: kCropToolBarWidth).isActive = true
+        view.heightAnchor.constraint(equalToConstant: kCropToolBarHeight).isActive = true
     }
 }
