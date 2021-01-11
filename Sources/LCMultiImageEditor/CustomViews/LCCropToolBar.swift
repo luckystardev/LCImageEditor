@@ -11,7 +11,7 @@ import UIKit
 public class LCCropToolBar: UIView {
     public typealias LCCropToolBarSelectedBlock = (Int) -> Void
     fileprivate var collectionView: UICollectionView?
-    fileprivate let dataSource = ["16:9", "4:3", "1:1"]
+    fileprivate let dataSource = ["Fit", "9:16", "3:4", "1:1", "4:3","16:9"]
     fileprivate var selectedIndex: Int = 0
     fileprivate var selectedBlock: LCCropToolBarSelectedBlock?
     

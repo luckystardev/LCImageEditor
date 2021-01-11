@@ -12,7 +12,7 @@ open class LCMultiImageEditor: UIViewController {
 
     var layoutType: MediaMontageType!
     var editMode: EditMode = .crop
-    var montageRatioType: MontageRatioType = .nineSixteenth
+    var montageRatioType: MontageRatioType = .custom
     
     var images: [UIImage]! = [UIImage]() //image collage
     var vWidth: CGFloat! = 0 //self.view width
@@ -309,14 +309,11 @@ open class LCMultiImageEditor: UIViewController {
     // MARK: - Button Actions
     
     @objc func updateCropRatio(_ index: Int) {
-        if index == 0 { // 16:9
-            self.montageRatioType = .nineSixteenth
-        } else if index == 1 { // 4:3
-            self.montageRatioType = .threeFourth
-        } else { // 1:1
-            self.montageRatioType = .square
+        let ary: [MontageRatioType] = [.custom, .nineSixteenth, .threeFourth, .square, .fourThird, .sixteenNinth]
+        if index < ary.count {
+            self.montageRatioType = ary[index]
+            self.setupEditableImageViews(true)
         }
-        self.setupEditableImageViews(true)
     }
     
     @objc func exportAction() {

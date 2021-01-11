@@ -9,15 +9,18 @@
 import UIKit
 
 enum MontageRatioType {
+    case custom
     case nineSixteenth
     case threeFourth
+    case fourThird
+    case sixteenNinth
     case square
 }
 
 extension LCMultiImageEditor {
     func getSlotSize(_ frame: CGSize, layoutType: MediaMontageType, ratioType: MontageRatioType) -> CGSize {
         
-        let slotAspectRatio = getSlotAspectRatio(layoutType, ratioType: ratioType)
+        let slotAspectRatio = getCropAspectRatio(layoutType, ratioType: ratioType)
         let column = getColumns(layoutType)
         let row = getRows(layoutType)
         
@@ -59,18 +62,41 @@ extension LCMultiImageEditor {
     
     private func getSlotAspectRatio(_ layoutType: MediaMontageType, ratioType: MontageRatioType) -> CGSize {
         switch ratioType {
-            case .nineSixteenth:
+            case .custom:
                 if (layoutType == .verticalTow || layoutType == .verticalThree) {
                     return CGSize(width: 16, height: 9)
                 }
                 return CGSize(width: 9, height: 16)
+            case .nineSixteenth:
+//                if (layoutType == .verticalTow || layoutType == .verticalThree) {
+//                    return CGSize(width: 16, height: 9)
+//                }
+                return CGSize(width: 9, height: 16)
             case .threeFourth:
-                if (layoutType == .verticalTow || layoutType == .verticalThree) {
-                    return CGSize(width: 4, height: 3)
-                }
+//                if (layoutType == .verticalTow || layoutType == .verticalThree) {
+//                    return CGSize(width: 4, height: 3)
+//                }
                 return CGSize(width: 3, height: 4)
             case .square:
                 return CGSize(width: 1, height: 1)
+            case .sixteenNinth:
+                return CGSize(width: 16, height: 9)
+            case .fourThird:
+                return CGSize(width: 4, height: 3)
+        }
+    }
+    
+    private func getCropAspectRatio(_ layoutType: MediaMontageType, ratioType: MontageRatioType) -> CGSize {
+        let size = getSlotAspectRatio(layoutType, ratioType: ratioType)
+        if ratioType == .custom {
+            return size
+        } else {
+            let column = getColumns(layoutType)
+            let row = getRows(layoutType)
+            let width = size.width  / column
+            let height = size.height / row
+            
+            return CGSize(width: width, height: height)
         }
     }
     
