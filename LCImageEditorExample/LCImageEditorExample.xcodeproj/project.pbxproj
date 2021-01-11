@@ -81,6 +81,7 @@
 		A391EA2725A9EC9C000E9C1B /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A391EA2025A9EC9C000E9C1B /* GradientView.swift */; };
 		A391EA2825A9EC9C000E9C1B /* DefaultPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A391EA2125A9EC9C000E9C1B /* DefaultPreviewView.swift */; };
 		A391EA2A25AA83D1000E9C1B /* LCCropToolBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = A391EA2925AA83D1000E9C1B /* LCCropToolBar.swift */; };
+		A391EA2D25AC78F4000E9C1B /* LCSliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A391EA2C25AC78F4000E9C1B /* LCSliderView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -160,6 +161,7 @@
 		A391EA2025A9EC9C000E9C1B /* GradientView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		A391EA2125A9EC9C000E9C1B /* DefaultPreviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultPreviewView.swift; sourceTree = "<group>"; };
 		A391EA2925AA83D1000E9C1B /* LCCropToolBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LCCropToolBar.swift; sourceTree = "<group>"; };
+		A391EA2C25AC78F4000E9C1B /* LCSliderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LCSliderView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -283,6 +285,7 @@
 				A320633725A4BFC00036AC1E /* CustomButton.swift */,
 				A320633A25A4BFC00036AC1E /* LCLoadingView.swift */,
 				A391EA2925AA83D1000E9C1B /* LCCropToolBar.swift */,
+				A391EA2C25AC78F4000E9C1B /* LCSliderView.swift */,
 			);
 			path = CustomViews;
 			sourceTree = "<group>";
@@ -457,6 +460,7 @@
 			files = (
 				A320636725A4BFC10036AC1E /* BlackpointFilter.swift in Sources */,
 				A320637F25A4BFC10036AC1E /* LCCropView+AspectRatio.swift in Sources */,
+				A391EA2D25AC78F4000E9C1B /* LCSliderView.swift in Sources */,
 				A320638E25A4BFC10036AC1E /* LCImageEditor+Radian.swift in Sources */,
 				A320639025A4BFC10036AC1E /* LCRadian.swift in Sources */,
 				A320637C25A4BFC10036AC1E /* LCCropCornerView.swift in Sources */,

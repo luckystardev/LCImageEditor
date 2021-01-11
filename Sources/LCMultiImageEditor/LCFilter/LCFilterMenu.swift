@@ -18,13 +18,16 @@ class LCFilterMenu: UIView {
     private var isFirst = true
     
     public var didSelectFilter: (LCFilterable, _ value: Double) -> Void = { _,_  in }
-   
-    var horizontalDial: HorizontalDial?
-    var percentLabel = UILabel()
     
     var availbleChange = false
     var selectedFilterValue: Double = 0
     var filterValues: [String:Double] = [:]
+    
+    var sliderView: LCSliderView = {
+        var hSlider = LCSliderView.init(frame: CGRect.init(x: 0, y: 0, width: UIScreen.main.bounds.width - kPadding * 2, height: 56), tminValue: -100, tmaxValue: 100, tstep: 5, tNum: 5)
+        hSlider.setDefaultValueAndAnimated(defaultValue: 0, animated: true)
+        return hSlider
+    }()
     
     public var image: UIImage {
         didSet {
@@ -70,35 +73,22 @@ class LCFilterMenu: UIView {
         self.backgroundColor = .clear
         collectionView.backgroundColor = .clear
     
-        // add percent label
-        percentLabel.frame = .zero
-        self.updatePercentLabel(selectedFilterValue)
-        self.addSubview(percentLabel)
-    
-        percentLabel.translatesAutoresizingMaskIntoConstraints = false
-        percentLabel.topAnchor.constraint(equalTo: topAnchor, constant: 66).isActive = true
-        percentLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
+        sliderView.delegate = self
+        self.addSubview(sliderView)
+        sliderView.isHidden = true
         
-        // add horizontalDial
-        horizontalDial = HorizontalDial()
-        horizontalDial?.frame = .zero
-        horizontalDial?.delegate = self
-        self.addSubview(horizontalDial!)
-    
-        horizontalDial!.translatesAutoresizingMaskIntoConstraints = false
-        horizontalDial!.topAnchor.constraint(equalTo: percentLabel.bottomAnchor).isActive = true
-        horizontalDial!.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
-        horizontalDial!.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
-        horizontalDial!.heightAnchor.constraint(equalToConstant: 36).isActive = true
-    
+        sliderView.translatesAutoresizingMaskIntoConstraints = false
+        sliderView.topAnchor.constraint(equalTo: collectionView.bottomAnchor).isActive = true
+        sliderView.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
+        sliderView.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+        sliderView.heightAnchor.constraint(equalToConstant: 56).isActive = true
    }
     
    public func resetFilterMenu() {
         for filter in availableFilters {
             filterValues[filter.filterName()] = 0.0
         }
-        let currentFilter = availableFilters[selectedCellIndex]
-        updateHorizontalDial(currentFilter)
+        sliderView.setDefaultValueAndAnimated(defaultValue: 0, animated: true)
    }
     
    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
@@ -170,60 +160,26 @@ extension LCFilterMenu: UICollectionViewDelegate, UICollectionViewDataSource {
         isFirst = false
         
         availbleChange = filter.valueChangeable()
-        updateHorizontalDial(filter)
+        
         if !availbleChange {
             print("Not AvailableChange")
-            horizontalDial?.isHidden = true
+            sliderView.isHidden = true
             didSelectFilter(filter, 0)
         } else {
-            print("AvailableChange")
-            horizontalDial?.isHidden = false
+//            let minValue = filter.minimumValue()
+//            sliderView.minValue = Float(minValue)
+            sliderView.setDefaultValueAndAnimated(defaultValue: 0, animated: false)
+            sliderView.isHidden = false
         }
-        
     }
-    
-    func updateHorizontalDial(_ filter: LCFilterable) {
-        selectedFilterValue = filterValues[filter.filterName()] ?? 0.0
-        
-        updatePercentLabel(selectedFilterValue)
-        
-        let minValue = filter.minimumValue()
-        horizontalDial?.animateWithValueUpdate(selectedFilterValue)
-        horizontalDial?.minimumValue = minValue
-    }
-    
 }
 
-extension LCFilterMenu: HorizontalDialDelegate {
-    public func horizontalDialDidValueChanged(_ horizontalDial: HorizontalDial) {
-        var value = floor(horizontalDial.value)
-        
-        if value > horizontalDial.maximumValue {
-            value = horizontalDial.maximumValue
-        } else if value < horizontalDial.minimumValue {
-            value = horizontalDial.minimumValue
-        }
-        self.updatePercentLabel(value)
-    }
-    
-    public func horizontalDialDidEndScroll(_ horizontalDial: HorizontalDial) {
-        var value = floor(horizontalDial.value)
-        
-        if value > horizontalDial.maximumValue {
-            value = horizontalDial.maximumValue
-        } else if value < horizontalDial.minimumValue {
-            value = horizontalDial.minimumValue
-        }
-        
+extension LCFilterMenu:LCSliderDelegate {
+    func LCSliderViewValueChange(sliderView: LCSliderView, value: Float) {
+        print("value-------》"+"\(value)")
         let filter = availableFilters[selectedCellIndex]
         if availbleChange {
-            selectedFilterValue = value
-            filterValues[filter.filterName()] = value
-            didSelectFilter(filter, value)
+            didSelectFilter(filter, Double(value))
         }
-    }
-    
-    func updatePercentLabel(_ value: Double) {
-        self.percentLabel.text = String(Int(value)) + "%"
     }
 }
