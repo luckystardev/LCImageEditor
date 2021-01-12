@@ -343,15 +343,14 @@ open class LCMultiImageEditor: UIViewController {
     }
 
     @objc func previewAction() {
-        print("previewAction")
         let exportImage = cropImages()
+        previewView!.frame = CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height)
         previewView!.display(image: exportImage)
         view.bringSubviewToFront(previewView!)
         previewView?.isHidden = false
     }
     
     @objc func resetAction() {
-        print("resetAction")
         syncImages()
         filterSubMenuView?.resetFilterMenu()
     }
