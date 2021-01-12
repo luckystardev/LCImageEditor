@@ -92,6 +92,15 @@ open class LCMultiImageEditor: UIViewController {
         return effectSubMenuView
     }()
     
+    lazy private var previewView: ImageViewZoom? = {
+        let imageView = ImageViewZoom(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height))
+        imageView.setup()
+        imageView.imageContentMode = .aspectFit
+        imageView.initialOffset = .center
+        imageView.imageScrollViewDelegate = self
+        return imageView
+    }()
+    
     public init(layoutType: MediaMontageType, images: [UIImage]) {
         self.layoutType = layoutType
         self.images = images
@@ -134,6 +143,9 @@ open class LCMultiImageEditor: UIViewController {
         setupBottomButtons()
                
         setupEditableImageViews(false)
+        
+        view.addSubview(previewView!)
+        previewView?.isHidden = true
     }
     
     func setupTopView() {
@@ -332,6 +344,10 @@ open class LCMultiImageEditor: UIViewController {
 
     @objc func previewAction() {
         print("previewAction")
+        let exportImage = cropImages()
+        previewView!.display(image: exportImage)
+        view.bringSubviewToFront(previewView!)
+        previewView?.isHidden = false
     }
     
     @objc func resetAction() {
@@ -460,4 +476,10 @@ open class LCMultiImageEditor: UIViewController {
         return newImage
     } */
     
+}
+
+extension LCMultiImageEditor: ImageViewZoomDelegate {
+    public func closeAction(_ imageViewZoom: ImageViewZoom) {
+        previewView?.isHidden = true
+    }
 }
