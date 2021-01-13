@@ -117,13 +117,22 @@ extension LCEffectMenu: UICollectionViewDelegate, UICollectionViewDataSource {
             else { return UICollectionViewCell() }
         
         let effector = availableEffectors[indexPath.item]
+        /*
         if let demo = demoImages[effector.effectorName()] {
            cell.imageView.image = demo
         } else {
             let demo = effector.effector(image: image, value: 1)
             demoImages[effector.effectorName()] = demo
             cell.imageView.image = demo
+        } */
+        
+        if indexPath.item == 0 {
+            cell.imageView.image = UIImage(systemName: "photo")
+        } else {
+            cell.imageView.image = UIImage(systemName: "eye.slash.fill")
         }
+        cell.imageView.contentMode = .scaleAspectFit
+        cell.imageView.tintColor = UIColor.systemGray
         
         cell.name.text = effector.effectorName()
         if indexPath.item == selectedCellIndex && !isFirst {
