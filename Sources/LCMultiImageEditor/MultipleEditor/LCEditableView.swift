@@ -11,7 +11,8 @@ import UIKit
 class LCEditableView: UIView {
     
     var image: UIImage!
-        
+    weak var delegate : LCEditableViewDelegate?
+    
     init(frame: CGRect, image: UIImage) {
         super.init(frame: frame)
         self.layer.masksToBounds = true
@@ -19,12 +20,21 @@ class LCEditableView: UIView {
         self.image = image
         setupScrollView()
         self.applyDeviceRotation()
+        
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(taphandle(_:)))
+        tap.numberOfTapsRequired = 1
+        tap.numberOfTouchesRequired = 1
+        self.addGestureRecognizer(tap)
     }
 
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
-     
+    
+    @objc func taphandle(_ sender: UITapGestureRecognizer) {
+        self.delegate?.tapAction(self)
+    }
+    
     public func resetFrame(_ frame: CGRect) {
         //init frame
         self.frame = frame
@@ -199,4 +209,8 @@ class LCEditableView: UIView {
        }
         self.scrollView.checkContentOffset()
     }
+}
+
+protocol LCEditableViewDelegate: NSObjectProtocol {
+    func tapAction(_ editableview: LCEditableView)
 }

@@ -33,6 +33,7 @@ open class LCMultiImageEditor: UIViewController {
     var appliedFilter: LCFilterable!
     
     var previewImage: UIImage? = nil
+    var selectedIndex: Int = 0
     
     var orientations = UIInterfaceOrientationMask.portrait
     
@@ -129,7 +130,7 @@ open class LCMultiImageEditor: UIViewController {
                 print("Portrait")
             }
         }, completion: { (UIViewControllerTransitionCoordinatorContext) -> Void in
-            self.setupEditableImageViews(true)
+            self.setupEditableImageViews(.reset)
         })
         super.viewWillTransition(to: size, with: coordinator)
     }
@@ -144,7 +145,7 @@ open class LCMultiImageEditor: UIViewController {
         setupTopView()
         setupBottomButtons()
                
-        setupEditableImageViews(false)
+        setupEditableImageViews(.new)
         
         view.addSubview(previewView!)
         previewView?.isHidden = true
@@ -243,7 +244,7 @@ open class LCMultiImageEditor: UIViewController {
         croptoolbar?.isHidden = false
     }
     
-    func setupEditableImageViews(_ isUpdate: Bool) {
+    func setupEditableImageViews(_ type: setupImagesMode) {
         
         var topPadding: CGFloat = 0
         var bottomPadding: CGFloat = 0
@@ -284,7 +285,7 @@ open class LCMultiImageEditor: UIViewController {
         
         editview.frame = CGRect(x: kPadding + eX, y: yPosition + eY, width: slotsWidth, height: slotsHeight)
         
-        if !isUpdate {
+        if type == .new {
             self.view.addSubview(editview)
             editableViews.removeAll()
         }
@@ -309,13 +310,22 @@ open class LCMultiImageEditor: UIViewController {
             
             let frame = CGRect(x: x, y: y, width: slotSize.width, height: slotSize.height)
             
-            if !isUpdate {
+            if type == .new {
                 let editableView = LCEditableView(frame: frame, image: image)
+                editableView.delegate = self
                 editview.addSubview(editableView)
                 editableViews.append(editableView)
-            } else {
+            } else if type == .reset {
                 let view = editableViews[index]
                 view.resetFrame(frame)
+            } else if type == .edit && index == selectedIndex {
+                let view = editableViews[index]
+                view.removeFromSuperview()
+                
+                let editableView = LCEditableView(frame: frame, image: image)
+                editableView.delegate = self
+                editview.addSubview(editableView)
+                editableViews[index] = editableView
             }
         }
     }
@@ -326,7 +336,7 @@ open class LCMultiImageEditor: UIViewController {
         let ary: [MontageRatioType] = [.custom, .nineSixteenth, .threeFourth, .square, .fourThird, .sixteenNinth]
         if index < ary.count {
             self.montageRatioType = ary[index]
-            self.setupEditableImageViews(true)
+            self.setupEditableImageViews(.reset)
         }
     }
     
@@ -496,5 +506,46 @@ open class LCMultiImageEditor: UIViewController {
 extension LCMultiImageEditor: ImageViewZoomDelegate {
     public func closeAction(_ imageViewZoom: ImageViewZoom) {
         previewView?.isHidden = true
+    }
+}
+
+extension LCMultiImageEditor: LCEditableViewDelegate {
+    func tapAction(_ editableview: LCEditableView) {
+        
+        var alertStyle = UIAlertController.Style.actionSheet
+        alertStyle = UIAlertController.Style.alert
+        
+        let actionSheet = UIAlertController(title: nil,
+                                            message: nil,
+                                            preferredStyle: alertStyle)
+        /*
+        actionSheet.addAction(UIAlertAction(title: "Edit", style: .default) { _ in
+            //TODO: Edit single image
+        }) */
+        actionSheet.addAction(UIAlertAction(title: "Camera Roll", style: .default) { _ in
+            self.setImageFromGallery(editableview)
+        })
+        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .destructive))
+        present(actionSheet, animated: true, completion: nil)
+    }
+    
+    private func setImageFromGallery(_ editableview: LCEditableView) {
+        PhotoRequestManager.requestPhotoLibrary(self){ result in
+            switch result {
+            case .success(let image):
+                //TODO
+                let index = self.editableViews.firstIndex(of: editableview)
+                print(index as Any)
+                if index! < self.images.count {
+                    self.images[index!] = image
+                    self.selectedIndex = index!
+                    self.setupEditableImageViews(.edit)
+                }
+            case .faild:
+                print("failed")
+            case .cancel:
+                break
+            }
+        }
     }
 }

@@ -28,6 +28,12 @@ enum EditMode {
     case effect
 }
 
+enum setupImagesMode {
+    case new
+    case reset
+    case edit
+}
+
 let kPadding: CGFloat = 12.0
 let kTopToolBarHeight: CGFloat = 30.0
 let kBottomButtonHeight: CGFloat = 48.0
