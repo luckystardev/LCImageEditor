@@ -63,7 +63,7 @@ class LCRulerView: UIView {
                     context?.setStrokeColor(red: 0.0, green: 0.0, blue: 1.0, alpha: 1.0)
                 }
                 context!.addLine(to: CGPoint.init(x: lineCenterX * CGFloat(i), y: longLineY))
-            }else{
+            } else {
                 context!.addLine(to: CGPoint.init(x: lineCenterX * CGFloat(i), y: shortLineY))
             }
             context!.strokePath()
@@ -155,14 +155,14 @@ class LCSliderView: UIView {
         lazyCollectionView.setContentOffset(CGPoint(x: CGFloat(realValue * Float(markInterval)), y: 0), animated: animated)
     }
     
-    func setDefaultValueAndAnimated(defaultValue: Float, animated: Bool){
+    func setDefaultValueAndAnimated(defaultValue: Float, animated: Bool) {
         fileRealValue = defaultValue
         valueLbl.text = String.init(format: "%.0f", defaultValue)
         lazyCollectionView.setContentOffset(CGPoint.init(x: Int((defaultValue - minValue) / step) * markInterval, y: 0), animated: animated)
     }
 }
 
-extension LCSliderView:UICollectionViewDataSource{
+extension LCSliderView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return stepCount + 2
     }
@@ -171,7 +171,7 @@ extension LCSliderView:UICollectionViewDataSource{
         if indexPath.item == 0 || indexPath.item == stepCount + 1 {
             let cell:UICollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: "footerCell", for: indexPath)
             return cell
-        } else{
+        } else {
             let cell:UICollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: "customeCell", for: indexPath)
             var rulerView:LCRulerView? = cell.contentView.viewWithTag(1002) as? LCRulerView
             if rulerView == nil {
@@ -192,16 +192,16 @@ extension LCSliderView:UICollectionViewDataSource{
     }
 }
 
-extension LCSliderView:UICollectionViewDelegate{
+extension LCSliderView: UICollectionViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let value = Float(scrollView.contentOffset.x) / Float(markInterval)
         let totalValue = value * step + minValue
         if scrollByHand {
             if totalValue >= maxValue {
                 valueLbl.text = String.init(format: "%.0f", maxValue)
-            }else if totalValue <= minValue {
+            } else if totalValue <= minValue {
                 valueLbl.text = String.init(format: "%.0f", minValue)
-            }else{
+            } else{
                 valueLbl.text = String.init(format: "%.0f", floor(Float(value) * step + minValue))
             }
         }
@@ -224,7 +224,7 @@ extension LCSliderView:UICollectionViewDelegate{
     }
 }
 
-extension LCSliderView:UICollectionViewDelegateFlowLayout{
+extension LCSliderView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if indexPath.item == 0 || indexPath.item == stepCount + 1 {
             return CGSize(width: Int(self.frame.size.width.half), height: sliderHeight)

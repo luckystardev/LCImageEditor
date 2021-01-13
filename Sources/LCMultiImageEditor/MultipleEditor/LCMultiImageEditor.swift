@@ -32,6 +32,8 @@ open class LCMultiImageEditor: UIViewController {
     var editableViews = [LCEditableView]()
     var appliedFilter: LCFilterable!
     
+    var previewImage: UIImage? = nil
+    
     var orientations = UIInterfaceOrientationMask.portrait
     
     override open var supportedInterfaceOrientations : UIInterfaceOrientationMask {
@@ -329,13 +331,7 @@ open class LCMultiImageEditor: UIViewController {
     }
     
     @objc func exportAction() {
-        LCLoadingView.shared.show()
-        let exportImage = cropImages()
-        DispatchQueue.global(qos: .utility).async {
-            LCLoadingView.shared.hide()
-        }
-        
-        self.delegate?.multiEditor(self, didFinishWithCroppedImage: exportImage)
+        cropImages(true)
     }
     
     @objc func backAction() {
@@ -343,9 +339,9 @@ open class LCMultiImageEditor: UIViewController {
     }
 
     @objc func previewAction() {
-        let exportImage = cropImages()
+        cropImages(false)
         previewView!.frame = CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height)
-        previewView!.display(image: exportImage)
+        previewView!.display(image: previewImage ?? UIImage())
         view.bringSubviewToFront(previewView!)
         previewView?.isHidden = false
     }
@@ -382,98 +378,118 @@ open class LCMultiImageEditor: UIViewController {
     
     // MARK: - Image Processing - Merge & Crop
     
-    func cropImages() -> UIImage {
-        var frameScale: CGFloat = 20
-        var images = [UIImage]()
-        
-        for editView in editableViews {
-            var transform = CGAffineTransform.identity
-            // translate
-            let translation: CGPoint = editView.photoTranslation
-            transform = transform.translatedBy(x: translation.x, y: translation.y)
-            // rotate
-            transform = transform.rotated(by: editView.radians)
-            
-            // scale
-            let t: CGAffineTransform = editView.photoContentView.transform
-            let xScale: CGFloat = sqrt(t.a * t.a + t.c * t.c)
-            let yScale: CGFloat = sqrt(t.b * t.b + t.d * t.d)
-            transform = transform.scaledBy(x: xScale, y: yScale)
-            
-            if let fixedImage = editView.photoContentView.image.cgImageWithFixedOrientation() {
-                var zoomScale = editView.scrollView.zoomScale
-                if zoomScale > kMinimumZoomScale {
-                    zoomScale = getImageZoomScale(zoomScale, cropSize: editView.frame.size, imageSize: editView.photoContentView.image.size)
-                }
-                
-                let imageRef = fixedImage.transformedImage(transform,
-                                                           zoomScale: zoomScale,
-                                                           sourceSize: editView.photoContentView.image.size,
-                                                           cropSize: editView.frame.size,
-                                                           imageViewSize: editView.photoContentView.bounds.size)
-                
-                let image = UIImage(cgImage: imageRef)
-                images.append(image)
-            } else {
-                images.append(editView.photoContentView.image)
-            }
-            
-            let fScale: CGFloat!
-            fScale = getImageScale(cropSize: editView.frame.size, imageSize: editView.photoContentView.image.size)
-            
-            if fScale < frameScale {
-                frameScale = fScale
-            }
-        }
-        
-        let newImage = mergeImages(images, frameScale)
-        return newImage
-        
-    }
-    
-    func mergeImages(_ images: [UIImage], _ scale: CGFloat) -> UIImage {
-        var composite: CIImage?
-        
-        for (index, editView) in editableViews.enumerated() {
-            let image = images[index]
-            var ci = CIImage(image: image)!
-            
-            let zscale = editView.frame.size.width * scale / image.size.width
-            ci = ci.transformed(by: CGAffineTransform(scaleX: zscale, y: zscale))
-            ci = ci.transformed(by: CGAffineTransform(translationX: editView.frame.origin.x * scale, y: (editview.frame.size.height * scale - editView.frame.origin.y * scale)))
+     func cropImages(_ isExport: Bool) {
+           
+           //compose images
+           var frameScale: CGFloat = 20
+           var images = [UIImage]()
+           
+           for editView in editableViews {
+               var transform = CGAffineTransform.identity
+               // translate
+               let translation: CGPoint = editView.photoTranslation
+               transform = transform.translatedBy(x: translation.x, y: translation.y)
+               // rotate
+               transform = transform.rotated(by: editView.radians)
+               
+               // scale
+               let t: CGAffineTransform = editView.photoContentView.transform
+               let xScale: CGFloat = sqrt(t.a * t.a + t.c * t.c)
+               let yScale: CGFloat = sqrt(t.b * t.b + t.d * t.d)
+               transform = transform.scaledBy(x: xScale, y: yScale)
+               
+               if let fixedImage = editView.photoContentView.image.cgImageWithFixedOrientation() {
+                   var zoomScale = editView.scrollView.zoomScale
+                   if zoomScale > kMinimumZoomScale {
+                       zoomScale = getImageZoomScale(zoomScale, cropSize: editView.frame.size, imageSize: editView.photoContentView.image.size)
+                   }
+                   
+                   let imageRef = fixedImage.transformedImage(transform,
+                                                              zoomScale: zoomScale,
+                                                              sourceSize: editView.photoContentView.image.size,
+                                                              cropSize: editView.frame.size,
+                                                              imageViewSize: editView.photoContentView.bounds.size)
+                   
+                   let image = UIImage(cgImage: imageRef)
+                   images.append(image)
+               } else {
+                   images.append(editView.photoContentView.image)
+               }
+               
+               let fScale: CGFloat!
+               fScale = getImageScale(cropSize: editView.frame.size, imageSize: editView.photoContentView.image.size)
+               
+               if fScale < frameScale {
+                   frameScale = fScale
+               }
+           }
+           
+           //check export option - Full HD, 4K, Original
+           checkExportOption(images, scale: frameScale, isExport: isExport)
+       }
+       
+       private func checkExportOption(_ images: [UIImage], scale: CGFloat, isExport: Bool) {
+           let scaleAry = getExpectScale(editview.frame.size, scale: scale)
+           if scaleAry.count <= 1 {
+               mergeImages(images, scale: scale, isExport: isExport)
+           } else {
+               if !isExport { //preview
+                   mergeImages(images, scale: scaleAry.first!, isExport: isExport)
+               } else { //export
+                   var alertStyle = UIAlertController.Style.actionSheet
+                   alertStyle = UIAlertController.Style.alert
+                   
+                   let actionSheet = UIAlertController(title: nil,
+                                                       message: "Choose Export option",
+                                                       preferredStyle: alertStyle)
+                   
+                   actionSheet.addAction(UIAlertAction(title: "Full HD", style: .default) { (action) in
+                       self.mergeImages(images, scale: scaleAry.first!, isExport: isExport)
+                   })
+                   if scaleAry.count == 3 {
+                       actionSheet.addAction(UIAlertAction(title: "4K", style: .default) { (action) in
+                           self.mergeImages(images, scale: scaleAry[1], isExport: isExport)
+                       })
+                   }
+                   actionSheet.addAction(UIAlertAction(title: "Original", style: .default) { (action) in
+                       self.mergeImages(images, scale: scale, isExport: isExport)
+                   })
+                   present(actionSheet, animated: true, completion: nil)
+               }
+           }
+       }
+       
+       private func mergeImages(_ images: [UIImage], scale: CGFloat, isExport: Bool) {
+           var composite: CIImage?
+           LCLoadingView.shared.show()
+           for (index, editView) in editableViews.enumerated() {
+               let image = images[index]
+               var ci = CIImage(image: image)!
+               
+               let zscale = editView.frame.size.width * scale / image.size.width
+               ci = ci.transformed(by: CGAffineTransform(scaleX: zscale, y: zscale))
+               ci = ci.transformed(by: CGAffineTransform(translationX: editView.frame.origin.x * scale, y: (editview.frame.size.height * scale - editView.frame.origin.y * scale)))
 
-            if composite == nil {
-                composite = ci
-            } else {
-                composite = ci.composited(over: composite!)
-            }
-            print("mergeIndex=\(index)")
-        }
-        
-        let cgIntermediate = CIContext(options: nil).createCGImage(composite!, from: composite!.extent)
-        let finalRenderedComposite = UIImage(cgImage: cgIntermediate!)
-        print("New mergedImage's Size = \(finalRenderedComposite.size)")
-        return finalRenderedComposite
-    }
-    
-    /*
-    func mergeImages(_ images: [UIImage], _ scale: CGFloat) -> UIImage {
-        let newSize = CGSize(width: editview.frame.size.width * scale, height: editview.frame.size.height * scale)
-        UIGraphicsBeginImageContextWithOptions(newSize, false, UIScreen.main.scale)
-        
-        for (index, editView) in editableViews.enumerated() {
-            print("mergeIndex=\(index)")
-            let image = images[index]
-            let frame = CGRect(x: editView.frame.origin.x * scale, y: editView.frame.origin.y * scale, width: editView.frame.size.width * scale, height: editView.frame.size.height * scale)
-            image.draw(in: frame)
-        }
-        
-        let newImage:UIImage = UIGraphicsGetImageFromCurrentImageContext()!
-        UIGraphicsEndImageContext()
-        print("New mergedImage's Size = \(newImage.size)")
-        
-        return newImage
-    } */
+               if composite == nil {
+                   composite = ci
+               } else {
+                   composite = ci.composited(over: composite!)
+               }
+               print("mergeIndex = \(index)")
+           }
+           
+           let cgIntermediate = CIContext(options: nil).createCGImage(composite!, from: composite!.extent)
+           let finalRenderedComposite = UIImage(cgImage: cgIntermediate!)
+           print("export Image's Size = \(finalRenderedComposite.size)")
+           if !isExport { //preview
+               self.previewImage = finalRenderedComposite
+           } else { //export
+               self.delegate?.multiEditor(self, didFinishWithCroppedImage: finalRenderedComposite)
+           }
+           DispatchQueue.global(qos: .utility).async {
+               LCLoadingView.shared.hide()
+           }
+       }
     
 }
 
