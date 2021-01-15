@@ -15,9 +15,6 @@ open class LCMultiImageEditor: UIViewController {
     var montageRatioType: MontageRatioType = .custom
     
     var images: [UIImage]! = [UIImage]() //image collage
-    var vWidth: CGFloat! = 0 //self.view width
-    var vHeight: CGFloat! = 0 //self.view height
-    var sWidth: CGFloat! = 0 //workspace area's width
     
     public weak var delegate: MultiEditorDelegate?
     
@@ -28,6 +25,7 @@ open class LCMultiImageEditor: UIViewController {
     let mainToolbar = UIView()
     let previewButton = CustomButton()
     let exportButton = CustomButton()
+    let editBackgroundView = UIView()
     
     var editableViews = [LCEditableView]()
     var appliedFilter: LCFilterable!
@@ -118,13 +116,17 @@ open class LCMultiImageEditor: UIViewController {
         super.viewDidLoad()
 
         self.view.backgroundColor = .systemBackground
+    }
+    
+    override open func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         
         initUI()
     }
     
     override open func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         coordinator.animate(alongsideTransition: { (UIViewControllerTransitionCoordinatorContext) -> Void in
-            if UIDevice.current.orientation.isLandscape { // .landscapeLeft,.landscapeRight
+            if UIDevice.current.orientation.isLandscape {
                 print("Landscape")
             } else {
                 print("Portrait")
@@ -138,14 +140,8 @@ open class LCMultiImageEditor: UIViewController {
     // MARK: - Initialize UI
     
     func initUI() {
-        vWidth = self.view.frame.size.width
-        vHeight = self.view.frame.size.height
-        sWidth = vWidth - kPadding * 2
-        
         setupTopView()
         setupBottomButtons()
-               
-        setupEditableImageViews(.new)
         
         view.addSubview(previewView!)
         previewView?.isHidden = true
@@ -201,7 +197,7 @@ open class LCMultiImageEditor: UIViewController {
     func setupBottomToolbar() {
         view.addSubview(bottomToolbar)
         
-        let segment = LCSegment.init(frame: CGRect.init(x: (sWidth - kBottomToolBarWidth).half, y: 0, width: kBottomToolBarWidth, height: kBottomToolBarHeight))
+        let segment = LCSegment.init(frame: CGRect.init(x: (self.view.frame.size.width - kBottomToolBarWidth).half, y: 0, width: kBottomToolBarWidth, height: kBottomToolBarHeight))
         
         let itemAttribute0 = LCSegmentItemAttribute.config(tintColor: UIColor.systemGray, imageName: "dial", selectedTintColor: UIColor.systemBlue)
         let itemAttribute1 = LCSegmentItemAttribute.config(tintColor: UIColor.systemGray, imageName: "wand.and.stars", selectedTintColor: UIColor.systemBlue)
@@ -224,14 +220,17 @@ open class LCMultiImageEditor: UIViewController {
         setupMainToolbarConstraints()
         
         setupFilterMenubar()
+        
+        view.addSubview(editBackgroundView)
+        setupEditableImageViews(.new)
     }
     
     func setupFilterMenubar() {
-        let bvframe = CGRect(x: 0, y: 0, width: sWidth, height: kMainToolBarHeight)
-        filterSubMenuView?.frame = bvframe
+//        let bvframe = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: kMainToolBarHeight)
+//        filterSubMenuView?.frame = bvframe
         mainToolbar.addSubview(filterSubMenuView!)
         
-        effectSubMenuView?.frame = bvframe
+//        effectSubMenuView?.frame = bvframe
         mainToolbar.addSubview(effectSubMenuView!)
         
         mainToolbar.addSubview(croptoolbar!)
@@ -246,24 +245,10 @@ open class LCMultiImageEditor: UIViewController {
     
     func setupEditableImageViews(_ type: setupImagesMode) {
         
-        var topPadding: CGFloat = 0
-        var bottomPadding: CGFloat = 0
+        self.setupEditBgViewConstraints()
+        self.editBackgroundView.layoutIfNeeded()
         
-        if #available(iOS 11.0, *) {
-            let window = UIApplication.shared.windows[0]
-            topPadding = window.safeAreaInsets.top
-            bottomPadding = window.safeAreaInsets.bottom
-        }
-        
-        vWidth = self.view.frame.size.width
-        vHeight = self.view.frame.size.height
-        sWidth = vWidth - kPadding * 2
-        
-        let yPosition = topPadding + kTopToolBarHeight + kPadding
-        let eHeight = vHeight - kBottomButtonHeight - kBottomToolBarHeight - kMainToolBarHeight - kPadding * 3 - yPosition - bottomPadding
-        
-        let editViewSize = CGSize(width: sWidth, height: eHeight)
-        let slotSize = self.getSlotSize(editViewSize, layoutType: layoutType, ratioType: montageRatioType)
+        let slotSize = self.getSlotSize(editBackgroundView.frame.size, layoutType: layoutType, ratioType: montageRatioType)
         
         var slotsWidth = slotSize.width
         var slotsHeight = slotSize.height
@@ -280,13 +265,13 @@ open class LCMultiImageEditor: UIViewController {
             slotsHeight = slotsHeight * 3
         }
     
-        let eX: CGFloat = (sWidth - slotsWidth).half
-        let eY: CGFloat = (eHeight - slotsHeight).half
+        let eX: CGFloat = (editBackgroundView.frame.size.width - slotsWidth).half
+        let eY: CGFloat = (editBackgroundView.frame.size.height - slotsHeight).half
         
-        editview.frame = CGRect(x: kPadding + eX, y: yPosition + eY, width: slotsWidth, height: slotsHeight)
+        editview.frame = CGRect(x: eX, y: eY, width: slotsWidth, height: slotsHeight)
         
         if type == .new {
-            self.view.addSubview(editview)
+            editBackgroundView.addSubview(editview)
             editableViews.removeAll()
         }
         

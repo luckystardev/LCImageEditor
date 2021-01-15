@@ -109,4 +109,12 @@ extension LCMultiImageEditor {
         view.widthAnchor.constraint(equalToConstant: kCropToolBarWidth).isActive = true
         view.heightAnchor.constraint(equalToConstant: kCropToolBarHeight).isActive = true
     }
+    
+    func setupEditBgViewConstraints() {
+        editBackgroundView.translatesAutoresizingMaskIntoConstraints = false
+        editBackgroundView.topAnchor.constraint(equalTo: topView.bottomAnchor, constant: kPadding).isActive = true
+        editBackgroundView.bottomAnchor.constraint(equalTo: mainToolbar.topAnchor).isActive = true
+        editBackgroundView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: kPadding).isActive = true
+        editBackgroundView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -kPadding).isActive = true
+    }
 }
