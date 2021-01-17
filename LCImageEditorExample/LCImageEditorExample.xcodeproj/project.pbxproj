@@ -16,6 +16,7 @@
 		A3155D5025AD3AA800897E99 /* ImageViewZoom.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3155D4F25AD3AA800897E99 /* ImageViewZoom.swift */; };
 		A316656925AF629200571E14 /* PhotoAuthorization.swift in Sources */ = {isa = PBXBuildFile; fileRef = A316656725AF629200571E14 /* PhotoAuthorization.swift */; };
 		A316656A25AF629200571E14 /* PhotoRequestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A316656825AF629200571E14 /* PhotoRequestManager.swift */; };
+		A316661025B4AF2800571E14 /* HorizontalDial.swift in Sources */ = {isa = PBXBuildFile; fileRef = A316660F25B4AF2800571E14 /* HorizontalDial.swift */; };
 		A320635D25A4BFC10036AC1E /* ChromaKeyFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A320631825A4BFC00036AC1E /* ChromaKeyFilter.swift */; };
 		A320635E25A4BFC10036AC1E /* LCEffector.swift in Sources */ = {isa = PBXBuildFile; fileRef = A320631925A4BFC00036AC1E /* LCEffector.swift */; };
 		A320635F25A4BFC10036AC1E /* BlurEyeFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A320631A25A4BFC00036AC1E /* BlurEyeFilter.swift */; };
@@ -98,6 +99,7 @@
 		A3155D4F25AD3AA800897E99 /* ImageViewZoom.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageViewZoom.swift; sourceTree = "<group>"; };
 		A316656725AF629200571E14 /* PhotoAuthorization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoAuthorization.swift; sourceTree = "<group>"; };
 		A316656825AF629200571E14 /* PhotoRequestManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoRequestManager.swift; sourceTree = "<group>"; };
+		A316660F25B4AF2800571E14 /* HorizontalDial.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HorizontalDial.swift; sourceTree = "<group>"; };
 		A320631825A4BFC00036AC1E /* ChromaKeyFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChromaKeyFilter.swift; sourceTree = "<group>"; };
 		A320631925A4BFC00036AC1E /* LCEffector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LCEffector.swift; sourceTree = "<group>"; };
 		A320631A25A4BFC00036AC1E /* BlurEyeFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlurEyeFilter.swift; sourceTree = "<group>"; };
@@ -219,6 +221,14 @@
 			path = ImagePicker;
 			sourceTree = "<group>";
 		};
+		A316660E25B4AF2800571E14 /* HorizontalDial */ = {
+			isa = PBXGroup;
+			children = (
+				A316660F25B4AF2800571E14 /* HorizontalDial.swift */,
+			);
+			path = HorizontalDial;
+			sourceTree = "<group>";
+		};
 		A320631625A4BFC00036AC1E /* LCMultiImageEditor */ = {
 			isa = PBXGroup;
 			children = (
@@ -292,6 +302,7 @@
 		A320633325A4BFC00036AC1E /* CustomViews */ = {
 			isa = PBXGroup;
 			children = (
+				A316660E25B4AF2800571E14 /* HorizontalDial */,
 				A316656625AF629200571E14 /* ImagePicker */,
 				A391EA1925A9EC9C000E9C1B /* GradientColorSlider */,
 				A320633425A4BFC00036AC1E /* LCSegmentControl */,
@@ -527,6 +538,7 @@
 				A316656925AF629200571E14 /* PhotoAuthorization.swift in Sources */,
 				A320636125A4BFC10036AC1E /* WarmthFilter.swift in Sources */,
 				A320636E25A4BFC10036AC1E /* MultiEditorDelegate.swift in Sources */,
+				A316661025B4AF2800571E14 /* HorizontalDial.swift in Sources */,
 				A320638D25A4BFC10036AC1E /* LCImageView+NSLayoutConstraints.swift in Sources */,
 				A320638425A4BFC10036AC1E /* LCImageView+UIScrollView.swift in Sources */,
 				A320639425A4BFC10036AC1E /* LCImageEditor+AspectRatio.swift in Sources */,
