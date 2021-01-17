@@ -8,10 +8,9 @@
 
 import UIKit
 
-extension UIImage {
+extension CIImage {
     
-    func WarmthFilter(_ value: Double) -> UIImage? {
-        
+    func WarmthFilter(_ value: Double) -> CIImage? {
         // TODO
         
         return self

@@ -8,9 +8,9 @@
 
 import UIKit
 
-extension UIImage {
+extension CIImage {
     
-    func BlackpointFilter(_ value: Double) -> UIImage? {
+    func BlackpointFilter(_ value: Double) -> CIImage? {
         // TODO
         
         return self

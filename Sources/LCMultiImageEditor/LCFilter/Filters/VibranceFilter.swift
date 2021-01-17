@@ -8,9 +8,9 @@
 
 import UIKit
 
-extension UIImage {
+extension CIImage {
     
-    func VibranceFilter(_ value: Double) -> UIImage? {
+    func VibranceFilter(_ value: Double) -> CIImage? {
         
         let filterName = "CIVibrance"
         guard let filter = CIFilter(name: filterName) else {
@@ -18,17 +18,10 @@ extension UIImage {
             return nil
         }
 
-        let inputImage = CIImage(image: self)
-
-        filter.setValue(inputImage, forKey: kCIInputImageKey)
+        filter.setDefaults()
+        filter.setValue(self, forKey: kCIInputImageKey)
         filter.setValue(value, forKey: kCIInputAmountKey)
 
-        guard let filteredImage = filter.outputImage else {
-            print("No output image.")
-            return self
-        }
-
-        let context = CIContext(options: nil)
-        return UIImage(cgImage: context.createCGImage(filteredImage, from: filteredImage.extent)!)
+        return filter.outputImage ?? self
     }
 }

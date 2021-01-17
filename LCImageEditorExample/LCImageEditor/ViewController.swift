@@ -15,19 +15,11 @@ class ViewController: UIViewController {
     var editType: EditType = .multiple
     var images: [UIImage] = []
     
-//    var orientations = UIInterfaceOrientationMask.portrait
-//
-//    override open var supportedInterfaceOrientations : UIInterfaceOrientationMask {
-//        get { return self.orientations }
-//        set { self.orientations = newValue }
-//    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         imageview.image = UIImage(named: "temp1")
-        self.images = [UIImage(named: "img2")!, UIImage(named: "img3")!, UIImage(named: "img1")!]
-//        self.images = [UIImage(named: "IMG_2657")!, UIImage(named: "IMG_3792")!, UIImage(named: "IMG_3802")!]
+        self.images = [UIImage(named: "img4")!, UIImage(named: "img3")!, UIImage(named: "img1")!]
     }
 
     @IBAction func editorTypeChanged(_ sender: UISegmentedControl) {

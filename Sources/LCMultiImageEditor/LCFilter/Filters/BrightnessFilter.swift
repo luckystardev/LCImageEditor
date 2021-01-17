@@ -14,9 +14,9 @@ enum CIColorMode {
     case saturation
 }
 
-extension UIImage {
+extension CIImage {
     
-    func BrightnessFilter(_ value: Double, _ mode: CIColorMode) -> UIImage? {
+    func BrightnessFilter(_ value: Double, _ mode: CIColorMode) -> CIImage? {
         
         let filterName = "CIColorControls"
         
@@ -24,11 +24,9 @@ extension UIImage {
             print("No filter with name: \(filterName).")
             return self
         }
-
-        let context = CIContext(options: nil)
         
-        let inputImage = CIImage(image: self)
-        filter.setValue(inputImage, forKey: kCIInputImageKey)
+        filter.setDefaults()
+        filter.setValue(self, forKey: kCIInputImageKey)
         
         if mode == .brightness {
             let newValue = value * 0.2
@@ -46,10 +44,6 @@ extension UIImage {
             filter.setValue(newValue, forKey: kCIInputSaturationKey)
         }
 
-        if let output = filter.outputImage,
-            let cgimg = context.createCGImage(output, from: output.extent) {
-                return UIImage(cgImage: cgimg)
-        }
-        return self
+        return filter.outputImage ?? self
     }
 }

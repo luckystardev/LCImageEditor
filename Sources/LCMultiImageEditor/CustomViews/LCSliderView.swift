@@ -202,17 +202,16 @@ extension LCSliderView: UICollectionViewDataSource {
 extension LCSliderView: UICollectionViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let value = Float(scrollView.contentOffset.x) / Float(markInterval)
-        let totalValue = value * step + minValue
+        var totalValue = value * step + minValue
         if scrollByHand {
             if totalValue >= maxValue {
-                valueLbl.text = String.init(format: "%.0f", maxValue)
+                totalValue = maxValue
             } else if totalValue <= minValue {
-                valueLbl.text = String.init(format: "%.0f", minValue)
-            } else{
-                valueLbl.text = String.init(format: "%.0f", floor(Float(value) * step + minValue))
+                totalValue = minValue
             }
         }
-//            delegate?.LCSliderViewValueChange(sliderView: self, value: totalValue)
+        valueLbl.text = String.init(format: "%.0f", floor(totalValue))
+//        delegate?.LCSliderViewValueChange(sliderView: self, value: floor(totalValue))
     }
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {

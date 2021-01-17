@@ -270,15 +270,15 @@
 		A320631D25A4BFC00036AC1E /* Filters */ = {
 			isa = PBXGroup;
 			children = (
-				A320631E25A4BFC00036AC1E /* WarmthFilter.swift */,
-				A320631F25A4BFC00036AC1E /* VigentteFilter.swift */,
-				A320632025A4BFC00036AC1E /* ExposureFilter.swift */,
 				A320632125A4BFC00036AC1E /* BrightnessFilter.swift */,
-				A320632225A4BFC00036AC1E /* NoiseFilter.swift */,
+				A320632025A4BFC00036AC1E /* ExposureFilter.swift */,
+				A320632625A4BFC00036AC1E /* HighlightFilter.swift */,
 				A320632325A4BFC00036AC1E /* VibranceFilter.swift */,
+				A320632225A4BFC00036AC1E /* NoiseFilter.swift */,
+				A320631F25A4BFC00036AC1E /* VigentteFilter.swift */,
+				A320631E25A4BFC00036AC1E /* WarmthFilter.swift */,
 				A320632425A4BFC00036AC1E /* BlackpointFilter.swift */,
 				A320632525A4BFC00036AC1E /* TintFilter.swift */,
-				A320632625A4BFC00036AC1E /* HighlightFilter.swift */,
 				A320632725A4BFC00036AC1E /* BrillianceFilter.swift */,
 			);
 			path = Filters;

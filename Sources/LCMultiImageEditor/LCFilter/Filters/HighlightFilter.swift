@@ -13,9 +13,9 @@ enum CIHighlightMode {
     case shadow
 }
 
-extension UIImage {
+extension CIImage {
     
-    func HighlightFilter(_ value: Double, _ mode: CIHighlightMode) -> UIImage? {
+    func HighlightFilter(_ value: Double, _ mode: CIHighlightMode) -> CIImage? {
         
         let filterName = "CIHighlightShadowAdjust"
         guard let filter = CIFilter(name: filterName) else {
@@ -23,21 +23,15 @@ extension UIImage {
             return self
         }
 
-        let context = CIContext(options: nil)
-        
-        let inputImage = CIImage(image: self)
-        filter.setValue(inputImage, forKey: kCIInputImageKey)
+        filter.setDefaults()
+        filter.setValue(self, forKey: kCIInputImageKey)
         
         if mode == .highlight {
-            filter.setValue(value, forKey: "inputHighlightAmount") //kCIInputNoiseLevelKey
+            filter.setValue(value, forKey: "inputHighlightAmount")
         } else if mode == .shadow {
             filter.setValue(value, forKey: "inputShadowAmount")
         }
 
-        if let output = filter.outputImage,
-            let cgimg = context.createCGImage(output, from: output.extent) {
-                return UIImage(cgImage: cgimg)
-        }
-        return self
+        return filter.outputImage ?? self
     }
 }

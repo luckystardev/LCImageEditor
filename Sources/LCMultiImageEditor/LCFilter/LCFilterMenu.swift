@@ -23,8 +23,8 @@ class LCFilterMenu: UIView {
     var selectedFilterValue: Double = 0
     var filterValues: [String:Double] = [:]
     
-    var sliderView: LCSliderView = {
-        var hSlider = LCSliderView.init(frame: CGRect.init(x: 0, y: 0, width: UIScreen.main.bounds.width - kPadding * 2, height: 56), tminValue: -100, tmaxValue: 100, tstep: 5, tNum: 5)
+    lazy var sliderView: LCSliderView = {
+        var hSlider = LCSliderView.init(frame: CGRect.init(x: kPadding, y: 64, width: UIScreen.main.bounds.width - kPadding * 2, height: 56), tminValue: -100, tmaxValue: 100, tstep: 5, tNum: 5)
         hSlider.setDefaultValueAndAnimated(defaultValue: 0, animated: true)
         return hSlider
     }()
@@ -133,9 +133,13 @@ extension LCFilterMenu: UICollectionViewDelegate, UICollectionViewDataSource {
         if let demo = demoImages[filter.filterName()] {
            cell.imageView.image = demo
         } else {
-            let demo = filter.filter(image: image, value: selectedFilterValue)
-            demoImages[filter.filterName()] = demo
-            cell.imageView.image = demo
+            let demo = filter.filter(image: CIImage(image: image)!, value: 100)
+            let context = CIContext(options: nil)
+            if let cgimg = context.createCGImage(demo, from: demo.extent) {
+                    let uiimage =  UIImage(cgImage: cgimg)
+                    demoImages[filter.filterName()] = uiimage
+                    cell.imageView.image = uiimage
+            }
         }
         
         cell.name.text = availableFilters[indexPath.item].filterName()
@@ -168,7 +172,8 @@ extension LCFilterMenu: UICollectionViewDelegate, UICollectionViewDataSource {
         } else {
 //            let minValue = filter.minimumValue()
 //            sliderView.minValue = Float(minValue)
-            sliderView.setDefaultValueAndAnimated(defaultValue: 0, animated: false)
+            let fValue = filterValues[filter.filterName()] ?? 0.0
+            sliderView.setDefaultValueAndAnimated(defaultValue: Float(fValue), animated: false)
             sliderView.isHidden = false
         }
     }
@@ -179,6 +184,7 @@ extension LCFilterMenu: LCSliderDelegate {
 //        print("slider's value = \(value)")
         let filter = availableFilters[selectedCellIndex]
         if availbleChange {
+            filterValues[filter.filterName()] = Double(value)
             didSelectFilter(filter, Double(value))
         }
     }

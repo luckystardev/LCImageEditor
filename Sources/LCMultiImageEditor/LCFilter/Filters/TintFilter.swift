@@ -8,9 +8,9 @@
 
 import UIKit
 
-extension UIImage {
+extension CIImage {
     
-    func TintFilter(_ value: Double) -> UIImage? {
+    func BrillianceFilter(_ value: Double) -> CIImage? {
         // TODO
         
         return self

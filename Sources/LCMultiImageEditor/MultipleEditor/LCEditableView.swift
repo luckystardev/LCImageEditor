@@ -11,6 +11,7 @@ import UIKit
 class LCEditableView: UIView {
     
     var image: UIImage!
+    var ciImage: CIImage! = nil
     weak var delegate : LCEditableViewDelegate?
     
     init(frame: CGRect, image: UIImage) {

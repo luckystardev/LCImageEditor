@@ -63,9 +63,13 @@ open class LCMultiImageEditor: UIViewController {
             LCLoadingView.shared.show()
             DispatchQueue.global(qos: .utility).async {
                 for editView in self.editableViews {
-                    let output = filter.filter(image: editView.photoContentView.image!, value: value)
+                    let output = filter.filter(image: editView.ciImage!, value: value)
                     DispatchQueue.main.sync {
-                        editView.photoContentView.image = output
+                        let context = CIContext(options: nil)
+                        if let cgimg = context.createCGImage(output, from: output.extent) {
+                                let uiimage =  UIImage(cgImage: cgimg)
+                                editView.photoContentView.image = uiimage
+                        }
                     }
                 }
                 LCLoadingView.shared.hide()
@@ -340,6 +344,9 @@ open class LCMultiImageEditor: UIViewController {
     @objc func resetAction() {
         syncImages()
         filterSubMenuView?.resetFilterMenu()
+        for editView in self.editableViews {
+            editView.ciImage = CIImage(image: editView.photoContentView.image)
+        }
     }
     
     @objc func editControl(_ index: Int) {
@@ -348,6 +355,10 @@ open class LCMultiImageEditor: UIViewController {
             filterSubMenuView?.isHidden = false
             effectSubMenuView?.isHidden = true
             croptoolbar?.isHidden = true
+            for editView in self.editableViews {
+                editView.ciImage = CIImage(image: editView.photoContentView.image)
+            }
+            filterSubMenuView?.resetFilterMenu()
         } else if index == 1 { // Filter(effect)
             self.editMode = .effect
             filterSubMenuView?.isHidden = true

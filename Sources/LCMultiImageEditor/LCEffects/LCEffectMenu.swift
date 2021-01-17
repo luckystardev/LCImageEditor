@@ -124,7 +124,7 @@ extension LCEffectMenu: UICollectionViewDelegate, UICollectionViewDataSource {
             cell.imageView.image = UIImage(systemName: "eye.slash.fill")
         }
         cell.imageView.contentMode = .scaleAspectFit
-        cell.imageView.tintColor = UIColor.systemGray
+        cell.imageView.tintColor = UIColor.black
         
         cell.name.text = effector.effectorName()
         if indexPath.item == selectedCellIndex && !isFirst {

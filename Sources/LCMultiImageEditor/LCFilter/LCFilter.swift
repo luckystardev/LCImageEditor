@@ -9,7 +9,7 @@
 import UIKit
 
 public protocol LCFilterable {
-    func filter(image: UIImage, value: Double) -> UIImage
+    func filter(image: CIImage, value: Double) -> CIImage
     func filterName() -> String
     func minimumValue() -> Double
     func valueChangeable() -> Bool
@@ -83,7 +83,7 @@ public enum LCFilter: LCFilterable {
         return CIFilter(name: ciFilterName)
     }
     
-    public func filter(image: UIImage, value: Double) -> UIImage {
+    public func filter(image: CIImage, value: Double) -> CIImage {
         
         let avalue = value / 100
         
@@ -120,20 +120,10 @@ public enum LCFilter: LCFilterable {
             
             default:
                 if let ciFilter = ciFilter() {
-                    let context = CIContext(options: nil)
-                    
-                    let beginImage = CIImage(image: image)
-                    ciFilter.setValue(beginImage, forKey: kCIInputImageKey)
-                    
-                    if let output = ciFilter.outputImage,
-                        let cgimg = context.createCGImage(output, from: output.extent) {
-                            return UIImage(cgImage: cgimg,
-                                           scale: image.scale,
-                                           orientation: image.imageOrientation)
-                    }
-                    return UIImage()
+                    ciFilter.setDefaults()
+                    ciFilter.setValue(image, forKey: kCIInputImageKey)
+                    return ciFilter.outputImage ?? image
                 }
-                
                 return image
         }
     }
