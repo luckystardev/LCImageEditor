@@ -30,10 +30,7 @@ class LCFilterCell: UICollectionViewCell {
         selectCircleView.frame = imageView.frame.insetBy(dx: -3, dy: -3)
         selectCircleView.layer.cornerRadius = selectCircleView.frame.width / 2
         selectCircleView.layer.borderWidth = 2
-        selectCircleView.layer.borderColor = kButtonTintColor.cgColor
-        
-        // hide selectCircleView by default
-        selectCircleView.isHidden = true
+        selectCircleView.layer.borderColor = UIColor.systemGray.cgColor
         
         self.addSubview(selectCircleView)
         self.addSubview(imageView)
@@ -53,12 +50,12 @@ class LCFilterCell: UICollectionViewCell {
     }
     
     public func setSelected() {
-        selectCircleView.isHidden = false
+        selectCircleView.layer.borderColor = kButtonTintColor.cgColor
         name.textColor = kButtonTintColor
     }
     
     public func setDeselected() {
-        selectCircleView.isHidden = true
+        selectCircleView.layer.borderColor = UIColor.systemGray.cgColor
         name.textColor = .darkText
     }
     
