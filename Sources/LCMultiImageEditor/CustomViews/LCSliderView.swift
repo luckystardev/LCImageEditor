@@ -113,6 +113,13 @@ class LCSliderView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    public override func layoutSubviews() {
+        super.layoutSubviews()
+        valueLbl.frame = CGRect(x: (self.bounds.size.width - 60).half, y: 0, width: 60, height: 20)
+        triangleview.frame = CGRect(x: (self.bounds.size.width - CGFloat(triangleWidth) - 1).half, y: valueLbl.frame.maxY, width: CGFloat(triangleWidth), height: CGFloat(triangleWidth))
+        self.lazyCollectionView.collectionViewLayout.invalidateLayout()
+    }
+    
     var valueLbl: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
@@ -173,7 +180,7 @@ extension LCSliderView: UICollectionViewDataSource {
             return cell
         } else {
             let cell:UICollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: "customeCell", for: indexPath)
-            var rulerView:LCRulerView? = cell.contentView.viewWithTag(1002) as? LCRulerView
+            var rulerView: LCRulerView? = cell.contentView.viewWithTag(1002) as? LCRulerView
             if rulerView == nil {
                 rulerView = LCRulerView.init(frame: CGRect.init(x: 0, y: 0, width: markInterval * betweenNum, height: sliderHeight))
                 rulerView!.backgroundColor = UIColor.clear
