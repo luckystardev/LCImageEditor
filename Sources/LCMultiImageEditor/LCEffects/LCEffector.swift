@@ -14,14 +14,11 @@ public protocol LCEffectable {
 }
 
 public enum LCEffector: LCEffectable {
-    case None
     case EffectChromaKey
     case EffectBlurEye
         
     public func effector(image: UIImage, value: CGFloat) -> UIImage {
         switch self {
-            case .None:
-                return image
             case .EffectChromaKey:
                 return image.ChromaKeyFilter(value)
             case .EffectBlurEye:
@@ -37,7 +34,6 @@ public enum LCEffector: LCEffectable {
     
     public func effectorName() -> String {
         switch self {
-            case .None: return "Original"
             case .EffectChromaKey: return "Chroma"
             case .EffectBlurEye: return "Blur eye"
         }
@@ -45,7 +41,6 @@ public enum LCEffector: LCEffectable {
 }
 
 internal let kDefaultEffectors = [
-//    LCEffector.None,
     LCEffector.EffectChromaKey,
     LCEffector.EffectBlurEye,
 ]

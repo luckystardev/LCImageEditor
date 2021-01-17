@@ -62,20 +62,14 @@ extension LCMultiImageEditor {
     
     private func getSlotAspectRatio(_ layoutType: MediaMontageType, ratioType: MontageRatioType) -> CGSize {
         switch ratioType {
-            case .custom:
+            case .custom: //slot ratio
                 if (layoutType == .verticalTow || layoutType == .verticalThree) {
                     return CGSize(width: 16, height: 9)
                 }
                 return CGSize(width: 9, height: 16)
-            case .nineSixteenth:
-//                if (layoutType == .verticalTow || layoutType == .verticalThree) {
-//                    return CGSize(width: 16, height: 9)
-//                }
+            case .nineSixteenth: //entire image's ratio
                 return CGSize(width: 9, height: 16)
             case .threeFourth:
-//                if (layoutType == .verticalTow || layoutType == .verticalThree) {
-//                    return CGSize(width: 4, height: 3)
-//                }
                 return CGSize(width: 3, height: 4)
             case .square:
                 return CGSize(width: 1, height: 1)

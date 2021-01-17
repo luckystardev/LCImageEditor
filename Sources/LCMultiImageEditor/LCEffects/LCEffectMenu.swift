@@ -117,14 +117,6 @@ extension LCEffectMenu: UICollectionViewDelegate, UICollectionViewDataSource {
             else { return UICollectionViewCell() }
         
         let effector = availableEffectors[indexPath.item]
-        /*
-        if let demo = demoImages[effector.effectorName()] {
-           cell.imageView.image = demo
-        } else {
-            let demo = effector.effector(image: image, value: 1)
-            demoImages[effector.effectorName()] = demo
-            cell.imageView.image = demo
-        } */
         
         if indexPath.item == 0 {
             cell.imageView.image = UIImage(systemName: "photo")
@@ -167,7 +159,7 @@ extension LCEffectMenu: UICollectionViewDelegate, UICollectionViewDataSource {
 
 extension LCEffectMenu: ColorSliderDelegate {
     func colorPicked(_ value: CGFloat) {
-        print("picked color = \(value)")
+//        print("picked color = \(value)")
         let effector = availableEffectors[0]
         didSelectEffector(effector, value)
     }

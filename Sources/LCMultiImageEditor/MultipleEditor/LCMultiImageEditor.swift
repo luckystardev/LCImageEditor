@@ -226,13 +226,9 @@ open class LCMultiImageEditor: UIViewController {
     }
     
     func setupFilterMenubar() {
-//        let bvframe = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: kMainToolBarHeight)
-//        filterSubMenuView?.frame = bvframe
+        
         mainToolbar.addSubview(filterSubMenuView!)
-        
-//        effectSubMenuView?.frame = bvframe
         mainToolbar.addSubview(effectSubMenuView!)
-        
         mainToolbar.addSubview(croptoolbar!)
         
         setupFilterMenubarConstraints()

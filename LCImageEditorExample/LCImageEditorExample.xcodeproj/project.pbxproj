@@ -43,7 +43,6 @@
 		A320637525A4BFC10036AC1E /* LCSegment.swift in Sources */ = {isa = PBXBuildFile; fileRef = A320633525A4BFC00036AC1E /* LCSegment.swift */; };
 		A320637625A4BFC10036AC1E /* LCSegmentItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A320633625A4BFC00036AC1E /* LCSegmentItem.swift */; };
 		A320637725A4BFC10036AC1E /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A320633725A4BFC00036AC1E /* CustomButton.swift */; };
-		A320637825A4BFC10036AC1E /* HorizontalDial.swift in Sources */ = {isa = PBXBuildFile; fileRef = A320633925A4BFC00036AC1E /* HorizontalDial.swift */; };
 		A320637925A4BFC10036AC1E /* LCLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A320633A25A4BFC00036AC1E /* LCLoadingView.swift */; };
 		A320637A25A4BFC10036AC1E /* LCCropView+UITouch.swift in Sources */ = {isa = PBXBuildFile; fileRef = A320633C25A4BFC00036AC1E /* LCCropView+UITouch.swift */; };
 		A320637B25A4BFC10036AC1E /* LCCropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A320633D25A4BFC00036AC1E /* LCCropView.swift */; };
@@ -126,7 +125,6 @@
 		A320633525A4BFC00036AC1E /* LCSegment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LCSegment.swift; sourceTree = "<group>"; };
 		A320633625A4BFC00036AC1E /* LCSegmentItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LCSegmentItem.swift; sourceTree = "<group>"; };
 		A320633725A4BFC00036AC1E /* CustomButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
-		A320633925A4BFC00036AC1E /* HorizontalDial.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HorizontalDial.swift; sourceTree = "<group>"; };
 		A320633A25A4BFC00036AC1E /* LCLoadingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LCLoadingView.swift; sourceTree = "<group>"; };
 		A320633C25A4BFC00036AC1E /* LCCropView+UITouch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LCCropView+UITouch.swift"; sourceTree = "<group>"; };
 		A320633D25A4BFC00036AC1E /* LCCropView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LCCropView.swift; sourceTree = "<group>"; };
@@ -296,7 +294,6 @@
 			children = (
 				A316656625AF629200571E14 /* ImagePicker */,
 				A391EA1925A9EC9C000E9C1B /* GradientColorSlider */,
-				A320633825A4BFC00036AC1E /* HorizontalDial */,
 				A320633425A4BFC00036AC1E /* LCSegmentControl */,
 				A320633725A4BFC00036AC1E /* CustomButton.swift */,
 				A320633A25A4BFC00036AC1E /* LCLoadingView.swift */,
@@ -314,14 +311,6 @@
 				A320633625A4BFC00036AC1E /* LCSegmentItem.swift */,
 			);
 			path = LCSegmentControl;
-			sourceTree = "<group>";
-		};
-		A320633825A4BFC00036AC1E /* HorizontalDial */ = {
-			isa = PBXGroup;
-			children = (
-				A320633925A4BFC00036AC1E /* HorizontalDial.swift */,
-			);
-			path = HorizontalDial;
 			sourceTree = "<group>";
 		};
 		A320633B25A4BFC00036AC1E /* LCCropView */ = {
@@ -492,7 +481,6 @@
 				A320636A25A4BFC10036AC1E /* BrillianceFilter.swift in Sources */,
 				A30F451A256C62B900A0B6D3 /* ViewController.swift in Sources */,
 				A320639525A4BFC10036AC1E /* ImageEditorVC.swift in Sources */,
-				A320637825A4BFC10036AC1E /* HorizontalDial.swift in Sources */,
 				A320637225A4BFC10036AC1E /* MultiEditor+Layout.swift in Sources */,
 				A320639325A4BFC10036AC1E /* LCImageEditorConstants.swift in Sources */,
 				A320637D25A4BFC10036AC1E /* LCCropMaskView.swift in Sources */,

@@ -174,9 +174,9 @@ extension LCFilterMenu: UICollectionViewDelegate, UICollectionViewDataSource {
     }
 }
 
-extension LCFilterMenu:LCSliderDelegate {
+extension LCFilterMenu: LCSliderDelegate {
     func LCSliderViewValueChange(sliderView: LCSliderView, value: Float) {
-        print("value-------》"+"\(value)")
+//        print("slider's value = \(value)")
         let filter = availableFilters[selectedCellIndex]
         if availbleChange {
             didSelectFilter(filter, Double(value))

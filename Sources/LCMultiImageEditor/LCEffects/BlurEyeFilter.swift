@@ -24,15 +24,15 @@ public class BlueEyeFilter: CIFilter {
     }
 
     struct FaceObservation {
-        let face:VNFaceObservation
-        let eyesLandmarks:[FaceLandmark]
+        let face: VNFaceObservation
+        let eyesLandmarks: [FaceLandmark]
     }
 
     struct FaceLandmark {
-        let region:VNFaceLandmarkRegion2D
-        let path:CGPath
-        let flippedPath:CGPath
-        let isLeft:Bool
+        let region: VNFaceLandmarkRegion2D
+        let path: CGPath
+        let flippedPath: CGPath
+        let isLeft: Bool
     }
 
     func useVNDetectFace(image:CIImage)->CIImage{
@@ -41,7 +41,7 @@ public class BlueEyeFilter: CIFilter {
 
             let semaphore = DispatchSemaphore(value: 0)
 
-            var resultRequest:VNRequest?
+            var resultRequest: VNRequest?
 
             let faceDetectionRequest = VNDetectFaceLandmarksRequest(completionHandler: {request, error in
                 resultRequest = request
@@ -104,7 +104,7 @@ public class BlueEyeFilter: CIFilter {
 
     fileprivate class func createPath(imageSize:CGSize, landmark: VNFaceLandmarkRegion2D, flipped:Bool =  false) -> CGPath{
 
-        let points:[CGPoint] = landmark.pointsInImage(imageSize: imageSize).map({
+        let points: [CGPoint] = landmark.pointsInImage(imageSize: imageSize).map({
 
             if flipped {
 

@@ -57,7 +57,7 @@ class LCRulerView: UIView {
             context?.setStrokeColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 1.0)
             context?.move(to: CGPoint.init(x: lineCenterX * CGFloat(i), y: topY))
             if i % betweenNumber == 0 {
-                let num = Float(i)*step+minValue
+                let num = Float(i) * step + minValue
                 if num == 0 && i == 0 {
                     context?.setLineWidth(3)
                     context?.setStrokeColor(red: 0.0, green: 0.0, blue: 1.0, alpha: 1.0)
@@ -77,7 +77,7 @@ protocol LCSliderDelegate: NSObjectProtocol {
 
 class LCSliderView: UIView {
     
-    weak var delegate:LCSliderDelegate?
+    weak var delegate: LCSliderDelegate?
     
     var scrollByHand = true
     var stepCount = 0
@@ -129,12 +129,12 @@ class LCSliderView: UIView {
     lazy var lazyCollectionView: UICollectionView = {
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.scrollDirection = .horizontal
+        flowLayout.estimatedItemSize = .zero
         
-        let collectionView:UICollectionView = UICollectionView.init(frame: CGRect.init(x: 0, y: 0, width: self.bounds.size.width, height: CGFloat(sliderHeight)), collectionViewLayout: flowLayout)
+        let collectionView: UICollectionView = UICollectionView.init(frame: CGRect.init(x: 0, y: 20, width: self.bounds.size.width, height: CGFloat(sliderHeight - 20)), collectionViewLayout: flowLayout)
         collectionView.backgroundColor = UIColor.systemBackground
         collectionView.bounces = true
         collectionView.showsHorizontalScrollIndicator = false
-        collectionView.showsVerticalScrollIndicator = false
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "footerCell")
@@ -156,7 +156,7 @@ class LCSliderView: UIView {
         }
     }
     
-    @objc fileprivate func setRealValueAndAnimated(realValue: Float, animated: Bool){
+    @objc fileprivate func setRealValueAndAnimated(realValue: Float, animated: Bool) {
         fileRealValue = realValue
         valueLbl.text = String.init(format: "%.0f", floor(fileRealValue * step + minValue))
         lazyCollectionView.setContentOffset(CGPoint(x: CGFloat(realValue * Float(markInterval)), y: 0), animated: animated)
@@ -176,10 +176,10 @@ extension LCSliderView: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if indexPath.item == 0 || indexPath.item == stepCount + 1 {
-            let cell:UICollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: "footerCell", for: indexPath)
+            let cell: UICollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: "footerCell", for: indexPath)
             return cell
         } else {
-            let cell:UICollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: "customeCell", for: indexPath)
+            let cell: UICollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: "customeCell", for: indexPath)
             var rulerView: LCRulerView? = cell.contentView.viewWithTag(1002) as? LCRulerView
             if rulerView == nil {
                 rulerView = LCRulerView.init(frame: CGRect.init(x: 0, y: 0, width: markInterval * betweenNum, height: sliderHeight))
@@ -234,20 +234,20 @@ extension LCSliderView: UICollectionViewDelegate {
 extension LCSliderView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if indexPath.item == 0 || indexPath.item == stepCount + 1 {
-            return CGSize(width: Int(self.frame.size.width.half), height: sliderHeight)
+            return CGSize(width: Int(self.frame.size.width.half), height: sliderHeight - 20)
         }
-        return CGSize(width: markInterval * betweenNum, height: sliderHeight)
+        return CGSize(width: markInterval * betweenNum, height: sliderHeight - 20)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     }
 
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 0
     }
-
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 0
     }
 }
