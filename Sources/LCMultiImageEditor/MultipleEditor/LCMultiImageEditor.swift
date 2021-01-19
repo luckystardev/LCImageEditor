@@ -64,12 +64,16 @@ open class LCMultiImageEditor: UIViewController {
             DispatchQueue.global(qos: .utility).async {
                 for editView in self.editableViews {
                     let output = filter.filter(image: editView.ciImage!, value: value)
-                    DispatchQueue.main.sync {
-                        let context = CIContext(options: nil)
-                        if let cgimg = context.createCGImage(output, from: output.extent) {
-                                let uiimage =  UIImage(cgImage: cgimg)
-                                editView.photoContentView.image = uiimage
+                    if value <= 100 {
+                        DispatchQueue.main.sync {
+                            let context = CIContext(options: nil)
+                            if let cgimg = context.createCGImage(output, from: output.extent) {
+                                    let uiimage =  UIImage(cgImage: cgimg)
+                                    editView.photoContentView.image = uiimage
+                            }
                         }
+                    } else {
+                        editView.ciImage = output
                     }
                 }
                 LCLoadingView.shared.hide()

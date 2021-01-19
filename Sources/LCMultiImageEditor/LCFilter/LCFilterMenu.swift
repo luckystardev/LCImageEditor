@@ -172,9 +172,12 @@ extension LCFilterMenu: UICollectionViewDelegate, UICollectionViewDataSource {
         } else {
 //            let minValue = filter.minimumValue()
 //            sliderView.minValue = Float(minValue)
-            let fValue = filterValues[filter.filterName()] ?? 0.0
-            sliderView.setDefaultValueAndAnimated(defaultValue: Float(fValue), animated: false)
+            
+//            let fValue = filterValues[filter.filterName()] ?? 0.0
+//            sliderView.setDefaultValueAndAnimated(defaultValue: Float(fValue), animated: false)
             sliderView.isHidden = false
+            sliderView.setDefaultValueAndAnimated(defaultValue: 0, animated: false)
+            didSelectFilter(filter, 101)
         }
     }
 }
