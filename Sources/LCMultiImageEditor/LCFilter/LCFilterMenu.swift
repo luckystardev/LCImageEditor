@@ -85,9 +85,9 @@ class LCFilterMenu: UIView {
    }
     
    public func resetFilterMenu() {
-        for filter in availableFilters {
-            filterValues[filter.filterName()] = 0.0
-        }
+//        for filter in availableFilters {
+//            filterValues[filter.filterName()] = 0.0
+//        }
         sliderView.setDefaultValueAndAnimated(defaultValue: 0, animated: true)
    }
     
