@@ -33,6 +33,8 @@ open class LCMultiImageEditor: UIViewController {
     var previewImage: UIImage? = nil
     var selectedIndex: Int = 0
     
+    var isLock: Bool = false
+    
     var orientations = UIInterfaceOrientationMask.portrait
     
     override open var supportedInterfaceOrientations : UIInterfaceOrientationMask {
@@ -177,10 +179,17 @@ open class LCMultiImageEditor: UIViewController {
         resetButton.addTarget(self, action: #selector(resetAction), for: .touchUpInside)
         topView.addSubview(resetButton)
         
+        let lockButton = UIButton()
+        lockButton.setBackgroundImage(UIImage(systemName: "lock"), for: .normal)
+        lockButton.tintColor = kButtonTintColor
+        lockButton.addTarget(self, action: #selector(lockAction), for: .touchUpInside)
+        topView.addSubview(lockButton)
+        
         self.setupTopViewConstraints()
         self.setupTitleLabelConstraints(titleLabel)
         self.setupCancelButtonConstraints(cancelButton)
         self.setupResetButtonConstraints(resetButton)
+        self.setupLockButtonConstraints(lockButton)
     }
     
     func setupBottomButtons() {
@@ -350,6 +359,21 @@ open class LCMultiImageEditor: UIViewController {
         filterSubMenuView?.resetFilterMenu()
         for editView in self.editableViews {
             editView.ciImage = CIImage(image: editView.photoContentView.image)
+        }
+    }
+    
+    @objc func lockAction(_ sender: UIButton) {
+        isLock = !isLock
+        if isLock {
+            sender.setBackgroundImage(UIImage(systemName: "lock.fill"), for: .normal)
+            for editView in self.editableViews {
+                editView.lock(true)
+            }
+        } else {
+            sender.setBackgroundImage(UIImage(systemName: "lock"), for: .normal)
+            for editView in self.editableViews {
+                editView.lock(false)
+            }
         }
     }
     

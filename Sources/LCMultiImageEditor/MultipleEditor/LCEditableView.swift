@@ -36,6 +36,17 @@ class LCEditableView: UIView {
         self.delegate?.tapAction(self)
     }
     
+    public func lock(_ isLock: Bool) {
+        if isLock {
+            //lock move, zoom, rotate
+            self.scrollView.isUserInteractionEnabled = false
+            self.scrollView.isScrollEnabled = false
+        } else {
+            self.scrollView.isUserInteractionEnabled = true
+            self.scrollView.isScrollEnabled = true
+        }
+    }
+    
     public func resetFrame(_ frame: CGRect) {
         //init frame
         self.frame = frame

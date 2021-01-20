@@ -42,6 +42,14 @@ extension LCMultiImageEditor {
         button.heightAnchor.constraint(equalToConstant: 22).isActive = true
     }
     
+    func setupLockButtonConstraints(_ button: UIButton) {
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.rightAnchor.constraint(equalTo: topView.rightAnchor, constant: -40).isActive = true
+        button.centerYAnchor.constraint(equalTo: topView.centerYAnchor).isActive = true
+        button.widthAnchor.constraint(equalToConstant: 22).isActive = true
+        button.heightAnchor.constraint(equalToConstant: 22).isActive = true
+    }
+    
     func setupBottomViewConstraints() {
         bottomView.translatesAutoresizingMaskIntoConstraints = false
         previewButton.translatesAutoresizingMaskIntoConstraints = false
