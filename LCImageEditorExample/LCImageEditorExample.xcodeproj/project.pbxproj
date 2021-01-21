@@ -34,11 +34,11 @@
 		A320636B25A4BFC10036AC1E /* LCFilterMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = A320632825A4BFC00036AC1E /* LCFilterMenu.swift */; };
 		A320636C25A4BFC10036AC1E /* LCFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A320632925A4BFC00036AC1E /* LCFilter.swift */; };
 		A320636D25A4BFC10036AC1E /* LCFilterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A320632A25A4BFC00036AC1E /* LCFilterCell.swift */; };
-		A320636E25A4BFC10036AC1E /* MultiEditorDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A320632C25A4BFC00036AC1E /* MultiEditorDelegate.swift */; };
+		A320636E25A4BFC10036AC1E /* LCMultiImageEditorDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A320632C25A4BFC00036AC1E /* LCMultiImageEditorDelegate.swift */; };
 		A320636F25A4BFC10036AC1E /* LCEditableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A320632D25A4BFC00036AC1E /* LCEditableView.swift */; };
-		A320637025A4BFC10036AC1E /* MultiEditorDefine.swift in Sources */ = {isa = PBXBuildFile; fileRef = A320632E25A4BFC00036AC1E /* MultiEditorDefine.swift */; };
-		A320637125A4BFC10036AC1E /* MultiEditorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A320632F25A4BFC00036AC1E /* MultiEditorExtensions.swift */; };
-		A320637225A4BFC10036AC1E /* MultiEditor+Layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = A320633025A4BFC00036AC1E /* MultiEditor+Layout.swift */; };
+		A320637025A4BFC10036AC1E /* LCMultiImageEditorDefine.swift in Sources */ = {isa = PBXBuildFile; fileRef = A320632E25A4BFC00036AC1E /* LCMultiImageEditorDefine.swift */; };
+		A320637125A4BFC10036AC1E /* LCMultiImageEditor+Scale.swift in Sources */ = {isa = PBXBuildFile; fileRef = A320632F25A4BFC00036AC1E /* LCMultiImageEditor+Scale.swift */; };
+		A320637225A4BFC10036AC1E /* LCMultiImageEditor+Layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = A320633025A4BFC00036AC1E /* LCMultiImageEditor+Layout.swift */; };
 		A320637325A4BFC10036AC1E /* LCEditableView+UIScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A320633125A4BFC00036AC1E /* LCEditableView+UIScrollView.swift */; };
 		A320637425A4BFC10036AC1E /* LCMultiImageEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A320633225A4BFC00036AC1E /* LCMultiImageEditor.swift */; };
 		A320637525A4BFC10036AC1E /* LCSegment.swift in Sources */ = {isa = PBXBuildFile; fileRef = A320633525A4BFC00036AC1E /* LCSegment.swift */; };
@@ -76,6 +76,7 @@
 		A320639625A4BFC10036AC1E /* LCImageEditorDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A320635B25A4BFC00036AC1E /* LCImageEditorDelegate.swift */; };
 		A320639725A4BFC10036AC1E /* LCImageEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A320635C25A4BFC00036AC1E /* LCImageEditor.swift */; };
 		A32063A525A601270036AC1E /* LCMultiImageEditor+NSLayoutConstraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = A32063A425A601270036AC1E /* LCMultiImageEditor+NSLayoutConstraints.swift */; };
+		A329E02225B903AB0010AA3B /* LCMultiImageEditor+UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A329E02125B903AB0010AA3B /* LCMultiImageEditor+UIView.swift */; };
 		A391EA2225A9EC9C000E9C1B /* PreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A391EA1A25A9EC9C000E9C1B /* PreviewView.swift */; };
 		A391EA2325A9EC9C000E9C1B /* ColorSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A391EA1B25A9EC9C000E9C1B /* ColorSlider.swift */; };
 		A391EA2425A9EC9C000E9C1B /* Gradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = A391EA1D25A9EC9C000E9C1B /* Gradient.swift */; };
@@ -117,11 +118,11 @@
 		A320632825A4BFC00036AC1E /* LCFilterMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LCFilterMenu.swift; sourceTree = "<group>"; };
 		A320632925A4BFC00036AC1E /* LCFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LCFilter.swift; sourceTree = "<group>"; };
 		A320632A25A4BFC00036AC1E /* LCFilterCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LCFilterCell.swift; sourceTree = "<group>"; };
-		A320632C25A4BFC00036AC1E /* MultiEditorDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiEditorDelegate.swift; sourceTree = "<group>"; };
+		A320632C25A4BFC00036AC1E /* LCMultiImageEditorDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LCMultiImageEditorDelegate.swift; sourceTree = "<group>"; };
 		A320632D25A4BFC00036AC1E /* LCEditableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LCEditableView.swift; sourceTree = "<group>"; };
-		A320632E25A4BFC00036AC1E /* MultiEditorDefine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiEditorDefine.swift; sourceTree = "<group>"; };
-		A320632F25A4BFC00036AC1E /* MultiEditorExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiEditorExtensions.swift; sourceTree = "<group>"; };
-		A320633025A4BFC00036AC1E /* MultiEditor+Layout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MultiEditor+Layout.swift"; sourceTree = "<group>"; };
+		A320632E25A4BFC00036AC1E /* LCMultiImageEditorDefine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LCMultiImageEditorDefine.swift; sourceTree = "<group>"; };
+		A320632F25A4BFC00036AC1E /* LCMultiImageEditor+Scale.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LCMultiImageEditor+Scale.swift"; sourceTree = "<group>"; };
+		A320633025A4BFC00036AC1E /* LCMultiImageEditor+Layout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LCMultiImageEditor+Layout.swift"; sourceTree = "<group>"; };
 		A320633125A4BFC00036AC1E /* LCEditableView+UIScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LCEditableView+UIScrollView.swift"; sourceTree = "<group>"; };
 		A320633225A4BFC00036AC1E /* LCMultiImageEditor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LCMultiImageEditor.swift; sourceTree = "<group>"; };
 		A320633525A4BFC00036AC1E /* LCSegment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LCSegment.swift; sourceTree = "<group>"; };
@@ -159,6 +160,7 @@
 		A320635B25A4BFC00036AC1E /* LCImageEditorDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LCImageEditorDelegate.swift; sourceTree = "<group>"; };
 		A320635C25A4BFC00036AC1E /* LCImageEditor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LCImageEditor.swift; sourceTree = "<group>"; };
 		A32063A425A601270036AC1E /* LCMultiImageEditor+NSLayoutConstraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LCMultiImageEditor+NSLayoutConstraints.swift"; sourceTree = "<group>"; };
+		A329E02125B903AB0010AA3B /* LCMultiImageEditor+UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LCMultiImageEditor+UIView.swift"; sourceTree = "<group>"; };
 		A391EA1A25A9EC9C000E9C1B /* PreviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewView.swift; sourceTree = "<group>"; };
 		A391EA1B25A9EC9C000E9C1B /* ColorSlider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorSlider.swift; sourceTree = "<group>"; };
 		A391EA1D25A9EC9C000E9C1B /* Gradient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Gradient.swift; sourceTree = "<group>"; };
@@ -288,11 +290,12 @@
 			isa = PBXGroup;
 			children = (
 				A320633225A4BFC00036AC1E /* LCMultiImageEditor.swift */,
-				A320632C25A4BFC00036AC1E /* MultiEditorDelegate.swift */,
-				A320632E25A4BFC00036AC1E /* MultiEditorDefine.swift */,
-				A320632F25A4BFC00036AC1E /* MultiEditorExtensions.swift */,
-				A320633025A4BFC00036AC1E /* MultiEditor+Layout.swift */,
+				A320632C25A4BFC00036AC1E /* LCMultiImageEditorDelegate.swift */,
+				A320632E25A4BFC00036AC1E /* LCMultiImageEditorDefine.swift */,
+				A329E02125B903AB0010AA3B /* LCMultiImageEditor+UIView.swift */,
 				A32063A425A601270036AC1E /* LCMultiImageEditor+NSLayoutConstraints.swift */,
+				A320632F25A4BFC00036AC1E /* LCMultiImageEditor+Scale.swift */,
+				A320633025A4BFC00036AC1E /* LCMultiImageEditor+Layout.swift */,
 				A320632D25A4BFC00036AC1E /* LCEditableView.swift */,
 				A320633125A4BFC00036AC1E /* LCEditableView+UIScrollView.swift */,
 			);
@@ -303,8 +306,8 @@
 			isa = PBXGroup;
 			children = (
 				A316660E25B4AF2800571E14 /* HorizontalDial */,
-				A316656625AF629200571E14 /* ImagePicker */,
 				A391EA1925A9EC9C000E9C1B /* GradientColorSlider */,
+				A316656625AF629200571E14 /* ImagePicker */,
 				A320633425A4BFC00036AC1E /* LCSegmentControl */,
 				A320633725A4BFC00036AC1E /* CustomButton.swift */,
 				A320633A25A4BFC00036AC1E /* LCLoadingView.swift */,
@@ -363,11 +366,11 @@
 			children = (
 				A320635225A4BFC00036AC1E /* LCImageEditor+Radian.swift */,
 				A320635325A4BFC00036AC1E /* LCImageEditor+PhotoLibrary.swift */,
-				A320635425A4BFC00036AC1E /* LCRadian.swift */,
 				A320635525A4BFC00036AC1E /* LCImageEditor+Custom.swift */,
+				A320635825A4BFC00036AC1E /* LCImageEditor+AspectRatio.swift */,
+				A320635425A4BFC00036AC1E /* LCRadian.swift */,
 				A320635625A4BFC00036AC1E /* LCImageEditorExtensions.swift */,
 				A320635725A4BFC00036AC1E /* LCImageEditorConstants.swift */,
-				A320635825A4BFC00036AC1E /* LCImageEditor+AspectRatio.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -492,12 +495,12 @@
 				A320636A25A4BFC10036AC1E /* BrillianceFilter.swift in Sources */,
 				A30F451A256C62B900A0B6D3 /* ViewController.swift in Sources */,
 				A320639525A4BFC10036AC1E /* ImageEditorVC.swift in Sources */,
-				A320637225A4BFC10036AC1E /* MultiEditor+Layout.swift in Sources */,
+				A320637225A4BFC10036AC1E /* LCMultiImageEditor+Layout.swift in Sources */,
 				A320639325A4BFC10036AC1E /* LCImageEditorConstants.swift in Sources */,
 				A320637D25A4BFC10036AC1E /* LCCropMaskView.swift in Sources */,
 				A320636425A4BFC10036AC1E /* BrightnessFilter.swift in Sources */,
 				A320638225A4BFC10036AC1E /* LCCropView+NSLayoutConstraints.swift in Sources */,
-				A320637025A4BFC10036AC1E /* MultiEditorDefine.swift in Sources */,
+				A320637025A4BFC10036AC1E /* LCMultiImageEditorDefine.swift in Sources */,
 				A320635D25A4BFC10036AC1E /* ChromaKeyFilter.swift in Sources */,
 				A320636225A4BFC10036AC1E /* VigentteFilter.swift in Sources */,
 				A320636625A4BFC10036AC1E /* VibranceFilter.swift in Sources */,
@@ -522,7 +525,7 @@
 				A391EA2425A9EC9C000E9C1B /* Gradient.swift in Sources */,
 				A320637E25A4BFC10036AC1E /* LCCropViewDelegate.swift in Sources */,
 				A391EA2225A9EC9C000E9C1B /* PreviewView.swift in Sources */,
-				A320637125A4BFC10036AC1E /* MultiEditorExtensions.swift in Sources */,
+				A320637125A4BFC10036AC1E /* LCMultiImageEditor+Scale.swift in Sources */,
 				A320638325A4BFC10036AC1E /* LCImageView.swift in Sources */,
 				A391EA2725A9EC9C000E9C1B /* GradientView.swift in Sources */,
 				A320636C25A4BFC10036AC1E /* LCFilter.swift in Sources */,
@@ -537,7 +540,7 @@
 				A320639125A4BFC10036AC1E /* LCImageEditor+Custom.swift in Sources */,
 				A316656925AF629200571E14 /* PhotoAuthorization.swift in Sources */,
 				A320636125A4BFC10036AC1E /* WarmthFilter.swift in Sources */,
-				A320636E25A4BFC10036AC1E /* MultiEditorDelegate.swift in Sources */,
+				A320636E25A4BFC10036AC1E /* LCMultiImageEditorDelegate.swift in Sources */,
 				A316661025B4AF2800571E14 /* HorizontalDial.swift in Sources */,
 				A320638D25A4BFC10036AC1E /* LCImageView+NSLayoutConstraints.swift in Sources */,
 				A320638425A4BFC10036AC1E /* LCImageView+UIScrollView.swift in Sources */,
@@ -545,6 +548,7 @@
 				A320637625A4BFC10036AC1E /* LCSegmentItem.swift in Sources */,
 				A391EA2625A9EC9C000E9C1B /* HSBColor.swift in Sources */,
 				A320636925A4BFC10036AC1E /* HighlightFilter.swift in Sources */,
+				A329E02225B903AB0010AA3B /* LCMultiImageEditor+UIView.swift in Sources */,
 				A320638A25A4BFC10036AC1E /* LCImageContentView.swift in Sources */,
 				A320637525A4BFC10036AC1E /* LCSegment.swift in Sources */,
 				A320636F25A4BFC10036AC1E /* LCEditableView.swift in Sources */,

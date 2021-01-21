@@ -232,3 +232,16 @@ extension CGRect {
         return CGRect(x: self.origin.x.rounded(), y: self.origin.y.rounded(), width: self.width.rounded(), height: self.height.rounded())
     }
 }
+
+// MARK: - CIImage extension
+
+extension CIImage {
+    func toUIImage() -> UIImage {
+        let context = CIContext(options: nil)
+        guard let cgimg = context.createCGImage(self, from: self.extent) else {
+            return UIImage()
+        }
+        let uiImage =  UIImage(cgImage: cgimg)
+        return uiImage
+    }
+}

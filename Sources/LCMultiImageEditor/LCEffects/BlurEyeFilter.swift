@@ -16,8 +16,7 @@ public class BlueEyeFilter: CIFilter {
     @objc var inputImage: CIImage?
 
     @objc public override var outputImage: CIImage? {
-        guard
-            let image = inputImage else {
+        guard let image = inputImage else {
             return nil
         }
         return useVNDetectFace(image: image)
@@ -35,17 +34,15 @@ public class BlueEyeFilter: CIFilter {
         let isLeft: Bool
     }
 
-    func useVNDetectFace(image:CIImage)->CIImage{
+    func useVNDetectFace(image: CIImage) -> CIImage {
 
         do {
-
             let semaphore = DispatchSemaphore(value: 0)
 
             var resultRequest: VNRequest?
-
             let faceDetectionRequest = VNDetectFaceLandmarksRequest(completionHandler: {request, error in
                 resultRequest = request
-                if let error = error{
+                if let error = error {
                     print("VNDetectFaceLandmarksRequest error:\(error)")
                 }
                 semaphore.signal()
@@ -54,13 +51,11 @@ public class BlueEyeFilter: CIFilter {
             faceDetectionRequest.preferBackgroundProcessing = true
 
             let imageRequestHandler = VNImageRequestHandler(ciImage: image, options: [:])
-
             try imageRequestHandler.perform([faceDetectionRequest])
 
             semaphore.wait()
 
             guard let observations = resultRequest?.results as? [VNFaceObservation] else {
-
                 return image
             }
 
@@ -69,12 +64,13 @@ public class BlueEyeFilter: CIFilter {
 
                 var landmarks: [FaceLandmark] = []
 
-                if let leftEye = $0.landmarks?.leftEye{
+                if let leftEye = $0.landmarks?.leftEye {
                     let path = BlueEyeFilter.createPath(imageSize:image.extent.size, landmark: leftEye, flipped: false)
                     let flippedPath = BlueEyeFilter.createPath(imageSize:image.extent.size, landmark: leftEye, flipped: true)
                     landmarks.append(FaceLandmark(region: leftEye, path: path, flippedPath: flippedPath, isLeft:true))
                 }
-                if let rightEye = $0.landmarks?.rightEye{
+                
+                if let rightEye = $0.landmarks?.rightEye {
                     let path = BlueEyeFilter.createPath(imageSize:image.extent.size, landmark: rightEye, flipped: false)
                     let flippedPath = BlueEyeFilter.createPath(imageSize:image.extent.size, landmark: rightEye, flipped: true)
                     landmarks.append(FaceLandmark(region: rightEye, path: path, flippedPath: flippedPath, isLeft:false))
@@ -83,34 +79,25 @@ public class BlueEyeFilter: CIFilter {
                 if landmarks.isEmpty == false {
                     faces.append(FaceObservation(face: $0, eyesLandmarks: landmarks))
                 }
-
             })
 
-            if faces.isEmpty{
-
+            if faces.isEmpty {
                 return image
             }
-
+            
             return apply(observations: faces) ?? image
-
-
         } catch {
-
             return image
         }
 
     }
 
 
-    fileprivate class func createPath(imageSize:CGSize, landmark: VNFaceLandmarkRegion2D, flipped:Bool =  false) -> CGPath{
-
+    fileprivate class func createPath(imageSize: CGSize, landmark: VNFaceLandmarkRegion2D, flipped: Bool =  false) -> CGPath {
         let points: [CGPoint] = landmark.pointsInImage(imageSize: imageSize).map({
-
             if flipped {
-
                 return CGPoint(x: $0.x, y: imageSize.height - $0.y)
-
-            }else{
+            } else {
                 return $0
             }
 
@@ -135,11 +122,8 @@ public class BlueEyeFilter: CIFilter {
         return path.cgPath
     }
 
-
-
     fileprivate func apply(observations: [FaceObservation]) -> CIImage? {
-        guard
-            let image = inputImage else {
+        guard let image = inputImage else {
             return nil
         }
 
@@ -149,8 +133,6 @@ public class BlueEyeFilter: CIFilter {
 
         let radius = max(image.extent.size.width, image.extent.size.height) / 60
         let imageWithEffect = CIFilter(name: "CIDiscBlur", parameters:[kCIInputImageKey: image, kCIInputRadiusKey: radius])!.outputImage!
-
-
 
         var eyesRects = [CGRect]()
 
@@ -162,9 +144,8 @@ public class BlueEyeFilter: CIFilter {
             })
         })
 
-
         let maskImage = self.drawRectsImage(size: image.extent.size, rects: eyesRects)
-
+        
         let blendFilter = CIFilter(name: "CIBlendWithMask", parameters: [
             kCIInputImageKey: imageWithEffect,
             kCIInputBackgroundImageKey: image,
@@ -178,7 +159,7 @@ public class BlueEyeFilter: CIFilter {
 
     }
 
-    func drawRectsImage(size:CGSize, rects:[CGRect]) -> CIImage?{
+    func drawRectsImage(size: CGSize, rects: [CGRect]) -> CIImage? {
 
         UIGraphicsBeginImageContext(size)
 
@@ -190,16 +171,16 @@ public class BlueEyeFilter: CIFilter {
             context?.saveGState()
             drawLinearGradient(inside: ovalPath, rect: rect, colors: [UIColor.green, UIColor.green, UIColor.green, UIColor.clear], locations:nil, context: context)
             context?.restoreGState()
-
-
         }
+        
         let pronama = CIImage(image: UIGraphicsGetImageFromCurrentImageContext()!, options: nil)!
         UIGraphicsEndImageContext()
+        
         return pronama
     }
 
 
-    func drawLinearGradient(inside path:UIBezierPath, rect:CGRect, colors:[UIColor], locations:[CGFloat]?, context:CGContext?)
+    func drawLinearGradient(inside path: UIBezierPath, rect: CGRect, colors: [UIColor], locations: [CGFloat]?, context: CGContext?)
     {
         path.addClip()
 

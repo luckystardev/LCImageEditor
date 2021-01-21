@@ -27,15 +27,15 @@ open class LCMultiImageEditor: UIViewController {
     let exportButton = CustomButton()
     let editBackgroundView = UIView()
     
-    var editableViews = [LCEditableView]()
-    var appliedFilter: LCFilterable!
+    private var editableViews = [LCEditableView]()
+    private var appliedFilter: LCFilterable!
     
-    var previewImage: UIImage? = nil
-    var selectedIndex: Int = 0
+    private var previewImage: UIImage? = nil
+    private var selectedIndex: Int = 0
     
-    var isLock: Bool = false
+    private var isLock: Bool = false
     
-    var orientations = UIInterfaceOrientationMask.portrait
+    private var orientations = UIInterfaceOrientationMask.portrait
     
     override open var supportedInterfaceOrientations : UIInterfaceOrientationMask {
         get {
@@ -46,6 +46,7 @@ open class LCMultiImageEditor: UIViewController {
         }
         set { self.orientations = newValue }
     }
+    
     lazy var croptoolbar: LCCropToolBar? = {
         let croptoolbar = LCCropToolBar.init(frame: CGRect(x: 0, y: (kMainToolBarHeight - kCropToolBarHeight).half, width: kCropToolBarWidth, height: kCropToolBarHeight))
         croptoolbar.config(selectedIndex: 0) { (index) in
@@ -63,23 +64,18 @@ open class LCMultiImageEditor: UIViewController {
         filterSubMenuView.didSelectFilter = { (filter, value) in
             self.appliedFilter = filter
             LCLoadingView.shared.show()
-            DispatchQueue.global(qos: .utility).async {
-                for editView in self.editableViews {
-                    if value <= 100 {
-                        let output = filter.filter(image: editView.ciImage!, value: value)
-                        DispatchQueue.main.sync {
-                            let context = CIContext(options: nil)
-                            if let cgimg = context.createCGImage(output, from: output.extent) {
-                                    let uiimage =  UIImage(cgImage: cgimg)
-                                    editView.photoContentView.image = uiimage
-                            }
-                        }
-                    } else {
+            for editView in self.editableViews {
+                if value <= 100 {
+                    if editView.ciImage == nil {
                         editView.ciImage = CIImage(image: editView.photoContentView.image)
                     }
+                    let output = filter.filter(image: editView.ciImage!, value: value)
+                    editView.photoContentView.image = output.toUIImage()
+                } else {
+                    editView.ciImage = CIImage(image: editView.photoContentView.image)
                 }
-                LCLoadingView.shared.hide()
             }
+            LCLoadingView.shared.hide()
         }
         return filterSubMenuView
     }()
@@ -92,12 +88,15 @@ open class LCMultiImageEditor: UIViewController {
             LCLoadingView.shared.show()
             DispatchQueue.global(qos: .utility).async {
                 for editView in self.editableViews {
-                    let output = effector.effector(image: editView.photoContentView.image, value: value)
+                    let inputImage = CIImage(image: editView.photoContentView.image)
+                    let output = effector.effector(image: inputImage!, value: value)
                     DispatchQueue.main.sync {
-                        editView.photoContentView.image = output
+                        editView.photoContentView.image = output.toUIImage()
                     }
                 }
-                LCLoadingView.shared.hide()
+                DispatchQueue.main.sync {
+                    LCLoadingView.shared.hide()
+                }
             }
         }
         return effectSubMenuView
@@ -124,7 +123,6 @@ open class LCMultiImageEditor: UIViewController {
     
     override open func viewDidLoad() {
         super.viewDidLoad()
-
         self.view.backgroundColor = .systemBackground
     }
     
@@ -134,22 +132,9 @@ open class LCMultiImageEditor: UIViewController {
         initUI()
     }
     
-    override open func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        coordinator.animate(alongsideTransition: { (UIViewControllerTransitionCoordinatorContext) -> Void in
-            if UIDevice.current.orientation.isLandscape {
-                print("Landscape")
-            } else {
-                print("Portrait")
-            }
-        }, completion: { (UIViewControllerTransitionCoordinatorContext) -> Void in
-            self.setupEditableImageViews(.reset)
-        })
-        super.viewWillTransition(to: size, with: coordinator)
-    }
-    
     // MARK: - Initialize UI
     
-    func initUI() {
+    private func initUI() {
         setupTopView()
         setupBottomButtons()
         
@@ -157,112 +142,16 @@ open class LCMultiImageEditor: UIViewController {
         previewView?.isHidden = true
     }
     
-    func setupTopView() {
-        view.addSubview(topView)
-        
-        let titleLabel = UILabel()
-        titleLabel.text = TITLE_COMPOSE
-        titleLabel.font = UIFont.boldSystemFont(ofSize: 17.0)
-        titleLabel.textAlignment = .center
-        titleLabel.textColor = kTitleColor
-        topView.addSubview(titleLabel)
-        
-        let cancelButton = UIButton()
-        cancelButton.setTitle(TITLE_CANCEL, for: .normal)
-        cancelButton.setTitleColor(kButtonTintColor, for: .normal)
-        cancelButton.addTarget(self, action: #selector(backAction), for: .touchUpInside)
-        topView.addSubview(cancelButton)
-        
-        let resetButton = UIButton()
-        resetButton.setBackgroundImage(UIImage(systemName: "arrow.2.circlepath"), for: .normal)
-        resetButton.tintColor = kButtonTintColor
-        resetButton.addTarget(self, action: #selector(resetAction), for: .touchUpInside)
-        topView.addSubview(resetButton)
-        
-        let lockButton = UIButton()
-        lockButton.setBackgroundImage(UIImage(systemName: "lock"), for: .normal)
-        lockButton.tintColor = kButtonTintColor
-        lockButton.addTarget(self, action: #selector(lockAction), for: .touchUpInside)
-        topView.addSubview(lockButton)
-        
-        self.setupTopViewConstraints()
-        self.setupTitleLabelConstraints(titleLabel)
-        self.setupCancelButtonConstraints(cancelButton)
-        self.setupResetButtonConstraints(resetButton)
-        self.setupLockButtonConstraints(lockButton)
-    }
-    
-    func setupBottomButtons() {
-        view.addSubview(bottomView)
-        
-        previewButton.backgroundColor = .clear
-        previewButton.setTitleColor(kButtonTintColor, for: .normal)
-        previewButton.setTitle(TITLE_PREVIEW, for: .normal)
-        previewButton.addTarget(self, action: #selector(previewAction), for: .touchUpInside)
-        bottomView.addSubview(previewButton)
-        
-        exportButton.backgroundColor = kButtonTintColor
-        exportButton.setTitle(TITLE_EXPORT, for: .normal)
-        exportButton.addTarget(self, action: #selector(exportAction), for: .touchUpInside)
-        bottomView.addSubview(exportButton)
-        
-        setupBottomViewConstraints()
-        
-        setupBottomToolbar()
-    }
-    
-    func setupBottomToolbar() {
-        view.addSubview(bottomToolbar)
-        
-        let segment = LCSegment.init(frame: CGRect.init(x: (self.view.frame.size.width - kBottomToolBarWidth).half, y: 0, width: kBottomToolBarWidth, height: kBottomToolBarHeight))
-        
-        let itemAttribute0 = LCSegmentItemAttribute.config(tintColor: UIColor.systemGray, imageName: "dial", selectedTintColor: UIColor.systemBlue)
-        let itemAttribute1 = LCSegmentItemAttribute.config(tintColor: UIColor.systemGray, imageName: "wand.and.stars", selectedTintColor: UIColor.systemBlue)
-        let itemAttribute2 = LCSegmentItemAttribute.config(tintColor: UIColor.systemGray, imageName: "crop", selectedTintColor: UIColor.systemBlue)
-        segment.config(dataSource: [itemAttribute0, itemAttribute1, itemAttribute2],
-                        selectedIndex: 2) { (index) in
-            self.editControl(index)
-        }
-        
-        bottomToolbar.addSubview(segment)
-        
-        setupBottomToolbarConstraints()
-        setupSegmentConstraints(segment)
-        
-        setupMainToolBar()
-    }
-    
-    func setupMainToolBar() {
-        view.addSubview(mainToolbar)
-        setupMainToolbarConstraints()
-        
-        setupFilterMenubar()
-        
-        view.addSubview(editBackgroundView)
-        setupEditableImageViews(.new)
-    }
-    
-    func setupFilterMenubar() {
-        
-        mainToolbar.addSubview(filterSubMenuView!)
-        mainToolbar.addSubview(effectSubMenuView!)
-        mainToolbar.addSubview(croptoolbar!)
-        
-        setupFilterMenubarConstraints()
-        setupCropToolbarConstraints(croptoolbar!)
-        
-        filterSubMenuView?.isHidden = true
-        effectSubMenuView?.isHidden = true
-        croptoolbar?.isHidden = false
-    }
-    
     func setupEditableImageViews(_ type: setupImagesMode) {
         
+        // setup layout by constraints
         self.setupEditBgViewConstraints()
         self.editBackgroundView.layoutIfNeeded()
         
+        // get size of slots
         let slotSize = self.getSlotSize(editBackgroundView.frame.size, layoutType: layoutType, ratioType: montageRatioType)
         
+        // get frame of editview
         var slotsWidth = slotSize.width
         var slotsHeight = slotSize.height
         
@@ -283,11 +172,15 @@ open class LCMultiImageEditor: UIViewController {
         
         editview.frame = CGRect(x: eX, y: eY, width: slotsWidth, height: slotsHeight)
         
+        // if this is first time (new mode)
+        // add editview to superView
+        
         if type == .new {
             editBackgroundView.addSubview(editview)
             editableViews.removeAll()
         }
         
+        // set each slot's frame
         var x: CGFloat = 0, y: CGFloat = 0
         
         for (index, image) in images.enumerated() {
@@ -397,7 +290,7 @@ open class LCMultiImageEditor: UIViewController {
         }
     }
     
-    func syncImages() {
+    private func syncImages() {
         for editView in self.editableViews {
             editView.photoContentView.image = editView.image
         }
@@ -405,7 +298,7 @@ open class LCMultiImageEditor: UIViewController {
     
     // MARK: - Image Processing - Merge & Crop
     
-     func cropImages(_ isExport: Bool) {
+     private func cropImages(_ isExport: Bool) {
            
            //compose images
            var frameScale: CGFloat = 20
@@ -489,6 +382,7 @@ open class LCMultiImageEditor: UIViewController {
        private func mergeImages(_ images: [UIImage], scale: CGFloat, isExport: Bool) {
            var composite: CIImage?
            LCLoadingView.shared.show()
+        
            for (index, editView) in editableViews.enumerated() {
                let image = images[index]
                var ci = CIImage(image: image)!
@@ -508,14 +402,14 @@ open class LCMultiImageEditor: UIViewController {
            let cgIntermediate = CIContext(options: nil).createCGImage(composite!, from: composite!.extent)
            let finalRenderedComposite = UIImage(cgImage: cgIntermediate!)
            print("export Image's Size = \(finalRenderedComposite.size)")
+        
            if !isExport { //preview
                self.previewImage = finalRenderedComposite
            } else { //export
                self.delegate?.multiEditor(self, didFinishWithCroppedImage: finalRenderedComposite)
            }
-           DispatchQueue.global(qos: .utility).async {
-               LCLoadingView.shared.hide()
-           }
+        
+           LCLoadingView.shared.hide()
        }
     
 }

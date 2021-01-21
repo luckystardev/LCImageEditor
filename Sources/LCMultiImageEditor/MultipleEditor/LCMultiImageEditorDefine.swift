@@ -1,6 +1,6 @@
 //
 //  LayoutType.swift
-//  MultiEditorDefine
+//  LCMultiImageEditorDefine
 //
 //  Created by LuckyClub on 12/1/20.
 //  Copyright © 2020 LuckyClub. All rights reserved.
@@ -46,9 +46,6 @@ let kCropToolBarHeight: CGFloat = 30.0
 
 let kButtonTintColor: UIColor = UIColor.systemBlue
 let kTitleColor: UIColor = UIColor.darkText
-
-let kEnteringAnimationDuration: Double = 0.225
-let kLeavingAnimationDuration: Double = 0.175
 
 // define button titles
 let TITLE_PREVIEW = "Preview"

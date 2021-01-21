@@ -19,7 +19,7 @@ class LCEffectMenu: UIView {
     
    public var didSelectEffector: (LCEffectable, _ value: CGFloat) -> Void = { _,_ in }
    
-    private var colorSlider: ColorSlider?
+   private var colorSlider: ColorSlider?
     
    public var image: UIImage {
        didSet {

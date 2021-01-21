@@ -13,6 +13,7 @@ public class LCLoadingView {
 
     private let transparentView: UIView
     private let indicator: UIActivityIndicatorView
+    private let kEnteringAnimationDuration: Double = 0.225
     
     static let shared = LCLoadingView()
     
@@ -61,18 +62,9 @@ public class LCLoadingView {
     }
     
     func hide() {
-        DispatchQueue.main.sync {
-            UIView.animate(
-                withDuration: kLeavingAnimationDuration,
-                animations: {
-                    self.transparentView.alpha = 0
-            },
-                completion: { completed in
-                    self.transparentView.removeFromSuperview()
-                    self.indicator.stopAnimating()
-            })
-        }
-        
+        self.transparentView.removeFromSuperview()
+        self.indicator.stopAnimating()
+        print("hidden loadingview")
     }
     
     required init?(coder aDecoder: NSCoder) {

@@ -8,25 +8,23 @@
 
 import UIKit
 
-extension UIImage {
+extension CIImage {
     
-    func ChromaKeyFilter(_ value: CGFloat) -> UIImage {
+    func ChromaKeyFilter(_ value: CGFloat) -> CIImage {
         let delta: CGFloat = 0.01
         let fromValue = max(value - delta, 0)
         let toValue = min(value + delta, 1.0)
         
         let chromaCIFilter = self.applyChromaKeyFilter(fromHue: fromValue, toHue: toValue)
-        let ciImage = CIImage(image: self)
-        chromaCIFilter?.setValue(ciImage, forKey: kCIInputImageKey)
+        
+        chromaCIFilter?.setValue(self, forKey: kCIInputImageKey)
 
         guard let filteredImage = chromaCIFilter?.outputImage else {
             print("No output image.")
             return self
         }
 
-        let context = CIContext(options: nil)
-        return UIImage(cgImage: context.createCGImage(filteredImage, from: filteredImage.extent)!)
-        
+        return filteredImage
     }
     
     private func applyChromaKeyFilter(fromHue: CGFloat, toHue: CGFloat) -> CIFilter?

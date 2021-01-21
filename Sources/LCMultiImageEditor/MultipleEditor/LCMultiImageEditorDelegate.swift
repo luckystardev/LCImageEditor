@@ -1,5 +1,5 @@
 //
-//  MultiEditorDelegate.swift
+//  LCMultiImageEditorDelegate.swift
 //  LCImageEditor
 //
 //  Created by LuckyClub on 12/7/20.
