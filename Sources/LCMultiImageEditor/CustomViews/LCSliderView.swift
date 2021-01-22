@@ -12,7 +12,6 @@ fileprivate let markInterval = 12
 fileprivate let yPosition: CGFloat = 8
 fileprivate let sliderMaxY: CGFloat = 40
 fileprivate let sliderHeight = 56
-fileprivate let triangleColor = UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 1.0)
 
 class LCRulerView: UIView {
     
@@ -27,7 +26,7 @@ class LCRulerView: UIView {
         
         let context = UIGraphicsGetCurrentContext()
         context?.setLineCap(CGLineCap.butt)
-        context?.setStrokeColor(triangleColor.cgColor)
+        context?.setStrokeColor(kBlackColor.cgColor)
         context?.setLineWidth(1)
         
         for i in 0...betweenNumber {
@@ -73,7 +72,7 @@ class LCSliderView: UIView {
         step        = tstep
         stepCount   = Int((tmaxValue - tminValue) / step) / betweenNum
         
-        self.backgroundColor = UIColor.white
+        self.backgroundColor = .systemBackground
         triangleview.frame = CGRect(x: (self.bounds.size.width - 1).half, y: yPosition, width: 2, height: sliderMaxY - yPosition)
         
         self.addSubview(self.lazyCollectionView)
@@ -98,7 +97,7 @@ class LCSliderView: UIView {
         flowLayout.estimatedItemSize = .zero
         
         let collectionView: UICollectionView = UICollectionView.init(frame: CGRect.init(x: 0, y: 0, width: self.bounds.size.width, height: CGFloat(sliderHeight)), collectionViewLayout: flowLayout)
-        collectionView.backgroundColor = UIColor.systemBackground
+        collectionView.backgroundColor = .systemBackground
         collectionView.bounces = true
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.delegate = self
@@ -111,7 +110,7 @@ class LCSliderView: UIView {
     
     lazy var triangleview: UIView = {
         let triangleView = UIView()
-        triangleView.backgroundColor = triangleColor
+        triangleView.backgroundColor = kBlackColor
         return triangleView
     }()
     

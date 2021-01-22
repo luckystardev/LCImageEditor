@@ -118,6 +118,7 @@ open class LCMultiImageEditor: UIViewController {
     override open func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .systemBackground
+        overrideUserInterfaceStyle = .light
     }
     
     override open func viewDidAppear(_ animated: Bool) {

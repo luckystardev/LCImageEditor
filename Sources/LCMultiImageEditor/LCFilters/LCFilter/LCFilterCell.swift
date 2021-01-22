@@ -30,7 +30,7 @@ class LCFilterCell: UICollectionViewCell {
         name.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -2).isActive = true
         
         name.text = ""
-        name.textColor = .darkText
+        name.textColor = kDarkTextColor
         name.font = UIFont.systemFont(ofSize: 11)
     }
     
@@ -39,11 +39,11 @@ class LCFilterCell: UICollectionViewCell {
     }
     
     public func setSelected() {
-        name.textColor = kButtonTintColor
+        name.textColor = kBlueColor
     }
     
     public func setDeselected() {
-        name.textColor = .darkText
+        name.textColor = kDarkTextColor
         progressView.updateStatus()
     }
     

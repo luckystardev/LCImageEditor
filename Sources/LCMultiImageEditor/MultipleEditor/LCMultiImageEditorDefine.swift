@@ -44,8 +44,11 @@ let kMainToolBarHeight: CGFloat = 120.0
 let kCropToolBarWidth: CGFloat = 300.0
 let kCropToolBarHeight: CGFloat = 30.0
 
-let kButtonTintColor: UIColor = UIColor.systemBlue
-let kTitleColor: UIColor = UIColor.darkText
+// define Colors
+let kBlueColor: UIColor = UIColor.systemBlue
+let kGrayColor: UIColor = UIColor.systemGray
+let kDarkTextColor: UIColor = UIColor.darkText
+let kBlackColor: UIColor = UIColor.black
 
 // define button titles
 let TITLE_PREVIEW = "Preview"

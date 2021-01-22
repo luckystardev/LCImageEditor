@@ -15,7 +15,7 @@ class CustomButton: UIButton {
         layer.cornerRadius = 8
         layer.masksToBounds = true
         layer.borderWidth = 1
-        layer.borderColor = kButtonTintColor.cgColor
+        layer.borderColor = kBlueColor.cgColor
     }
 
 }

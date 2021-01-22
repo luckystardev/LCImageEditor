@@ -112,9 +112,9 @@ class LCCropToolBarItem: UICollectionViewCell {
     public func update(_ title: String ,selected: Bool) {
         titleLabel?.text = title
         if selected {
-            titleLabel?.textColor = UIColor.systemBlue
+            titleLabel?.textColor = kBlueColor
         } else {
-            titleLabel?.textColor = UIColor.systemGray
+            titleLabel?.textColor = kGrayColor
         }
     }
 }

@@ -23,13 +23,13 @@
                                 <items>
                                     <navigationItem title="LCImageEditorExample" id="BnQ-2v-AoF">
                                         <barButtonItem key="leftBarButtonItem" title="New" id="el5-N5-naX">
-                                            <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <color key="tintColor" systemColor="systemGrayColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <connections>
                                                 <action selector="newButtonAction:" destination="BYZ-38-t0r" id="Zba-wD-YcO"/>
                                             </connections>
                                         </barButtonItem>
                                         <barButtonItem key="rightBarButtonItem" title="Edit" id="QOD-ms-nzz">
-                                            <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <color key="tintColor" systemColor="systemGrayColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <connections>
                                                 <action selector="editButtonAction:" destination="BYZ-38-t0r" id="vlx-Pp-WBc"/>
                                             </connections>
