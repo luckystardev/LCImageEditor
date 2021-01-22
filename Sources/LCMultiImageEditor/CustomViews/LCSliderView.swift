@@ -72,6 +72,7 @@ class LCRulerView: UIView {
 }
 
 protocol LCSliderDelegate: NSObjectProtocol {
+    func LCSliderViewValueDidChanged(sliderView: LCSliderView, value: Float)
     func LCSliderViewValueChange(sliderView: LCSliderView, value: Float)
 }
 
@@ -211,7 +212,7 @@ extension LCSliderView: UICollectionViewDelegate {
             }
         }
         valueLbl.text = String.init(format: "%.0f", floor(totalValue))
-//        delegate?.LCSliderViewValueChange(sliderView: self, value: floor(totalValue))
+        delegate?.LCSliderViewValueChange(sliderView: self, value: floor(totalValue))
     }
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
@@ -219,7 +220,7 @@ extension LCSliderView: UICollectionViewDelegate {
         if !decelerate {
             let realValue = Float(scrollView.contentOffset.x) / Float(markInterval)
             self.setRealValueAndAnimated(realValue: realValue, animated: true)
-            delegate?.LCSliderViewValueChange(sliderView: self, value: floor(realValue * step + minValue))
+            delegate?.LCSliderViewValueDidChanged(sliderView: self, value: floor(realValue * step + minValue))
         }
     }
     

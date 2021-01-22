@@ -56,11 +56,7 @@ open class LCMultiImageEditor: UIViewController {
     }()
     
     lazy var filterSubMenuView: LCFilterMenu? = {
-        let availableFilters = kDefaultAvailableFilters
-        let originImage = images.first
-        let filterSubMenuView = LCFilterMenu(withImage: originImage!.resize(toSizeInPixel: CGSize(width: 64, height: 64)),
-                                             appliedFilter: self.appliedFilter,
-                                                  availableFilters: availableFilters)
+        let filterSubMenuView = LCFilterMenu(appliedFilter: self.appliedFilter)
         filterSubMenuView.didSelectFilter = { (filter, value) in
             self.appliedFilter = filter
             LCLoadingView.shared.show()
@@ -69,7 +65,7 @@ open class LCMultiImageEditor: UIViewController {
                     if editView.ciImage == nil {
                         editView.ciImage = CIImage(image: editView.photoContentView.image)
                     }
-                    let output = filter.filter(image: editView.ciImage!, value: value)
+                    let output = filter.apply(image: editView.ciImage!, value: value)
                     editView.photoContentView.image = output.toUIImage()
                 } else {
                     editView.ciImage = CIImage(image: editView.photoContentView.image)
@@ -81,15 +77,13 @@ open class LCMultiImageEditor: UIViewController {
     }()
     
     lazy var effectSubMenuView: LCEffectMenu? = {
-        let availableEffectors = kDefaultEffectors
-        let originImage = images.first
-        let effectSubMenuView = LCEffectMenu(withImage: originImage!.resize(toSizeInPixel: CGSize(width: 64, height: 64)), availableFilters: availableEffectors)
+        let effectSubMenuView = LCEffectMenu()
         effectSubMenuView.didSelectEffector = { (effector, value) in
             LCLoadingView.shared.show()
             DispatchQueue.global(qos: .utility).async {
                 for editView in self.editableViews {
                     let inputImage = CIImage(image: editView.photoContentView.image)
-                    let output = effector.effector(image: inputImage!, value: value)
+                    let output = effector.apply(image: inputImage!, value: value)
                     DispatchQueue.main.sync {
                         editView.photoContentView.image = output.toUIImage()
                     }

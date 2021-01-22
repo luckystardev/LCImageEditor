@@ -9,8 +9,9 @@
 import UIKit
 
 public protocol LCFilterable {
-    func filter(image: CIImage, value: Double) -> CIImage
+    func apply(image: CIImage, value: Double) -> CIImage
     func filterName() -> String
+    func symbolImage() -> UIImage
     func minimumValue() -> Double
     func valueChangeable() -> Bool
 }
@@ -83,7 +84,7 @@ public enum LCFilter: LCFilterable {
         return CIFilter(name: ciFilterName)
     }
     
-    public func filter(image: CIImage, value: Double) -> CIImage {
+    public func apply(image: CIImage, value: Double) -> CIImage {
         
         let avalue = value / 100
         
@@ -168,6 +169,43 @@ public enum LCFilter: LCFilterable {
 //            case .CISepiaTone: return "Sepia"
             
         }
+    }
+    
+    public func symbolImage() -> UIImage {
+        var name: String = "photo"
+        switch self {
+            case .CIEffectBrightness:
+                name = "sun.min.fill"
+            case .CIEffectContrast:
+                name = "circle.righthalf.fill"
+            case .CIEffectSaturation:
+                name = "circle.lefthalf.fill"
+            case .CIExposureAdjust:
+                name = "plusminus.circle"
+            case .CIHighlight:
+                name = "bolt.circle"
+            case .CIShadow:
+                name = "icloud.circle"
+            case .CIVibrance:
+                name = "sparkles"
+            case .CINoiseReduction:
+                name = "light.min"
+            case .CISharpness:
+                name = "light.max"
+            case .CIVignette:
+                name = "viewfinder.circle"
+            case .CIPhotoEffectMono:
+                name = "moon.circle"
+            case .CIPhotoEffectNoir:
+                name = "moon.circle.fill"
+            case .CIWarmth:
+                name = "flame"
+            case .CIBlackPoint:
+                name = "smallcircle.fill.circle.fill"
+            default:
+                name = "photo"
+        }
+        return UIImage(systemName: name) ?? UIImage()
     }
     
     public func minimumValue() -> Double {

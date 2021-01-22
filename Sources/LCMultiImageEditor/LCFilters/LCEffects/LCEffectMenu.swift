@@ -21,23 +21,14 @@ class LCEffectMenu: UIView {
    public var didSelectEffector: (LCEffectable, _ value: CGFloat) -> Void = { _,_ in }
    
    private var colorSlider: ColorSlider?
-    
-   public var image: UIImage {
-       didSet {
-           demoImages.removeAll()
-           collectionView.reloadData()
-       }
-   }
    
-   init(withImage image: UIImage, availableFilters: [LCEffectable]) {
-       self.image = image
-       
+   init() {
        let layout = UICollectionViewFlowLayout()
        layout.itemSize = CGSize(width: 52, height: height_cell)
        layout.minimumLineSpacing = 6
        layout.scrollDirection = .horizontal
        collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-       self.availableEffectors = availableFilters.count == 0 ? kDefaultEffectors : availableFilters
+       self.availableEffectors = kDefaultEffectors
        
        super.init(frame: .zero)
               
@@ -54,7 +45,7 @@ class LCEffectMenu: UIView {
        collectionView.dataSource = self
        collectionView.delegate = self
        collectionView.showsHorizontalScrollIndicator = false
-       collectionView.contentInset = UIEdgeInsets(top: 0,left: 14,bottom: 0,right: 14)
+       collectionView.contentInset = UIEdgeInsets(top: 0, left: 14, bottom: 0, right: 14)
        
        collectionView.addObserver(self, forKeyPath: "contentSize", options: NSKeyValueObservingOptions.old, context: nil)
        isObservingCollectionView = true
@@ -76,16 +67,6 @@ class LCEffectMenu: UIView {
     
         colorSlider?.isHidden = true
    }
-   
-//   func insert(toView parenetView: UIView) {
-//       parenetView.addSubview(self)
-//       
-//       translatesAutoresizingMaskIntoConstraints = false
-//       heightAnchor.constraint(equalToConstant: height_cell).isActive = true
-//       rightAnchor.constraint(equalTo: parenetView.rightAnchor).isActive = true
-//       leftAnchor.constraint(equalTo: parenetView.leftAnchor).isActive = true
-//       bottomAnchor.constraint(equalTo: parenetView.bottomAnchor).isActive = true
-//   }
    
    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
        if let observedObject = object as? UICollectionView, observedObject == collectionView {
@@ -119,13 +100,8 @@ extension LCEffectMenu: UICollectionViewDelegate, UICollectionViewDataSource {
         
         let effector = availableEffectors[indexPath.item]
         
-        if indexPath.item == 0 {
-            cell.imageView.image = UIImage(systemName: "photo")
-        } else {
-            cell.imageView.image = UIImage(systemName: "eye.slash.fill")
-        }
-        
-        cell.name.text = effector.effectorName()
+        cell.imageView.image = effector.symbolImage()
+        cell.name.text = effector.displayName()
         if indexPath.item == selectedCellIndex && !isFirst {
             cell.setSelected()
         }

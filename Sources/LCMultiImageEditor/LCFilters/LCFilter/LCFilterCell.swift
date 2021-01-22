@@ -10,30 +10,19 @@ import UIKit
 
 class LCFilterCell: UICollectionViewCell {
     static let reussId = String(describing: self)
-    public var imageView: UIImageView
     public var name: UILabel
     
-    private var selectCircleView: UIView
+    public var progressView: LCProgressView
     
     override init(frame: CGRect) {
-        imageView = UIImageView()
         name = UILabel()
-        selectCircleView = UIView()
+        progressView = LCProgressView()
         
         super.init(frame: frame)
         
-        imageView.frame = CGRect(x: (frame.width - 36) / 2, y: 10, width: 36, height: 36)
-        imageView.layer.cornerRadius = imageView.frame.width / 2
-        imageView.contentMode = .scaleAspectFill
-        imageView.clipsToBounds = true
+        progressView.frame = CGRect(x: (frame.width - 42) / 2, y: 6, width: 42, height: 42)
         
-        selectCircleView.frame = imageView.frame.insetBy(dx: -3, dy: -3)
-        selectCircleView.layer.cornerRadius = selectCircleView.frame.width / 2
-        selectCircleView.layer.borderWidth = 2
-        selectCircleView.layer.borderColor = UIColor.systemGray.cgColor
-        
-        self.addSubview(selectCircleView)
-        self.addSubview(imageView)
+        self.addSubview(progressView)
         self.addSubview(name)
         
         name.translatesAutoresizingMaskIntoConstraints = false
@@ -50,13 +39,16 @@ class LCFilterCell: UICollectionViewCell {
     }
     
     public func setSelected() {
-        selectCircleView.layer.borderColor = kButtonTintColor.cgColor
         name.textColor = kButtonTintColor
     }
     
     public func setDeselected() {
-        selectCircleView.layer.borderColor = UIColor.systemGray.cgColor
         name.textColor = .darkText
+        progressView.updateStatus()
+    }
+    
+    public func updateProgress(_ value: Float) {
+        progressView.updateProgressCircle(value)
     }
     
     required init?(coder aDecoder: NSCoder) {

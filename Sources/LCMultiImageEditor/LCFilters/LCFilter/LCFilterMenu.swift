@@ -12,7 +12,6 @@ class LCFilterMenu: UIView {
 
     private let collectionView: UICollectionView
     private var availableFilters: [LCFilterable]
-    private var demoImages: [String:UIImage] = [:]
     private var selectedCellIndex: Int = 0
     private var isObservingCollectionView = true
     private var isFirst = true
@@ -28,23 +27,15 @@ class LCFilterMenu: UIView {
         hSlider.setDefaultValueAndAnimated(defaultValue: 0, animated: true)
         return hSlider
     }()
-    
-    public var image: UIImage {
-        didSet {
-            demoImages.removeAll()
-            collectionView.reloadData()
-        }
-    }
    
-    init(withImage image: UIImage, appliedFilter: LCFilterable?, availableFilters: [LCFilterable]) {
-        self.image = image
+    init(appliedFilter: LCFilterable?) {
        
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width: 52, height: 64)
         layout.minimumLineSpacing = 6
         layout.scrollDirection = .horizontal
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        self.availableFilters = availableFilters.count == 0 ? kDefaultAvailableFilters : availableFilters
+        self.availableFilters = kDefaultAvailableFilters
        
         super.init(frame: .zero)
        
@@ -65,7 +56,7 @@ class LCFilterMenu: UIView {
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.showsHorizontalScrollIndicator = false
-        collectionView.contentInset = UIEdgeInsets(top: 0,left: 14,bottom: 0,right: 14)
+        collectionView.contentInset = UIEdgeInsets(top: 0, left: 14, bottom: 0, right: 14)
        
         collectionView.addObserver(self, forKeyPath: "contentSize", options: NSKeyValueObservingOptions.old, context: nil)
         isObservingCollectionView = true
@@ -85,9 +76,9 @@ class LCFilterMenu: UIView {
    }
     
    public func resetFilterMenu() {
-//        for filter in availableFilters {
-//            filterValues[filter.filterName()] = 0.0
-//        }
+        for filter in availableFilters {
+            filterValues[filter.filterName()] = 0.0
+        }
         sliderView.setDefaultValueAndAnimated(defaultValue: 0, animated: true)
    }
     
@@ -130,18 +121,7 @@ extension LCFilterMenu: UICollectionViewDelegate, UICollectionViewDataSource {
             filterValues[filter.filterName()] = 0.0
         }
         
-        if let demo = demoImages[filter.filterName()] {
-           cell.imageView.image = demo
-        } else {
-            let demo = filter.filter(image: CIImage(image: image)!, value: 100)
-            let context = CIContext(options: nil)
-            if let cgimg = context.createCGImage(demo, from: demo.extent) {
-                    let uiimage =  UIImage(cgImage: cgimg)
-                    demoImages[filter.filterName()] = uiimage
-                    cell.imageView.image = uiimage
-            }
-        }
-        
+        cell.progressView.image = filter.symbolImage()
         cell.name.text = availableFilters[indexPath.item].filterName()
         if indexPath.item == selectedCellIndex && !isFirst {
             cell.setSelected()
@@ -158,7 +138,7 @@ extension LCFilterMenu: UICollectionViewDelegate, UICollectionViewDataSource {
         (collectionView.cellForItem(at: IndexPath(row: selectedCellIndex, section: 0)) as? LCFilterCell)?.setSelected()
         
         if !isFirst {
-            collectionView.reloadItems(at: [IndexPath(row: prevSelectedCellIndex, section: 0)])
+            (collectionView.cellForItem(at: IndexPath(row: prevSelectedCellIndex, section: 0)) as? LCFilterCell)?.setDeselected()
         }
         
         isFirst = false
@@ -173,22 +153,28 @@ extension LCFilterMenu: UICollectionViewDelegate, UICollectionViewDataSource {
 //            let minValue = filter.minimumValue()
 //            sliderView.minValue = Float(minValue)
             
-//            let fValue = filterValues[filter.filterName()] ?? 0.0
-//            sliderView.setDefaultValueAndAnimated(defaultValue: Float(fValue), animated: false)
+            let fValue = filterValues[filter.filterName()] ?? 0.0
+            sliderView.setDefaultValueAndAnimated(defaultValue: Float(fValue), animated: false)
             sliderView.isHidden = false
-            sliderView.setDefaultValueAndAnimated(defaultValue: 0, animated: false)
+//            sliderView.setDefaultValueAndAnimated(defaultValue: 0, animated: false)
             didSelectFilter(filter, 101)
         }
     }
 }
 
 extension LCFilterMenu: LCSliderDelegate {
-    func LCSliderViewValueChange(sliderView: LCSliderView, value: Float) {
-//        print("slider's value = \(value)")
+    func LCSliderViewValueDidChanged(sliderView: LCSliderView, value: Float) {
         let filter = availableFilters[selectedCellIndex]
         if availbleChange {
             filterValues[filter.filterName()] = Double(value)
             didSelectFilter(filter, Double(value))
+        }
+    }
+    
+    func LCSliderViewValueChange(sliderView: LCSliderView, value: Float) {
+        print("sliderValue=\(value)")
+        if availbleChange {
+            (collectionView.cellForItem(at: IndexPath(row: selectedCellIndex, section: 0)) as? LCFilterCell)?.updateProgress(value)
         }
     }
 }

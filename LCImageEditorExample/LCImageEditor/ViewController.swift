@@ -11,7 +11,7 @@ import UIKit
 class ViewController: UIViewController {
 
     @IBOutlet weak var imageview: UIImageView!
-    var layoutType: MediaMontageType = .verticalThree
+    var layoutType: MediaMontageType = .horizontalTwo
     var editType: EditType = .multiple
     var images: [UIImage] = []
     
@@ -19,7 +19,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         imageview.image = UIImage(named: "temp1")
-        self.images = [UIImage(named: "img4")!, UIImage(named: "img3")!, UIImage(named: "img1")!]
+        self.images = [UIImage(named: "img3")!, UIImage(named: "img1")!] //UIImage(named: "img4")!,
     }
 
     @IBAction func editorTypeChanged(_ sender: UISegmentedControl) {

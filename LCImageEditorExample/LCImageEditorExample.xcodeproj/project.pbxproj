@@ -78,6 +78,7 @@
 		A32063A525A601270036AC1E /* LCMultiImageEditor+NSLayoutConstraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = A32063A425A601270036AC1E /* LCMultiImageEditor+NSLayoutConstraints.swift */; };
 		A329E02225B903AB0010AA3B /* LCMultiImageEditor+UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A329E02125B903AB0010AA3B /* LCMultiImageEditor+UIView.swift */; };
 		A329E02525BA46C10010AA3B /* LCEffectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A329E02425BA46C10010AA3B /* LCEffectCell.swift */; };
+		A329E02725BA58190010AA3B /* LCProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A329E02625BA58190010AA3B /* LCProgressView.swift */; };
 		A391EA2225A9EC9C000E9C1B /* PreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A391EA1A25A9EC9C000E9C1B /* PreviewView.swift */; };
 		A391EA2325A9EC9C000E9C1B /* ColorSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A391EA1B25A9EC9C000E9C1B /* ColorSlider.swift */; };
 		A391EA2425A9EC9C000E9C1B /* Gradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = A391EA1D25A9EC9C000E9C1B /* Gradient.swift */; };
@@ -163,6 +164,7 @@
 		A32063A425A601270036AC1E /* LCMultiImageEditor+NSLayoutConstraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LCMultiImageEditor+NSLayoutConstraints.swift"; sourceTree = "<group>"; };
 		A329E02125B903AB0010AA3B /* LCMultiImageEditor+UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LCMultiImageEditor+UIView.swift"; sourceTree = "<group>"; };
 		A329E02425BA46C10010AA3B /* LCEffectCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LCEffectCell.swift; sourceTree = "<group>"; };
+		A329E02625BA58190010AA3B /* LCProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LCProgressView.swift; sourceTree = "<group>"; };
 		A391EA1A25A9EC9C000E9C1B /* PreviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewView.swift; sourceTree = "<group>"; };
 		A391EA1B25A9EC9C000E9C1B /* ColorSlider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorSlider.swift; sourceTree = "<group>"; };
 		A391EA1D25A9EC9C000E9C1B /* Gradient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Gradient.swift; sourceTree = "<group>"; };
@@ -264,6 +266,7 @@
 				A320632925A4BFC00036AC1E /* LCFilter.swift */,
 				A320632825A4BFC00036AC1E /* LCFilterMenu.swift */,
 				A320632A25A4BFC00036AC1E /* LCFilterCell.swift */,
+				A329E02625BA58190010AA3B /* LCProgressView.swift */,
 			);
 			path = LCFilter;
 			sourceTree = "<group>";
@@ -539,6 +542,7 @@
 				A391EA2225A9EC9C000E9C1B /* PreviewView.swift in Sources */,
 				A320637125A4BFC10036AC1E /* LCMultiImageEditor+Scale.swift in Sources */,
 				A320638325A4BFC10036AC1E /* LCImageView.swift in Sources */,
+				A329E02725BA58190010AA3B /* LCProgressView.swift in Sources */,
 				A391EA2725A9EC9C000E9C1B /* GradientView.swift in Sources */,
 				A320636C25A4BFC10036AC1E /* LCFilter.swift in Sources */,
 				A391EA2825A9EC9C000E9C1B /* DefaultPreviewView.swift in Sources */,
