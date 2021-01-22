@@ -16,6 +16,7 @@ class LCEffectMenu: UIView {
    private var selectedCellIndex: Int = 0
    private var isObservingCollectionView = true
    private var isFirst = true
+   fileprivate let height_cell: CGFloat = 64
     
    public var didSelectEffector: (LCEffectable, _ value: CGFloat) -> Void = { _,_ in }
    
@@ -32,8 +33,8 @@ class LCEffectMenu: UIView {
        self.image = image
        
        let layout = UICollectionViewFlowLayout()
-       layout.itemSize = CGSize(width: 52, height: 64)
-       layout.minimumLineSpacing = 0
+       layout.itemSize = CGSize(width: 52, height: height_cell)
+       layout.minimumLineSpacing = 6
        layout.scrollDirection = .horizontal
        collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
        self.availableEffectors = availableFilters.count == 0 ? kDefaultEffectors : availableFilters
@@ -45,9 +46,9 @@ class LCEffectMenu: UIView {
        collectionView.topAnchor.constraint(equalTo: topAnchor).isActive = true
        collectionView.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
        collectionView.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
-       collectionView.heightAnchor.constraint(equalToConstant: 64).isActive = true
+       collectionView.heightAnchor.constraint(equalToConstant: height_cell).isActive = true
        
-       collectionView.register(LCFilterCell.classForCoder(), forCellWithReuseIdentifier: LCFilterCell.reussId)
+       collectionView.register(LCEffectCell.classForCoder(), forCellWithReuseIdentifier: LCEffectCell.reussId)
        
        collectionView.backgroundColor = .white
        collectionView.dataSource = self
@@ -69,22 +70,22 @@ class LCEffectMenu: UIView {
         NSLayoutConstraint.activate([
             colorSlider!.leftAnchor.constraint(equalTo: leftAnchor, constant: kPadding.half),
             colorSlider!.rightAnchor.constraint(equalTo: rightAnchor, constant: -kPadding.half),
-            colorSlider!.topAnchor.constraint(equalTo: topAnchor, constant: 94),
+            colorSlider!.topAnchor.constraint(equalTo: topAnchor, constant: height_cell + 30),
             colorSlider!.heightAnchor.constraint(equalToConstant: 20),
         ])
     
         colorSlider?.isHidden = true
    }
    
-   func insert(toView parenetView: UIView) {
-       parenetView.addSubview(self)
-       
-       translatesAutoresizingMaskIntoConstraints = false
-       heightAnchor.constraint(equalToConstant: 64).isActive = true
-       rightAnchor.constraint(equalTo: parenetView.rightAnchor).isActive = true
-       leftAnchor.constraint(equalTo: parenetView.leftAnchor).isActive = true
-       bottomAnchor.constraint(equalTo: parenetView.bottomAnchor).isActive = true
-   }
+//   func insert(toView parenetView: UIView) {
+//       parenetView.addSubview(self)
+//       
+//       translatesAutoresizingMaskIntoConstraints = false
+//       heightAnchor.constraint(equalToConstant: height_cell).isActive = true
+//       rightAnchor.constraint(equalTo: parenetView.rightAnchor).isActive = true
+//       leftAnchor.constraint(equalTo: parenetView.leftAnchor).isActive = true
+//       bottomAnchor.constraint(equalTo: parenetView.bottomAnchor).isActive = true
+//   }
    
    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
        if let observedObject = object as? UICollectionView, observedObject == collectionView {
@@ -113,7 +114,7 @@ extension LCEffectMenu: UICollectionViewDelegate, UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LCFilterCell.reussId, for: indexPath) as? LCFilterCell
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LCEffectCell.reussId, for: indexPath) as? LCEffectCell
             else { return UICollectionViewCell() }
         
         let effector = availableEffectors[indexPath.item]
@@ -123,8 +124,6 @@ extension LCEffectMenu: UICollectionViewDelegate, UICollectionViewDataSource {
         } else {
             cell.imageView.image = UIImage(systemName: "eye.slash.fill")
         }
-        cell.imageView.contentMode = .scaleAspectFit
-        cell.imageView.tintColor = UIColor.black
         
         cell.name.text = effector.effectorName()
         if indexPath.item == selectedCellIndex && !isFirst {
@@ -139,7 +138,7 @@ extension LCEffectMenu: UICollectionViewDelegate, UICollectionViewDataSource {
         let prevSelectedCellIndex = selectedCellIndex
         
         selectedCellIndex = indexPath.item
-        (collectionView.cellForItem(at: IndexPath(row: selectedCellIndex, section: 0)) as? LCFilterCell)?.setSelected()
+        (collectionView.cellForItem(at: IndexPath(row: selectedCellIndex, section: 0)) as? LCEffectCell)?.setSelected()
         
         if !isFirst {
             collectionView.reloadItems(at: [IndexPath(row: prevSelectedCellIndex, section: 0)])

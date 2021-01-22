@@ -41,7 +41,7 @@ class LCFilterMenu: UIView {
        
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width: 52, height: 64)
-        layout.minimumLineSpacing = 0
+        layout.minimumLineSpacing = 6
         layout.scrollDirection = .horizontal
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         self.availableFilters = availableFilters.count == 0 ? kDefaultAvailableFilters : availableFilters

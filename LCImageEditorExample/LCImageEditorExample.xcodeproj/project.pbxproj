@@ -77,6 +77,7 @@
 		A320639725A4BFC10036AC1E /* LCImageEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A320635C25A4BFC00036AC1E /* LCImageEditor.swift */; };
 		A32063A525A601270036AC1E /* LCMultiImageEditor+NSLayoutConstraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = A32063A425A601270036AC1E /* LCMultiImageEditor+NSLayoutConstraints.swift */; };
 		A329E02225B903AB0010AA3B /* LCMultiImageEditor+UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A329E02125B903AB0010AA3B /* LCMultiImageEditor+UIView.swift */; };
+		A329E02525BA46C10010AA3B /* LCEffectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A329E02425BA46C10010AA3B /* LCEffectCell.swift */; };
 		A391EA2225A9EC9C000E9C1B /* PreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A391EA1A25A9EC9C000E9C1B /* PreviewView.swift */; };
 		A391EA2325A9EC9C000E9C1B /* ColorSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A391EA1B25A9EC9C000E9C1B /* ColorSlider.swift */; };
 		A391EA2425A9EC9C000E9C1B /* Gradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = A391EA1D25A9EC9C000E9C1B /* Gradient.swift */; };
@@ -161,6 +162,7 @@
 		A320635C25A4BFC00036AC1E /* LCImageEditor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LCImageEditor.swift; sourceTree = "<group>"; };
 		A32063A425A601270036AC1E /* LCMultiImageEditor+NSLayoutConstraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LCMultiImageEditor+NSLayoutConstraints.swift"; sourceTree = "<group>"; };
 		A329E02125B903AB0010AA3B /* LCMultiImageEditor+UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LCMultiImageEditor+UIView.swift"; sourceTree = "<group>"; };
+		A329E02425BA46C10010AA3B /* LCEffectCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LCEffectCell.swift; sourceTree = "<group>"; };
 		A391EA1A25A9EC9C000E9C1B /* PreviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewView.swift; sourceTree = "<group>"; };
 		A391EA1B25A9EC9C000E9C1B /* ColorSlider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorSlider.swift; sourceTree = "<group>"; };
 		A391EA1D25A9EC9C000E9C1B /* Gradient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Gradient.swift; sourceTree = "<group>"; };
@@ -234,8 +236,7 @@
 		A320631625A4BFC00036AC1E /* LCMultiImageEditor */ = {
 			isa = PBXGroup;
 			children = (
-				A320631725A4BFC00036AC1E /* LCEffects */,
-				A320631C25A4BFC00036AC1E /* LCFilter */,
+				A329E02325BA461F0010AA3B /* LCFilters */,
 				A320632B25A4BFC00036AC1E /* MultipleEditor */,
 				A320633325A4BFC00036AC1E /* CustomViews */,
 				A320633B25A4BFC00036AC1E /* LCCropView */,
@@ -252,8 +253,7 @@
 			children = (
 				A320631925A4BFC00036AC1E /* LCEffector.swift */,
 				A320631B25A4BFC00036AC1E /* LCEffectMenu.swift */,
-				A320631825A4BFC00036AC1E /* ChromaKeyFilter.swift */,
-				A320631A25A4BFC00036AC1E /* BlurEyeFilter.swift */,
+				A329E02425BA46C10010AA3B /* LCEffectCell.swift */,
 			);
 			path = LCEffects;
 			sourceTree = "<group>";
@@ -261,9 +261,8 @@
 		A320631C25A4BFC00036AC1E /* LCFilter */ = {
 			isa = PBXGroup;
 			children = (
-				A320631D25A4BFC00036AC1E /* Filters */,
-				A320632825A4BFC00036AC1E /* LCFilterMenu.swift */,
 				A320632925A4BFC00036AC1E /* LCFilter.swift */,
+				A320632825A4BFC00036AC1E /* LCFilterMenu.swift */,
 				A320632A25A4BFC00036AC1E /* LCFilterCell.swift */,
 			);
 			path = LCFilter;
@@ -272,6 +271,8 @@
 		A320631D25A4BFC00036AC1E /* Filters */ = {
 			isa = PBXGroup;
 			children = (
+				A320631A25A4BFC00036AC1E /* BlurEyeFilter.swift */,
+				A320631825A4BFC00036AC1E /* ChromaKeyFilter.swift */,
 				A320632125A4BFC00036AC1E /* BrightnessFilter.swift */,
 				A320632025A4BFC00036AC1E /* ExposureFilter.swift */,
 				A320632625A4BFC00036AC1E /* HighlightFilter.swift */,
@@ -385,6 +386,16 @@
 			path = SingleEditor;
 			sourceTree = "<group>";
 		};
+		A329E02325BA461F0010AA3B /* LCFilters */ = {
+			isa = PBXGroup;
+			children = (
+				A320631D25A4BFC00036AC1E /* Filters */,
+				A320631C25A4BFC00036AC1E /* LCFilter */,
+				A320631725A4BFC00036AC1E /* LCEffects */,
+			);
+			path = LCFilters;
+			sourceTree = "<group>";
+		};
 		A391EA1925A9EC9C000E9C1B /* GradientColorSlider */ = {
 			isa = PBXGroup;
 			children = (
@@ -487,6 +498,7 @@
 				A320638F25A4BFC10036AC1E /* LCImageEditor+PhotoLibrary.swift in Sources */,
 				A391EA2A25AA83D1000E9C1B /* LCCropToolBar.swift in Sources */,
 				A320638725A4BFC10036AC1E /* LCImageView+UITouch.swift in Sources */,
+				A329E02525BA46C10010AA3B /* LCEffectCell.swift in Sources */,
 				A320639625A4BFC10036AC1E /* LCImageEditorDelegate.swift in Sources */,
 				A320637425A4BFC10036AC1E /* LCMultiImageEditor.swift in Sources */,
 				A320636825A4BFC10036AC1E /* TintFilter.swift in Sources */,

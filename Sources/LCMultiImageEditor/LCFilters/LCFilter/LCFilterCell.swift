@@ -22,7 +22,7 @@ class LCFilterCell: UICollectionViewCell {
         
         super.init(frame: frame)
         
-        imageView.frame = CGRect(x: (frame.width - 36) / 2, y: 12, width: 36, height: 36)
+        imageView.frame = CGRect(x: (frame.width - 36) / 2, y: 10, width: 36, height: 36)
         imageView.layer.cornerRadius = imageView.frame.width / 2
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
@@ -42,7 +42,7 @@ class LCFilterCell: UICollectionViewCell {
         
         name.text = ""
         name.textColor = .darkText
-        name.font = UIFont.systemFont(ofSize: 8)
+        name.font = UIFont.systemFont(ofSize: 11)
     }
     
     override func prepareForReuse() {
