@@ -8,33 +8,11 @@
 
 import UIKit
 
-fileprivate let markInterval     = 12
-fileprivate let longLineHeight   = 40
-fileprivate let shortLineHeight  = 35
-fileprivate let triangleWidth    = 12
-fileprivate let sliderHeight     = 56
-fileprivate let triangleColor    = UIColor.blue
-
-class LCTriangleView: UIView {
-    
-    override func draw(_ rect: CGRect) {
-        UIColor.clear.set()
-        UIRectFill(self.bounds)
-        
-        let context = UIGraphicsGetCurrentContext()
-        context!.beginPath()
-        context!.move(to: CGPoint.init(x: 0, y: 0))
-        context!.addLine(to: CGPoint.init(x: triangleWidth, y: 0))
-        context!.addLine(to: CGPoint.init(x: triangleWidth/2, y: triangleWidth/2))
-        context!.setLineCap(CGLineCap.butt)
-        context!.setLineJoin(CGLineJoin.bevel)
-        context!.closePath()
-        
-        triangleColor.setFill()
-        triangleColor.setStroke()
-        context!.drawPath(using: CGPathDrawingMode.fillStroke)
-    }
-}
+fileprivate let markInterval = 12
+fileprivate let yPosition: CGFloat = 8
+fileprivate let sliderMaxY: CGFloat = 40
+fileprivate let sliderHeight = 56
+fileprivate let triangleColor = UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 1.0)
 
 class LCRulerView: UIView {
     
@@ -44,29 +22,25 @@ class LCRulerView: UIView {
     var betweenNumber = 0
     
     override func draw(_ rect: CGRect) {
+        
         let lineCenterX = CGFloat(markInterval)
-        let shortLineY = rect.size.height - CGFloat(longLineHeight)
-        let longLineY = rect.size.height - CGFloat(shortLineHeight)
-        let topY:CGFloat = 0
         
         let context = UIGraphicsGetCurrentContext()
         context?.setLineCap(CGLineCap.butt)
+        context?.setStrokeColor(triangleColor.cgColor)
+        context?.setLineWidth(1)
         
         for i in 0...betweenNumber {
-            context?.setLineWidth(1)
-            context?.setStrokeColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 1.0)
-            context?.move(to: CGPoint.init(x: lineCenterX * CGFloat(i), y: topY))
-            if i % betweenNumber == 0 {
-                let num = Float(i) * step + minValue
-                if num == 0 && i == 0 {
-                    context?.setLineWidth(3)
-                    context?.setStrokeColor(red: 0.0, green: 0.0, blue: 1.0, alpha: 1.0)
-                }
-                context!.addLine(to: CGPoint.init(x: lineCenterX * CGFloat(i), y: longLineY))
-            } else {
-                context!.addLine(to: CGPoint.init(x: lineCenterX * CGFloat(i), y: shortLineY))
-            }
+            context?.move(to: CGPoint.init(x: lineCenterX * CGFloat(i), y: 26))
+            context!.addLine(to: CGPoint.init(x: lineCenterX * CGFloat(i), y: sliderMaxY))
             context!.strokePath()
+            
+            let num = Float(i) * step + minValue
+            if num == 0 && (i == 0 || i == 5) {
+                let rectangle = CGRect(x: (lineCenterX * CGFloat(i) - 4), y: yPosition + 2, width: 8, height: 8)
+                context?.addEllipse(in: rectangle)
+                context?.drawPath(using: .fill)
+            }
         }
     }
 }
@@ -100,14 +74,12 @@ class LCSliderView: UIView {
         stepCount   = Int((tmaxValue - tminValue) / step) / betweenNum
         
         self.backgroundColor = UIColor.white
-        valueLbl.frame = CGRect(x: (self.bounds.size.width - 60).half, y: 0, width: 60, height: 20)
-        triangleview.frame = CGRect(x: (self.bounds.size.width - CGFloat(triangleWidth) - 1).half, y: valueLbl.frame.maxY, width: CGFloat(triangleWidth), height: CGFloat(triangleWidth))
+        triangleview.frame = CGRect(x: (self.bounds.size.width - 1).half, y: yPosition, width: 2, height: sliderMaxY - yPosition)
         
-        self.addSubview(self.valueLbl)
         self.addSubview(self.lazyCollectionView)
         self.addSubview(self.triangleview)
 
-        self.lazyCollectionView.frame = CGRect.init(x: 0, y: 20, width: self.bounds.size.width, height: CGFloat(sliderHeight - 20))
+        self.lazyCollectionView.frame = CGRect.init(x: 0, y: 0, width: self.bounds.size.width, height: CGFloat(sliderHeight))
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -116,23 +88,16 @@ class LCSliderView: UIView {
     
     public override func layoutSubviews() {
         super.layoutSubviews()
-        valueLbl.frame = CGRect(x: (self.bounds.size.width - 60).half, y: 0, width: 60, height: 20)
-        triangleview.frame = CGRect(x: (self.bounds.size.width - CGFloat(triangleWidth) - 1).half, y: valueLbl.frame.maxY, width: CGFloat(triangleWidth), height: CGFloat(triangleWidth))
+        triangleview.frame = CGRect(x: (self.bounds.size.width - 1).half, y: yPosition, width: 2, height: sliderMaxY - yPosition)
         self.lazyCollectionView.collectionViewLayout.invalidateLayout()
     }
-    
-    var valueLbl: UILabel = {
-        let label = UILabel()
-        label.textAlignment = .center
-        return label
-    }()
     
     lazy var lazyCollectionView: UICollectionView = {
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.scrollDirection = .horizontal
         flowLayout.estimatedItemSize = .zero
         
-        let collectionView: UICollectionView = UICollectionView.init(frame: CGRect.init(x: 0, y: 20, width: self.bounds.size.width, height: CGFloat(sliderHeight - 20)), collectionViewLayout: flowLayout)
+        let collectionView: UICollectionView = UICollectionView.init(frame: CGRect.init(x: 0, y: 0, width: self.bounds.size.width, height: CGFloat(sliderHeight)), collectionViewLayout: flowLayout)
         collectionView.backgroundColor = UIColor.systemBackground
         collectionView.bounces = true
         collectionView.showsHorizontalScrollIndicator = false
@@ -144,28 +109,19 @@ class LCSliderView: UIView {
         return collectionView
     }()
     
-    lazy var triangleview: LCTriangleView = {
-        let triangleView = LCTriangleView()
-        triangleView.backgroundColor = UIColor.clear
+    lazy var triangleview: UIView = {
+        let triangleView = UIView()
+        triangleView.backgroundColor = triangleColor
         return triangleView
     }()
     
-    @objc fileprivate func didChangeCollectionValue() {
-        let textFieldValue = Float(valueLbl.text!)
-        if (textFieldValue! - minValue) >= 0 {
-            self.setRealValueAndAnimated(realValue: (textFieldValue! - minValue) / step, animated: true)
-        }
-    }
-    
     @objc fileprivate func setRealValueAndAnimated(realValue: Float, animated: Bool) {
         fileRealValue = realValue
-        valueLbl.text = String.init(format: "%.0f", floor(fileRealValue * step + minValue))
         lazyCollectionView.setContentOffset(CGPoint(x: CGFloat(realValue * Float(markInterval)), y: 0), animated: animated)
     }
     
     func setDefaultValueAndAnimated(defaultValue: Float, animated: Bool) {
         fileRealValue = defaultValue
-        valueLbl.text = String.init(format: "%.0f", defaultValue)
         lazyCollectionView.setContentOffset(CGPoint.init(x: Int((defaultValue - minValue) / step) * markInterval, y: 0), animated: animated)
     }
 }
@@ -211,7 +167,6 @@ extension LCSliderView: UICollectionViewDelegate {
                 totalValue = minValue
             }
         }
-        valueLbl.text = String.init(format: "%.0f", floor(totalValue))
         delegate?.LCSliderViewValueChange(sliderView: self, value: floor(totalValue))
     }
     
@@ -234,9 +189,9 @@ extension LCSliderView: UICollectionViewDelegate {
 extension LCSliderView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if indexPath.item == 0 || indexPath.item == stepCount + 1 {
-            return CGSize(width: Int(self.frame.size.width.half), height: sliderHeight - 20)
+            return CGSize(width: Int(self.frame.size.width.half), height: sliderHeight)
         }
-        return CGSize(width: markInterval * betweenNum, height: sliderHeight - 20)
+        return CGSize(width: markInterval * betweenNum, height: sliderHeight)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {

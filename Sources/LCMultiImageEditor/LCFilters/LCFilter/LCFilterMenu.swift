@@ -172,7 +172,7 @@ extension LCFilterMenu: LCSliderDelegate {
     }
     
     func LCSliderViewValueChange(sliderView: LCSliderView, value: Float) {
-        print("sliderValue=\(value)")
+//        print("sliderValue = \(value)")
         if availbleChange {
             (collectionView.cellForItem(at: IndexPath(row: selectedCellIndex, section: 0)) as? LCFilterCell)?.updateProgress(value)
         }

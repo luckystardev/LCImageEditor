@@ -191,7 +191,7 @@ public enum LCFilter: LCFilterable {
             case .CINoiseReduction:
                 name = "light.min"
             case .CISharpness:
-                name = "light.max"
+                name = "slowmo"
             case .CIVignette:
                 name = "viewfinder.circle"
             case .CIPhotoEffectMono:

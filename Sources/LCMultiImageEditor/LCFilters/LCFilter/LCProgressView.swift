@@ -18,9 +18,9 @@ class LCProgressView: UIView {
     var statusProgress: Int = Int()
     
     private let π: CGFloat = CGFloat(Double.pi)
-    private let circleColor: UIColor = .gray
+    private let circleColor: UIColor = .lightGray
     private let plusColor: UIColor = .orange
-    private let minusColor: UIColor = .green
+    private let minusColor: UIColor = .darkGray
     private let lineWidth: CGFloat = 2
     
     var valueProgress: CGFloat = 0
