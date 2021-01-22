@@ -11,7 +11,7 @@ import UIKit
 fileprivate let markInterval = 12
 fileprivate let yPosition: CGFloat = 8
 fileprivate let sliderMaxY: CGFloat = 40
-fileprivate let sliderHeight = 56
+fileprivate let sliderHeight = 52
 
 class LCRulerView: UIView {
     

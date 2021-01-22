@@ -16,7 +16,7 @@ class LCEffectMenu: UIView {
    private var selectedCellIndex: Int = 0
    private var isObservingCollectionView = true
    private var isFirst = true
-   fileprivate let height_cell: CGFloat = 64
+   fileprivate let height_cell: CGFloat = 56
     
    public var didSelectEffector: (LCEffectable, _ value: CGFloat) -> Void = { _,_ in }
    
@@ -41,7 +41,7 @@ class LCEffectMenu: UIView {
        
        collectionView.register(LCEffectCell.classForCoder(), forCellWithReuseIdentifier: LCEffectCell.reussId)
        
-       collectionView.backgroundColor = .white
+       collectionView.backgroundColor = .clear
        collectionView.dataSource = self
        collectionView.delegate = self
        collectionView.showsHorizontalScrollIndicator = false
@@ -51,7 +51,6 @@ class LCEffectMenu: UIView {
        isObservingCollectionView = true
        
        self.backgroundColor = .clear
-       collectionView.backgroundColor = .clear
     
         colorSlider = ColorSlider(orientation: .horizontal, previewSide: .top)
         colorSlider?.delegate = self
@@ -61,7 +60,7 @@ class LCEffectMenu: UIView {
         NSLayoutConstraint.activate([
             colorSlider!.leftAnchor.constraint(equalTo: leftAnchor, constant: kPadding.half),
             colorSlider!.rightAnchor.constraint(equalTo: rightAnchor, constant: -kPadding.half),
-            colorSlider!.topAnchor.constraint(equalTo: topAnchor, constant: height_cell + 30),
+            colorSlider!.topAnchor.constraint(equalTo: topAnchor, constant: height_cell + 28),
             colorSlider!.heightAnchor.constraint(equalToConstant: 20),
         ])
     

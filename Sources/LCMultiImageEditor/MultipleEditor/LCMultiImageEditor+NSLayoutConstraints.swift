@@ -73,7 +73,6 @@ extension LCMultiImageEditor {
     
     func setupBottomToolbarConstraints() {
         bottomToolbar.translatesAutoresizingMaskIntoConstraints = false
-        
         bottomToolbar.bottomAnchor.constraint(equalTo: bottomView.topAnchor, constant: -kPadding).isActive = true
         bottomToolbar.leftAnchor.constraint(equalTo: view.leftAnchor, constant: kPadding).isActive = true
         bottomToolbar.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -kPadding).isActive = true
@@ -121,7 +120,7 @@ extension LCMultiImageEditor {
     func setupEditBgViewConstraints() {
         editBackgroundView.translatesAutoresizingMaskIntoConstraints = false
         editBackgroundView.topAnchor.constraint(equalTo: topView.bottomAnchor, constant: kPadding).isActive = true
-        editBackgroundView.bottomAnchor.constraint(equalTo: mainToolbar.topAnchor).isActive = true
+        editBackgroundView.bottomAnchor.constraint(equalTo: mainToolbar.topAnchor, constant: -kPadding).isActive = true
         editBackgroundView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: kPadding).isActive = true
         editBackgroundView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -kPadding).isActive = true
     }

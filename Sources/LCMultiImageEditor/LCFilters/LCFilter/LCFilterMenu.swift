@@ -21,9 +21,10 @@ class LCFilterMenu: UIView {
     var availbleChange = false
     var selectedFilterValue: Double = 0
     var filterValues: [String:Double] = [:]
+    fileprivate let height_cell: CGFloat = 46
     
     lazy var sliderView: LCSliderView = {
-        var hSlider = LCSliderView.init(frame: CGRect.init(x: kPadding, y: 64, width: UIScreen.main.bounds.width - kPadding * 2, height: 56), tminValue: -100, tmaxValue: 100, tstep: 5, tNum: 5)
+        var hSlider = LCSliderView.init(frame: CGRect.init(x: kPadding, y: height_cell, width: UIScreen.main.bounds.width - kPadding * 2, height: 52), tminValue: -100, tmaxValue: 100, tstep: 5, tNum: 5)
         hSlider.setDefaultValueAndAnimated(defaultValue: 0, animated: true)
         return hSlider
     }()
@@ -31,7 +32,7 @@ class LCFilterMenu: UIView {
     init(appliedFilter: LCFilterable?) {
        
         let layout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: 52, height: 64)
+        layout.itemSize = CGSize(width: 52, height: height_cell)
         layout.minimumLineSpacing = 6
         layout.scrollDirection = .horizontal
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -48,11 +49,11 @@ class LCFilterMenu: UIView {
         collectionView.topAnchor.constraint(equalTo: topAnchor).isActive = true
         collectionView.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         collectionView.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
-        collectionView.heightAnchor.constraint(equalToConstant: 64).isActive = true
+        collectionView.heightAnchor.constraint(equalToConstant: height_cell).isActive = true
     
         collectionView.register(LCFilterCell.classForCoder(), forCellWithReuseIdentifier: LCFilterCell.reussId)
        
-        collectionView.backgroundColor = .white
+        collectionView.backgroundColor = .clear
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.showsHorizontalScrollIndicator = false
@@ -62,7 +63,6 @@ class LCFilterMenu: UIView {
         isObservingCollectionView = true
        
         self.backgroundColor = .clear
-        collectionView.backgroundColor = .clear
     
         sliderView.delegate = self
         self.addSubview(sliderView)
@@ -72,7 +72,7 @@ class LCFilterMenu: UIView {
         sliderView.topAnchor.constraint(equalTo: collectionView.bottomAnchor).isActive = true
         sliderView.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         sliderView.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
-        sliderView.heightAnchor.constraint(equalToConstant: 56).isActive = true
+        sliderView.heightAnchor.constraint(equalToConstant: 52).isActive = true
    }
     
    public func resetFilterMenu() {
@@ -122,7 +122,7 @@ extension LCFilterMenu: UICollectionViewDelegate, UICollectionViewDataSource {
         }
         
         cell.progressView.image = filter.symbolImage()
-        cell.name.text = availableFilters[indexPath.item].filterName()
+//        cell.name.text = availableFilters[indexPath.item].filterName()
         if indexPath.item == selectedCellIndex && !isFirst {
             cell.setSelected()
         }

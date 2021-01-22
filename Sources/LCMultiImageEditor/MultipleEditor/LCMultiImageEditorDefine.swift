@@ -40,7 +40,7 @@ let kBottomButtonHeight: CGFloat = 48.0
 let kBottomToolBarHeight: CGFloat = 28.0
 let kBottomToolBarWidth: CGFloat = 150.0
 
-let kMainToolBarHeight: CGFloat = 120.0
+let kMainToolBarHeight: CGFloat = 110.0
 let kCropToolBarWidth: CGFloat = 300.0
 let kCropToolBarHeight: CGFloat = 30.0
 

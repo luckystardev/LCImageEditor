@@ -22,7 +22,7 @@ class LCEffectCell: UICollectionViewCell {
         
         super.init(frame: frame)
         
-        selectCircleView.frame = CGRect(x: (frame.width - 42) / 2, y: 6, width: 42, height: 42)
+        selectCircleView.frame = CGRect(x: (frame.width - 42) / 2, y: 0, width: 42, height: 42)
         selectCircleView.layer.cornerRadius = selectCircleView.frame.width / 2
         selectCircleView.layer.borderWidth = 2
         selectCircleView.layer.borderColor = kGrayColor.cgColor

@@ -20,7 +20,7 @@ class LCFilterCell: UICollectionViewCell {
         
         super.init(frame: frame)
         
-        progressView.frame = CGRect(x: (frame.width - 42) / 2, y: 6, width: 42, height: 42)
+        progressView.frame = CGRect(x: (frame.width - 42) / 2, y: 2, width: 42, height: 42)
         
         self.addSubview(progressView)
         self.addSubview(name)
