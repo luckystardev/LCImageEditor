@@ -223,7 +223,6 @@ open class LCMultiImageEditor: UIViewController {
     
     // MARK: - Button Actions
     func showTitle(_ title: String) {
-        print(title)
         titleLbl.text = " " + title + " "
         titleLbl.isHidden = false
         self.view.bringSubviewToFront(titleLbl)

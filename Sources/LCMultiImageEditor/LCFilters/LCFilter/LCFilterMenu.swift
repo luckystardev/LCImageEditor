@@ -21,7 +21,9 @@ class LCFilterMenu: UIView {
     var availbleChange = false
     var selectedFilterValue: Double = 0
     var filterValues: [String:Double] = [:]
+    
     fileprivate let height_cell: CGFloat = 46
+    fileprivate let width_cell: CGFloat  = 52
     
     lazy var sliderView: LCSliderView = {
         var hSlider = LCSliderView.init(frame: CGRect.init(x: kPadding, y: height_cell, width: UIScreen.main.bounds.width - kPadding * 2, height: 52), tminValue: -100, tmaxValue: 100, tstep: 5, tNum: 5)
@@ -32,8 +34,8 @@ class LCFilterMenu: UIView {
     init(appliedFilter: LCFilterable?) {
        
         let layout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: 52, height: height_cell)
-        layout.minimumLineSpacing = 6
+        layout.itemSize = CGSize(width: width_cell, height: height_cell)
+        layout.minimumLineSpacing = 0
         layout.scrollDirection = .horizontal
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         self.availableFilters = kDefaultAvailableFilters
@@ -52,7 +54,8 @@ class LCFilterMenu: UIView {
         collectionView.heightAnchor.constraint(equalToConstant: height_cell).isActive = true
     
         collectionView.register(LCFilterCell.classForCoder(), forCellWithReuseIdentifier: LCFilterCell.reussId)
-       
+        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "footerCell")
+        
         collectionView.backgroundColor = .clear
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -83,12 +86,17 @@ class LCFilterMenu: UIView {
         collectionView.reloadData()
    }
     
+   public override func layoutSubviews() {
+       super.layoutSubviews()
+       collectionView.collectionViewLayout.invalidateLayout()
+   }
+    
    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
        if let observedObject = object as? UICollectionView, observedObject == collectionView {
            collectionView.removeObserver(self, forKeyPath: "contentSize")
            isObservingCollectionView = false
            
-           collectionView.scrollToItem(at: IndexPath(row: self.selectedCellIndex, section: 0), at: .centeredHorizontally, animated: false)
+//           collectionView.scrollToItem(at: IndexPath(row: self.selectedCellIndex, section: 0), at: .centeredHorizontally, animated: false)
        }
    }
    
@@ -106,59 +114,64 @@ class LCFilterMenu: UIView {
 
 extension LCFilterMenu: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return availableFilters.count
+        return availableFilters.count + 2
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LCFilterCell.reussId, for: indexPath) as? LCFilterCell
-            else { return UICollectionViewCell() }
-        
-        let filter = availableFilters[indexPath.item]
-        
-        
-        if let value = filterValues[filter.filterName()] {
-           selectedFilterValue = value
+        if indexPath.item == 0 || indexPath.item == availableFilters.count + 1 {
+            let cell: UICollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: "footerCell", for: indexPath)
+            return cell
         } else {
-            filterValues[filter.filterName()] = 0.0
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LCFilterCell.reussId, for: indexPath) as? LCFilterCell else { return UICollectionViewCell() }
+                    
+            let filter = availableFilters[indexPath.item - 1]
+            
+            if let value = filterValues[filter.filterName()] {
+               selectedFilterValue = value
+            } else {
+                filterValues[filter.filterName()] = 0.0
+            }
+            
+            cell.progressView.image = filter.symbolImage()
+//            cell.name.text = filter.filterName()
+            if indexPath.item == selectedCellIndex && !isFirst {
+                cell.setSelected()
+            }
+            return cell
         }
         
-        cell.progressView.image = filter.symbolImage()
-//        cell.name.text = filter.filterName()
-        if indexPath.item == selectedCellIndex && !isFirst {
-            cell.setSelected()
-        }
-        return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let filter = availableFilters[indexPath.item]
         
-        let prevSelectedCellIndex = selectedCellIndex
-        
-        selectedCellIndex = indexPath.item
-        (collectionView.cellForItem(at: IndexPath(row: selectedCellIndex, section: 0)) as? LCFilterCell)?.setSelected()
-        
-        if !isFirst {
-            (collectionView.cellForItem(at: IndexPath(row: prevSelectedCellIndex, section: 0)) as? LCFilterCell)?.setDeselected()
-        }
-        
-        isFirst = false
-        
-        availbleChange = filter.valueChangeable()
-        
-        if !availbleChange {
-            print("Not AvailableChange")
-            sliderView.isHidden = true
-            didSelectFilter(filter, 0)
-        } else {
-//            let minValue = filter.minimumValue()
-//            sliderView.minValue = Float(minValue)
+        if indexPath.item > 0 || indexPath.item < availableFilters.count + 1 {
+            let filter = availableFilters[indexPath.item - 1]
+            let prevSelectedCellIndex = selectedCellIndex + 1
             
-            let fValue = filterValues[filter.filterName()] ?? 0.0
-            sliderView.setDefaultValueAndAnimated(defaultValue: Float(fValue), animated: false)
-            sliderView.isHidden = false
-//            sliderView.setDefaultValueAndAnimated(defaultValue: 0, animated: false)
-            didSelectFilter(filter, 101)
+            selectedCellIndex = indexPath.item - 1
+            (collectionView.cellForItem(at: IndexPath(row: selectedCellIndex, section: 0)) as? LCFilterCell)?.setSelected()
+            
+            collectionView.setContentOffset(CGPoint(x: CGFloat(selectedCellIndex * Int(width_cell + 10) - Int(width_cell / 3)), y: 0), animated: true)
+            
+            if !isFirst {
+                (collectionView.cellForItem(at: IndexPath(row: prevSelectedCellIndex, section: 0)) as? LCFilterCell)?.setDeselected()
+            }
+            
+            isFirst = false
+            
+            availbleChange = filter.valueChangeable()
+            
+            if !availbleChange {
+                print("Not AvailableChange")
+                sliderView.isHidden = true
+                didSelectFilter(filter, 0)
+            } else {
+                
+                let fValue = filterValues[filter.filterName()] ?? 0.0
+                sliderView.setDefaultValueAndAnimated(defaultValue: Float(fValue), animated: false)
+                sliderView.isHidden = false
+                didSelectFilter(filter, 101)
+            }
         }
     }
 }
@@ -175,7 +188,16 @@ extension LCFilterMenu: LCSliderDelegate {
     func LCSliderViewValueChange(sliderView: LCSliderView, value: Float) {
 //        print("sliderValue = \(value)")
         if availbleChange {
-            (collectionView.cellForItem(at: IndexPath(row: selectedCellIndex, section: 0)) as? LCFilterCell)?.updateProgress(value)
+            (collectionView.cellForItem(at: IndexPath(row: selectedCellIndex + 1, section: 0)) as? LCFilterCell)?.updateProgress(value)
         }
+    }
+}
+
+extension LCFilterMenu: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        if indexPath.item == 0 || indexPath.item == availableFilters.count + 1 {
+            return CGSize(width: self.frame.size.width.half - width_cell, height: height_cell)
+        }
+        return CGSize(width: width_cell, height: height_cell)
     }
 }
