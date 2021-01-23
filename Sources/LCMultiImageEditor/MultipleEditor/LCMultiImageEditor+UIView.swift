@@ -106,6 +106,12 @@ extension LCMultiImageEditor {
         
         view.addSubview(editBackgroundView)
         setupEditableImageViews(.new)
+        
+        view.addSubview(titleLbl)
+        titleLbl.backgroundColor = kBlackColor
+        titleLbl.textColor = .white
+        titleLbl.isHidden = true
+        setupTitleLabelConstraints()
     }
     
     private func setupFilterMenubar() {

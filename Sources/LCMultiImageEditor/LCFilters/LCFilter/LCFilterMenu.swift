@@ -80,6 +80,7 @@ class LCFilterMenu: UIView {
             filterValues[filter.filterName()] = 0.0
         }
         sliderView.setDefaultValueAndAnimated(defaultValue: 0, animated: true)
+        collectionView.reloadData()
    }
     
    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
@@ -122,7 +123,7 @@ extension LCFilterMenu: UICollectionViewDelegate, UICollectionViewDataSource {
         }
         
         cell.progressView.image = filter.symbolImage()
-//        cell.name.text = availableFilters[indexPath.item].filterName()
+//        cell.name.text = filter.filterName()
         if indexPath.item == selectedCellIndex && !isFirst {
             cell.setSelected()
         }

@@ -117,6 +117,12 @@ extension LCMultiImageEditor {
         view.heightAnchor.constraint(equalToConstant: kCropToolBarHeight).isActive = true
     }
     
+    func setupTitleLabelConstraints() {
+        titleLbl.translatesAutoresizingMaskIntoConstraints = false
+        titleLbl.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        titleLbl.bottomAnchor.constraint(equalTo: mainToolbar.topAnchor, constant: -kPadding * 1.5).isActive = true
+    }
+    
     func setupEditBgViewConstraints() {
         editBackgroundView.translatesAutoresizingMaskIntoConstraints = false
         editBackgroundView.topAnchor.constraint(equalTo: topView.bottomAnchor, constant: kPadding).isActive = true

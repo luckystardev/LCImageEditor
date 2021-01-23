@@ -26,6 +26,7 @@ open class LCMultiImageEditor: UIViewController {
     let previewButton = CustomButton()
     let exportButton = CustomButton()
     let editBackgroundView = UIView()
+    let titleLbl = UILabel()
     
     private var editableViews = [LCEditableView]()
     private var appliedFilter: LCFilterable!
@@ -59,19 +60,23 @@ open class LCMultiImageEditor: UIViewController {
         let filterSubMenuView = LCFilterMenu(appliedFilter: self.appliedFilter)
         filterSubMenuView.didSelectFilter = { (filter, value) in
             self.appliedFilter = filter
-            LCLoadingView.shared.show()
-            for editView in self.editableViews {
-                if value <= 100 {
+            
+            if value > 100 {
+                self.showTitle(filter.filterName())
+                for editView in self.editableViews {
+                    editView.ciImage = CIImage(image: editView.photoContentView.image)
+                }
+            } else {
+                LCLoadingView.shared.show()
+                for editView in self.editableViews {
                     if editView.ciImage == nil {
                         editView.ciImage = CIImage(image: editView.photoContentView.image)
                     }
                     let output = filter.apply(image: editView.ciImage!, value: value)
                     editView.photoContentView.image = output.toUIImage()
-                } else {
-                    editView.ciImage = CIImage(image: editView.photoContentView.image)
                 }
+                LCLoadingView.shared.hide()
             }
-            LCLoadingView.shared.hide()
         }
         return filterSubMenuView
     }()
@@ -217,6 +222,16 @@ open class LCMultiImageEditor: UIViewController {
     }
     
     // MARK: - Button Actions
+    func showTitle(_ title: String) {
+        print(title)
+        titleLbl.text = " " + title + " "
+        titleLbl.isHidden = false
+        self.view.bringSubviewToFront(titleLbl)
+    }
+    
+    func hideTitle() {
+        titleLbl.isHidden = true
+    }
     
     @objc func updateCropRatio(_ index: Int) {
         let ary: [MontageRatioType] = [.custom, .nineSixteenth, .threeFourth, .square, .fourThird, .sixteenNinth]
@@ -243,6 +258,7 @@ open class LCMultiImageEditor: UIViewController {
     }
     
     @objc func resetAction() {
+        hideTitle()
         syncImages()
         filterSubMenuView?.resetFilterMenu()
         for editView in self.editableViews {
@@ -266,6 +282,7 @@ open class LCMultiImageEditor: UIViewController {
     }
     
     @objc func editControl(_ index: Int) {
+        hideTitle()
         if index == 0 { // Correction filter
             self.editMode = .filter
             filterSubMenuView?.isHidden = false
