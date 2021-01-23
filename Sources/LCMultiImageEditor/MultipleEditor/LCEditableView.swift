@@ -47,6 +47,15 @@ class LCEditableView: UIView {
         }
     }
     
+    public func select(_ isSelect: Bool) {
+        if isSelect {
+            self.layer.borderWidth = 2
+            self.layer.borderColor = UIColor.red.cgColor
+        } else {
+            self.layer.borderWidth = 0
+        }
+    }
+    
     public func resetFrame(_ frame: CGRect) {
         //init frame
         self.frame = frame

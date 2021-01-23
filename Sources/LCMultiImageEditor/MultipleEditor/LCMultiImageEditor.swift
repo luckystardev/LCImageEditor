@@ -35,6 +35,7 @@ open class LCMultiImageEditor: UIViewController {
     private var selectedIndex: Int = 0
     
     private var isLock: Bool = false
+    private var selectedViews = [LCEditableView]()
     
     private var orientations = UIInterfaceOrientationMask.portrait
     
@@ -60,23 +61,31 @@ open class LCMultiImageEditor: UIViewController {
         let filterSubMenuView = LCFilterMenu(appliedFilter: self.appliedFilter)
         filterSubMenuView.didSelectFilter = { (filter, value) in
             self.appliedFilter = filter
-            
-            if value > 100 {
-                self.showTitle(filter.filterName())
-                for editView in self.editableViews {
-                    editView.ciImage = CIImage(image: editView.photoContentView.image)
+            let isApply = self.checkApplyFilter()
+            if isApply {
+                if !self.isLock {
+                    self.selectedViews = self.editableViews
                 }
-            } else {
-                LCLoadingView.shared.show()
-                for editView in self.editableViews {
-                    if editView.ciImage == nil {
+                if value > 100 {
+                    self.showTitle(filter.filterName())
+                    for editView in self.selectedViews {
                         editView.ciImage = CIImage(image: editView.photoContentView.image)
                     }
-                    let output = filter.apply(image: editView.ciImage!, value: value)
-                    editView.photoContentView.image = output.toUIImage()
+                } else {
+                    LCLoadingView.shared.show()
+                    for editView in self.selectedViews {
+                        if editView.ciImage == nil {
+                            editView.ciImage = CIImage(image: editView.photoContentView.image)
+                        }
+                        let output = filter.apply(image: editView.ciImage!, value: value)
+                        editView.photoContentView.image = output.toUIImage()
+                    }
+                    LCLoadingView.shared.hide()
                 }
-                LCLoadingView.shared.hide()
+            } else {
+                self.showLockAlert()
             }
+            
         }
         return filterSubMenuView
     }()
@@ -269,15 +278,22 @@ open class LCMultiImageEditor: UIViewController {
         isLock = !isLock
         if isLock {
             sender.setBackgroundImage(UIImage(systemName: "lock.fill"), for: .normal)
-            for editView in self.editableViews {
-                editView.lock(true)
-            }
+            selectedViews.removeAll()
         } else {
             sender.setBackgroundImage(UIImage(systemName: "lock"), for: .normal)
-            for editView in self.editableViews {
-                editView.lock(false)
+            if !selectedViews.isEmpty {
+                for editView in self.selectedViews {
+                    editView.select(false)
+                }
             }
         }
+    }
+    
+    private func checkApplyFilter() -> Bool {
+        if isLock && selectedViews.isEmpty {
+            return false
+        }
+        return true
     }
     
     @objc func editControl(_ index: Int) {
@@ -433,21 +449,38 @@ extension LCMultiImageEditor: ImageViewZoomDelegate {
 
 extension LCMultiImageEditor: LCEditableViewDelegate {
     func tapAction(_ editableview: LCEditableView) {
+        if isLock {
+            if selectedViews.contains(editableview) {
+                editableview.select(false)
+                selectedViews.remove(at: selectedViews.firstIndex(of: editableview)!)
+            } else {
+                selectedViews.append(editableview)
+                editableview.select(true)
+            }
+        } else {
+            popupEditAlert(editableview)
+        }
         
-        var alertStyle = UIAlertController.Style.actionSheet
-        alertStyle = UIAlertController.Style.alert
-        
+    }
+    
+    private func popupEditAlert(_ editableview: LCEditableView) {
+        let alertStyle = UIAlertController.Style.alert
         let actionSheet = UIAlertController(title: nil,
                                             message: nil,
                                             preferredStyle: alertStyle)
-        /*
-        actionSheet.addAction(UIAlertAction(title: "Edit", style: .default) { _ in
-            //TODO: Edit single image
-        }) */
         actionSheet.addAction(UIAlertAction(title: "Camera Roll", style: .default) { _ in
             self.setImageFromGallery(editableview)
         })
         actionSheet.addAction(UIAlertAction(title: "Cancel", style: .destructive))
+        present(actionSheet, animated: true, completion: nil)
+    }
+    
+    private func showLockAlert() {
+        let alertStyle = UIAlertController.Style.alert
+        let actionSheet = UIAlertController(title: nil,
+                                            message: "Please touch an image(s) to lock or unlock to apply filters.",
+                                            preferredStyle: alertStyle)
+        actionSheet.addAction(UIAlertAction(title: "OK", style: .default))
         present(actionSheet, animated: true, completion: nil)
     }
     
