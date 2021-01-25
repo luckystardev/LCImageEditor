@@ -63,17 +63,21 @@ open class LCMultiImageEditor: UIViewController {
             self.appliedFilter = filter
             let isApply = self.checkApplyFilter()
             if isApply {
+                var newAry = [LCEditableView]()
                 if !self.isLock {
-                    self.selectedViews = self.editableViews
+                    newAry = self.editableViews
+                } else {
+                    newAry = self.selectedViews
                 }
+                
                 if value > 100 {
                     self.showTitle(filter.filterName())
-                    for editView in self.selectedViews {
+                    for editView in newAry {
                         editView.ciImage = CIImage(image: editView.photoContentView.image)
                     }
                 } else {
                     LCLoadingView.shared.show()
-                    for editView in self.selectedViews {
+                    for editView in newAry {
                         if editView.ciImage == nil {
                             editView.ciImage = CIImage(image: editView.photoContentView.image)
                         }
@@ -93,17 +97,27 @@ open class LCMultiImageEditor: UIViewController {
     lazy var effectSubMenuView: LCEffectMenu? = {
         let effectSubMenuView = LCEffectMenu()
         effectSubMenuView.didSelectEffector = { (effector, value) in
-            LCLoadingView.shared.show()
-            DispatchQueue.global(qos: .utility).async {
-                for editView in self.editableViews {
-                    let inputImage = CIImage(image: editView.photoContentView.image)
-                    let output = effector.apply(image: inputImage!, value: value)
-                    DispatchQueue.main.sync {
-                        editView.photoContentView.image = output.toUIImage()
-                    }
+            let isApply = self.checkApplyFilter()
+            if isApply {
+                var newAry = [LCEditableView]()
+                if !self.isLock {
+                    newAry = self.editableViews
+                } else {
+                    newAry = self.selectedViews
                 }
-                DispatchQueue.main.sync {
-                    LCLoadingView.shared.hide()
+                
+                LCLoadingView.shared.show()
+                DispatchQueue.global(qos: .utility).async {
+                    for editView in newAry {
+                        let inputImage = CIImage(image: editView.photoContentView.image)
+                        let output = effector.apply(image: inputImage!, value: value)
+                        DispatchQueue.main.sync {
+                            editView.photoContentView.image = output.toUIImage()
+                        }
+                    }
+                    DispatchQueue.main.sync {
+                        LCLoadingView.shared.hide()
+                    }
                 }
             }
         }
@@ -279,6 +293,10 @@ open class LCMultiImageEditor: UIViewController {
         if isLock {
             sender.setBackgroundImage(UIImage(systemName: "lock.fill"), for: .normal)
             selectedViews.removeAll()
+            
+            let selectedView = editableViews.first
+            selectedView!.select(true)
+            selectedViews.append(selectedView!)
         } else {
             sender.setBackgroundImage(UIImage(systemName: "lock"), for: .normal)
             if !selectedViews.isEmpty {
@@ -450,13 +468,21 @@ extension LCMultiImageEditor: ImageViewZoomDelegate {
 extension LCMultiImageEditor: LCEditableViewDelegate {
     func tapAction(_ editableview: LCEditableView) {
         if isLock {
-            if selectedViews.contains(editableview) {
-                editableview.select(false)
-                selectedViews.remove(at: selectedViews.firstIndex(of: editableview)!)
-            } else {
-                selectedViews.append(editableview)
-                editableview.select(true)
+//            if selectedViews.contains(editableview) {
+//                editableview.select(false)
+//                selectedViews.remove(at: selectedViews.firstIndex(of: editableview)!)
+//            } else {
+//                selectedViews.append(editableview)
+//                editableview.select(true)
+//            }
+            if selectedViews.count > 0 {
+                let selectedView = selectedViews.first
+                selectedView!.select(false)
+                selectedViews.removeFirst()
             }
+            
+            selectedViews.append(editableview)
+            editableview.select(true)
         } else {
             popupEditAlert(editableview)
         }

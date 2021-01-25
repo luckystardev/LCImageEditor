@@ -50,7 +50,7 @@ class LCEditableView: UIView {
     public func select(_ isSelect: Bool) {
         if isSelect {
             self.layer.borderWidth = 2
-            self.layer.borderColor = UIColor.red.cgColor
+            self.layer.borderColor = kBlueColor.cgColor
         } else {
             self.layer.borderWidth = 0
         }
