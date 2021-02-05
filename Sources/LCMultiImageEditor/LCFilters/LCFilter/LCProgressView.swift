@@ -75,7 +75,7 @@ class LCProgressView: UIView {
         titleLabel.frame = imageView.frame
         titleLabel.text = ""
         titleLabel.textAlignment = .center
-        titleLabel.font = UIFont.systemFont(ofSize: 14)
+        titleLabel.font = UIFont.systemFont(ofSize: 12)
         addSubview(titleLabel)
         titleLabel.isHidden = true
         

@@ -95,8 +95,6 @@ class LCFilterMenu: UIView {
        if let observedObject = object as? UICollectionView, observedObject == collectionView {
            collectionView.removeObserver(self, forKeyPath: "contentSize")
            isObservingCollectionView = false
-           
-//           collectionView.scrollToItem(at: IndexPath(row: self.selectedCellIndex, section: 0), at: .centeredHorizontally, animated: false)
        }
    }
    
@@ -133,7 +131,6 @@ extension LCFilterMenu: UICollectionViewDelegate, UICollectionViewDataSource {
             }
             
             cell.progressView.image = filter.symbolImage()
-//            cell.name.text = filter.filterName()
             if indexPath.item == selectedCellIndex && !isFirst {
                 cell.setSelected()
             }

@@ -133,7 +133,6 @@ extension LCEffectMenu: UICollectionViewDelegate, UICollectionViewDataSource {
 
 extension LCEffectMenu: ColorSliderDelegate {
     func colorPicked(_ value: CGFloat) {
-//        print("picked color = \(value)")
         let effector = availableEffectors[0]
         didSelectEffector(effector, value)
     }

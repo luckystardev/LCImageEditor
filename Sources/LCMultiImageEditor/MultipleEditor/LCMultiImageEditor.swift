@@ -76,6 +76,9 @@ open class LCMultiImageEditor: UIViewController {
                         editView.ciImage = CIImage(image: editView.photoContentView.image)
                     }
                 } else {
+                    if filter.filterName() == "Mono" || filter.filterName() == "Noir" {
+                        self.showTitle(filter.filterName())
+                    }
                     LCLoadingView.shared.show()
                     for editView in newAry {
                         if editView.ciImage == nil {
@@ -419,6 +422,7 @@ open class LCMultiImageEditor: UIViewController {
                    actionSheet.addAction(UIAlertAction(title: "Original", style: .default) { (action) in
                        self.mergeImages(images, scale: scale, isExport: isExport)
                    })
+                   actionSheet.addAction(UIAlertAction(title: "Cancel", style: .destructive))
                    present(actionSheet, animated: true, completion: nil)
                }
            }
